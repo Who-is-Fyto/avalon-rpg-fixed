@@ -1,0 +1,130 @@
+[
+  {
+    "name": "Velari",
+    "conixia_style": "Shadow Manipulation",
+    "society_role": "Silent Watchers of the Forgotten Paths",
+    "stat_modifiers": { "STR": 2, "DEX": 3, "CON": 1, "INT": 2, "WIS": 3, "CHA": 0, "AFF": 1 },
+    "starting_locations": [
+      { "name": "Duskmire Ruins",    "weight": 30 },
+      { "name": "Ashveil Keep",      "weight": 20 },
+      { "name": "Hollow Glen",       "weight": 40 },
+      { "name": "Blackmoor Spires",  "weight": 10 }
+    ],
+    "perk": {
+      "name": "Shadow Step",
+      "description": "Teleport short distances through darkness."
+    }
+  },
+  {
+    "name": "Ignari",
+    "conixia_style": "Flame Conduction",
+    "society_role": "Tempered Warriors of the Molten Ranges",
+    "stat_modifiers": { "STR": 4, "DEX": 1, "CON": 3, "INT": 0, "WIS": 1, "CHA": 1, "AFF": 2 },
+    "starting_locations": [
+      { "name": "Cinderheart Forge",  "weight": 35 },
+      { "name": "Blazefall Bastion",  "weight": 25 },
+      { "name": "Moltrid Expanse",    "weight": 30 },
+      { "name": "Ashen Plateau",      "weight": 10 }
+    ],
+    "perk": {
+      "name": "Fireborn",
+      "description": "Minor flame powers and fire resistance."
+    }
+  },
+  {
+    "name": "Aetherin",
+    "conixia_style": "Astral Flow",
+    "society_role": "Guides of the Stars and Time",
+    "stat_modifiers": { "STR": 1, "DEX": 2, "CON": 1, "INT": 4, "WIS": 3, "CHA": 2, "AFF": 2 },
+    "starting_locations": [
+      { "name": "Celestwatch Observatory", "weight": 40 },
+      { "name": "Timebent Library",        "weight": 30 },
+      { "name": "Cradle of Whispers",      "weight": 20 },
+      { "name": "Echo Vale",               "weight": 10 }
+    ],
+    "perk": {
+      "name": "Dream Walker",
+      "description": "Enter or influence dreams during rest."
+    }
+  },
+  {
+    "name": "Pillarian",
+    "conixia_style": "Gravitic Conduction",
+    "society_role": "Bound Soul Constructs of the Earth Collective",
+    "stat_modifiers": { "STR": 2, "DEX": 0, "CON": 4, "INT": 3, "WIS": 2, "CHA": 1, "AFF": 1 },
+    "starting_locations": [
+      { "name": "Stonewake Graves",    "weight": 40 },
+      { "name": "Echo Pillar Nexus",   "weight": 25 },
+      { "name": "Dustborn Shrine",     "weight": 25 },
+      { "name": "Fragmented Quarry",   "weight": 10 }
+    ],
+    "perk": {
+      "name": "Stoneblood",
+      "description": "Toughened skin, bonus Constitution."
+    }
+  },
+  {
+    "name": "Human",
+    "conixia_style": "Versatile Channeling",
+    "society_role": "Adaptive survivors and boundary pushers of all trades",
+    "stat_modifiers": { "STR": 2, "DEX": 2, "CON": 2, "INT": 2, "WIS": 2, "CHA": 2, "AFF": 2 },
+    "starting_locations": [
+      { "name": "Ironreach Outpost",  "weight": 40 },
+      { "name": "Sunshade Market",    "weight": 30 },
+      { "name": "Ebonhall Academy",   "weight": 20 },
+      { "name": "Nocturn Cove",       "weight": 10 }
+    ],
+    "perk": {
+      "name": "Fate Bound",
+      "description": "Reroll a failed check once per day."
+    }
+  },
+  {
+    "name": "Elarin",
+    "conixia_style": "Arcane Weaving",
+    "society_role": "Graceful stewards of nature and magic, long-lived and sharp-witted",
+    "stat_modifiers": { "STR": 1, "DEX": 3, "CON": 1, "INT": 4, "WIS": 3, "CHA": 2, "AFF": 2 },
+    "starting_locations": [
+      { "name": "Silvergrove Canopy", "weight": 40 },
+      { "name": "Elarith Glade",      "weight": 30 },
+      { "name": "The Hollowed Spire", "weight": 20 },
+      { "name": "Echofen Reach",      "weight": 10 }
+    ],
+    "perk": {
+      "name": "Blessed Sight",
+      "description": "See magical auras and illusions."
+    }
+  },
+  {
+    "name": "Ogrin",
+    "conixia_style": "Vital Overflow",
+    "society_role": "Massive, misunderstood brutes shaped by raw primal Conixia",
+    "stat_modifiers": { "STR": 5, "DEX": 1, "CON": 4, "INT": 0, "WIS": 1, "CHA": 1, "AFF": 1 },
+    "starting_locations": [
+      { "name": "Skarrback Hills",  "weight": 35 },
+      { "name": "Cragjaw Basin",    "weight": 30 },
+      { "name": "Rubblehaven",      "weight": 25 },
+      { "name": "The Broken Teeth", "weight": 10 }
+    ],
+    "perk": {
+      "name": "Emotion Sense",
+      "description": "Detect emotions of others in conversations."
+    }
+  },
+  {
+    "name": "Trollan",
+    "conixia_style": "Biotic Resonance",
+    "society_role": "Swamp-born regenerators with primal and cunning instincts",
+    "stat_modifiers": { "STR": 3, "DEX": 2, "CON": 4, "INT": 1, "WIS": 2, "CHA": 0, "AFF": 2 },
+    "starting_locations": [
+      { "name": "Fennmire Swamps",    "weight": 40 },
+      { "name": "Trollspire Ruins",   "weight": 30 },
+      { "name": "Mossgrit Depths",    "weight": 20 },
+      { "name": "Bogshadow Border",   "weight": 10 }
+    ],
+    "perk": {
+      "name": "Regeneration",
+      "description": "Gradually recovers health over time, even in combat."
+    }
+  }
+]

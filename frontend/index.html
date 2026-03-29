@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avalon RPG — Conixia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d0c0b; --parchment: #f0e8d8; --ash: #c5b89a;
+  --ember: #c4622d; --conixia: #7c5cbf; --gold: #c9a84c;
+  --card-bg: rgba(20,16,12,0.88); --success: #81c784; --fail: #e07b5a;
+  --rare: #b39ddb; --uncommon: #80cbc4; --common: #c5b89a; --quest: #ffcc80;
+  --destroyed: #e07b5a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--ink); color: var(--parchment); font-family: 'Crimson Pro', Georgia, serif; font-size: 18px; min-height: 100vh; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 20% 30%, rgba(124,92,191,0.07) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(196,98,45,0.06) 0%, transparent 60%);
+  pointer-events: none; z-index: 0; }
+#app { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+header { text-align: center; margin-bottom: 48px; }
+.title-eyebrow { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .35em; color: var(--conixia); text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'Cinzel', serif; font-size: clamp(2rem,6vw,3.6rem); font-weight: 700; color: var(--parchment); letter-spacing: .05em; line-height: 1; }
+h1 span { color: var(--conixia); }
+.divider { margin: 16px auto; width: 120px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); }
+.subtitle { font-style: italic; color: var(--ash); font-size: 1rem; }
+.screen { display: none; animation: fadeIn .4s ease; }
+.screen.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.section-label { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; margin-bottom: 16px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(210px,1fr)); gap: 14px; margin-bottom: 32px; }
+.card { background: var(--card-bg); border: 1px solid rgba(201,168,76,.15); border-radius: 6px; padding: 18px; cursor: pointer; transition: border-color .2s, transform .15s, box-shadow .2s; }
+.card:hover { border-color: rgba(201,168,76,.4); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+.card.selected { border-color: var(--conixia); box-shadow: 0 0 0 1px var(--conixia), 0 8px 28px rgba(124,92,191,.3); }
+.card.locked { opacity: .4; cursor: not-allowed; }
+.card.locked:hover { transform: none; box-shadow: none; }
+.card.destroyed { opacity: .5; cursor: not-allowed; border-color: rgba(224,123,90,.25) !important; }
+.card.destroyed:hover { transform: none; }
+.card-name { font-family: 'Cinzel', serif; font-size: .95rem; color: var(--parchment); margin-bottom: 4px; }
+.card-sub { font-size: .8rem; color: var(--ash); font-style: italic; margin-bottom: 10px; }
+.stat-pill { display: inline-block; font-size: 10px; font-family: 'Cinzel', serif; letter-spacing: .1em; background: rgba(124,92,191,.15); color: var(--conixia); border: 1px solid rgba(124,92,191,.3); border-radius: 3px; padding: 2px 7px; margin: 2px 2px 0 0; }
+.lock-badge { font-size: 9px; color: var(--ember); font-family: 'Cinzel', serif; letter-spacing: .15em; margin-top: 6px; text-transform: uppercase; }
+.destroyed-badge { font-size: 9px; color: var(--destroyed); font-family: 'Cinzel', serif; letter-spacing: .15em; margin-top: 6px; text-transform: uppercase; }
+.stat-block { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; background: var(--card-bg); border: 1px solid rgba(201,168,76,.15); border-radius: 6px; padding: 16px; margin-bottom: 24px; text-align: center; }
+.stat-cell { display: flex; flex-direction: column; gap: 4px; }
+.stat-name { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .2em; color: var(--ash); }
+.stat-value { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--gold); font-weight: 600; }
+.input-group { margin-bottom: 28px; }
+.input-group label { display: block; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .3em; color: var(--gold); margin-bottom: 10px; }
+input[type="text"] { width: 100%; background: rgba(20,16,12,.8); border: 1px solid rgba(201,168,76,.25); border-radius: 4px; color: var(--parchment); font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 12px 16px; outline: none; transition: border-color .2s; }
+input[type="text"]:focus { border-color: var(--conixia); }
+input[type="text"]::placeholder { color: var(--ash); opacity: .5; }
+.btn { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: .25em; text-transform: uppercase; padding: 14px 32px; border: none; border-radius: 4px; cursor: pointer; transition: all .2s; }
+.btn-primary { background: linear-gradient(135deg,var(--conixia),#5a3d9e); color: white; box-shadow: 0 4px 16px rgba(124,92,191,.35); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(124,92,191,.5); }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+.btn-ghost { background: transparent; color: var(--ash); border: 1px solid rgba(197,184,154,.25); }
+.btn-ghost:hover { border-color: var(--ash); color: var(--parchment); }
+.btn-danger { background: transparent; color: var(--ember); border: 1px solid rgba(196,98,45,.35); }
+.btn-danger:hover { background: rgba(196,98,45,.08); border-color: var(--ember); }
+.btn-sm { padding: 8px 16px; font-size: 10px; }
+.btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.perk-box { background: rgba(124,92,191,.07); border: 1px solid rgba(124,92,191,.2); border-radius: 5px; padding: 10px 14px; margin-top: 10px; font-size: .85rem; color: var(--ash); }
+.perk-box strong { color: var(--conixia); font-family: 'Cinzel', serif; font-size: .8rem; }
+.context-box { background: rgba(201,168,76,.05); border: 1px solid rgba(201,168,76,.2); border-radius: 5px; padding: 14px 18px; margin-bottom: 20px; }
+.context-box .context-label { font-family: 'Cinzel', serif; font-size: .8rem; color: var(--gold); margin-bottom: 6px; }
+.context-box .context-desc { font-size: .9rem; color: var(--ash); line-height: 1.6; }
+.error-msg { color: var(--ember); font-size: .85rem; margin-top: 8px; font-style: italic; }
+.info-msg { color: var(--gold); font-size: .85rem; margin-top: 8px; font-style: italic; }
+.loading { opacity: .5; font-style: italic; font-size: .9rem; }
+
+/* ── SESSION SCREEN ── */
+.session-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.session-card { background: var(--card-bg); border: 1px solid rgba(201,168,76,.15); border-radius: 6px; padding: 20px 24px; cursor: pointer; transition: border-color .2s, transform .15s; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.session-card:hover { border-color: rgba(201,168,76,.4); transform: translateY(-1px); }
+.session-card.selected { border-color: var(--conixia); }
+.session-info { flex: 1; }
+.session-name { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--parchment); margin-bottom: 4px; }
+.session-meta { font-size: .8rem; color: var(--ash); }
+.session-chars { font-size: .8rem; color: var(--conixia); font-family: 'Cinzel', serif; letter-spacing: .1em; }
+.session-actions { display: flex; gap: 8px; }
+.char-resume-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.char-resume-card { background: var(--card-bg); border: 1px solid rgba(201,168,76,.15); border-radius: 6px; padding: 16px 20px; cursor: pointer; transition: border-color .2s; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.char-resume-card:hover { border-color: var(--conixia); }
+.char-info .char-name { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--parchment); margin-bottom: 2px; }
+.char-info .char-sub { font-size: .82rem; color: var(--ash); }
+.char-info .char-context { font-size: .78rem; color: var(--gold); margin-top: 3px; font-style: italic; }
+.new-session-form { background: var(--card-bg); border: 1px solid rgba(201,168,76,.1); border-radius: 6px; padding: 24px; margin-bottom: 20px; }
+.new-session-form h3 { font-family: 'Cinzel', serif; font-size: .9rem; color: var(--gold); margin-bottom: 16px; letter-spacing: .2em; }
+
+/* ── Story screen ── */
+#story-arc-title { font-family: 'Cinzel', serif; font-size: .85rem; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+.story-text-box { background: var(--card-bg); border: 1px solid rgba(201,168,76,.15); border-radius: 6px; padding: 28px 32px; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.85; color: var(--parchment); min-height: 100px; position: relative; }
+.story-text-box::before { content: '"'; position: absolute; top: 8px; left: 16px; font-size: 3rem; color: rgba(201,168,76,.08); font-family: Georgia, serif; line-height: 1; }
+.roll-result { border-radius: 6px; padding: 12px 18px; margin-bottom: 16px; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: .08em; display: flex; align-items: center; gap: 12px; }
+.roll-result.success { background: rgba(76,175,80,.1); border: 1px solid rgba(76,175,80,.3); color: var(--success); }
+.roll-result.failure { background: rgba(196,98,45,.1); border: 1px solid rgba(196,98,45,.3); color: var(--fail); }
+.roll-result.partial  { background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.3); color: var(--gold); }
+.roll-dice { font-size: 1.8rem; }
+.roll-detail { line-height: 1.6; }
+.roll-detail small { opacity: .7; font-size: 10px; letter-spacing: .2em; }
+.choices-list { display: flex; flex-direction: column; gap: 10px; }
+.choice-btn { background: var(--card-bg); border: 1px solid rgba(201,168,76,.15); border-radius: 5px; color: var(--parchment); font-family: 'Crimson Pro', serif; font-size: 1rem; padding: 14px 20px; text-align: left; cursor: pointer; transition: all .2s; display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; }
+.choice-btn:hover { border-color: var(--conixia); background: rgba(124,92,191,.08); }
+.choice-check-tag { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .2em; color: var(--conixia); border: 1px solid rgba(124,92,191,.4); border-radius: 3px; padding: 2px 8px; white-space: nowrap; flex-shrink: 0; }
+.hud { background: var(--card-bg); border: 1px solid rgba(201,168,76,.12); border-radius: 6px; padding: 12px 18px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: center; }
+.hud-item { display: flex; flex-direction: column; gap: 2px; }
+.hud-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .25em; color: var(--ash); text-transform: uppercase; }
+.hud-value { color: var(--parchment); font-size: .95rem; }
+.hud-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.hud-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.1); width: 80px; overflow: hidden; }
+.hud-bar-fill { height: 100%; border-radius: 3px; transition: width .4s; }
+.hud-bar-fill.hp { background: linear-gradient(90deg,#c62828,var(--success)); }
+.hud-bar-fill.conixia { background: linear-gradient(90deg,#4a148c,var(--conixia)); }
+
+/* ── Sheet overlay ── */
+.sheet-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 100; overflow-y: auto; }
+.sheet-overlay.open { display: block; }
+.sheet-panel { background: #100f0d; border: 1px solid rgba(201,168,76,.2); border-radius: 8px; max-width: 860px; margin: 40px auto; padding: 40px; position: relative; }
+.sheet-close { position: absolute; top: 20px; right: 20px; background: transparent; border: 1px solid rgba(197,184,154,.25); color: var(--ash); font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .2em; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+.sheet-close:hover { border-color: var(--ember); color: var(--ember); }
+.sheet-title { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--parchment); margin-bottom: 4px; }
+.sheet-subtitle { color: var(--ash); font-style: italic; margin-bottom: 32px; font-size: .9rem; }
+.sheet-tabs { display: flex; gap: 0; margin-bottom: 28px; border-bottom: 1px solid rgba(201,168,76,.15); }
+.sheet-tab { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; padding: 10px 20px; background: transparent; border: none; color: var(--ash); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .2s; }
+.sheet-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.sheet-tab:hover { color: var(--parchment); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeIn .3s ease; }
+.sheet-section { margin-bottom: 28px; }
+.sheet-section-title { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid rgba(201,168,76,.1); }
+.stats-full { display: grid; grid-template-columns: repeat(7,1fr); gap: 10px; }
+.stat-box { background: rgba(255,255,255,.03); border: 1px solid rgba(201,168,76,.1); border-radius: 5px; padding: 12px 8px; text-align: center; }
+.stat-box .stat-name { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .2em; color: var(--ash); margin-bottom: 6px; }
+.stat-box .stat-val { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); font-weight: 600; }
+.ability-type-label { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: .3em; color: var(--ash); text-transform: uppercase; margin: 20px 0 10px; }
+.ability-type-label:first-child { margin-top: 0; }
+.ability-card { background: rgba(255,255,255,.03); border: 1px solid rgba(201,168,76,.1); border-radius: 5px; padding: 14px 16px; margin-bottom: 8px; display: flex; gap: 16px; align-items: flex-start; }
+.ability-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.ability-icon.active   { background: rgba(196,98,45,.15); border: 1px solid rgba(196,98,45,.3); }
+.ability-icon.passive  { background: rgba(129,199,132,.1); border: 1px solid rgba(129,199,132,.25); }
+.ability-icon.ultimate { background: rgba(124,92,191,.2); border: 1px solid rgba(124,92,191,.4); }
+.ability-info { flex: 1; }
+.ability-name { font-family: 'Cinzel', serif; font-size: .85rem; color: var(--parchment); margin-bottom: 3px; }
+.ability-desc { font-size: .85rem; color: var(--ash); line-height: 1.5; margin-bottom: 6px; }
+.ability-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+.ability-tag { font-size: 9px; font-family: 'Cinzel', serif; letter-spacing: .15em; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; }
+.ability-tag.cost { background: rgba(196,98,45,.1); color: var(--ember); border: 1px solid rgba(196,98,45,.25); }
+.ability-tag.cd { background: rgba(201,168,76,.1); color: var(--gold); border: 1px solid rgba(201,168,76,.25); }
+.ability-tag.type-active   { background: rgba(196,98,45,.08); color: var(--ember); border: 1px solid rgba(196,98,45,.2); }
+.ability-tag.type-passive  { background: rgba(129,199,132,.08); color: var(--success); border: 1px solid rgba(129,199,132,.2); }
+.ability-tag.type-ultimate { background: rgba(124,92,191,.1); color: var(--rare); border: 1px solid rgba(124,92,191,.3); }
+.inv-filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.inv-filter { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: .2em; padding: 5px 12px; border-radius: 3px; border: 1px solid rgba(201,168,76,.2); background: transparent; color: var(--ash); cursor: pointer; text-transform: uppercase; transition: all .2s; }
+.inv-filter.active, .inv-filter:hover { border-color: var(--gold); color: var(--gold); }
+.inv-grid { display: flex; flex-direction: column; gap: 8px; }
+.inv-item { background: rgba(255,255,255,.03); border: 1px solid rgba(201,168,76,.1); border-radius: 5px; padding: 12px 16px; display: flex; gap: 14px; align-items: center; }
+.inv-item.equipped { border-color: rgba(201,168,76,.35); background: rgba(201,168,76,.05); }
+.inv-rarity { width: 4px; border-radius: 2px; align-self: stretch; flex-shrink: 0; }
+.rarity-common   { background: var(--common); }
+.rarity-uncommon { background: var(--uncommon); }
+.rarity-rare     { background: var(--rare); }
+.rarity-quest    { background: var(--quest); }
+.inv-info { flex: 1; }
+.inv-name { font-family: 'Cinzel', serif; font-size: .85rem; color: var(--parchment); margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+.equipped-badge { font-size: 8px; font-family: 'Cinzel', serif; letter-spacing: .2em; background: rgba(201,168,76,.15); color: var(--gold); border: 1px solid rgba(201,168,76,.3); border-radius: 3px; padding: 1px 7px; text-transform: uppercase; }
+.inv-desc { font-size: .82rem; color: var(--ash); line-height: 1.4; }
+.inv-meta { font-size: .75rem; color: rgba(197,184,154,.5); margin-top: 4px; font-family: 'Cinzel', serif; letter-spacing: .1em; }
+.inv-qty { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); min-width: 30px; text-align: center; }
+.inv-actions { display: flex; gap: 6px; flex-direction: column; }
+.gold-bar { background: rgba(201,168,76,.07); border: 1px solid rgba(201,168,76,.2); border-radius: 5px; padding: 10px 16px; margin-bottom: 16px; font-family: 'Cinzel', serif; font-size: .9rem; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+.carry-bar { font-size: .8rem; color: var(--ash); margin-bottom: 16px; }
+.faction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.faction-card { background: rgba(255,255,255,.03); border: 1px solid rgba(201,168,76,.1); border-radius: 5px; padding: 14px 16px; }
+.faction-name { font-family: 'Cinzel', serif; font-size: .85rem; color: var(--parchment); margin-bottom: 6px; }
+.faction-inf { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.faction-inf-bar { flex: 1; height: 5px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; }
+.faction-inf-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#4a148c,var(--conixia)); transition: width .6s; }
+.faction-disp { font-size: .78rem; font-family: 'Cinzel', serif; letter-spacing: .15em; text-transform: uppercase; }
+.disp-watchful { color: var(--gold); }
+.disp-friendly { color: var(--success); }
+.disp-hostile  { color: var(--fail); }
+.disp-neutral  { color: var(--ash); }
+.event-log { list-style: none; }
+.event-log li { font-size: .85rem; color: var(--ash); padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.04); line-height: 1.5; }
+.event-log li::before { content: '›'; color: var(--conixia); margin-right: 8px; }
+.storyline-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.04); font-size: .88rem; }
+.storyline-name { color: var(--parchment); font-family: 'Cinzel', serif; font-size: .78rem; letter-spacing: .1em; }
+.storyline-status { font-family: 'Cinzel', serif; font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; }
+.status-dormant   { color: var(--ash); }
+.status-stirring, .status-spreading, .status-unstable, .status-escalating { color: var(--gold); }
+.status-active, .status-war, .status-critical, .status-manifesting { color: var(--fail); }
+.status-contained, .status-peaceful, .status-harmony { color: var(--success); }
+#btn-open-sheet { position: fixed; bottom: 28px; right: 28px; z-index: 50; padding: 12px 22px; font-size: 11px; }
+.world-warning { background: rgba(224,123,90,.08); border: 1px solid rgba(224,123,90,.25); border-radius: 5px; padding: 10px 16px; margin-bottom: 12px; font-size: .85rem; color: var(--fail); }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="title-eyebrow">The Conixia Chronicles</div>
+    <h1>AVALON <span>RPG</span></h1>
+    <div class="divider"></div>
+    <p class="subtitle">Choose wisely. The Conixia watches.</p>
+  </header>
+
+  <!-- ══ SCREEN 0: SESSION ══ -->
+  <div id="screen-session" class="screen active">
+    <div class="section-label">Your World</div>
+
+    <div id="session-list-wrap">
+      <p class="loading">Loading sessions…</p>
+    </div>
+
+    <div class="divider" style="margin:28px 0 24px;width:100%;"></div>
+
+    <div class="new-session-form">
+      <h3>Start a New Session</h3>
+      <div class="input-group" style="margin-bottom:16px;">
+        <label for="new-session-name">Session Name (optional)</label>
+        <input type="text" id="new-session-name" placeholder="e.g. The Blight Campaign, Run #2…">
+      </div>
+      <button class="btn btn-primary" id="btn-create-session">Create New Session →</button>
+    </div>
+    <p id="session-error" class="error-msg" style="display:none;"></p>
+  </div>
+
+  <!-- ══ SCREEN 0b: CHARACTER SELECT (resume) ══ -->
+  <div id="screen-charselect" class="screen">
+    <div class="section-label">Session: <span id="charselect-session-name" style="color:var(--parchment);font-style:italic;"></span></div>
+    <div id="world-warnings"></div>
+    <div id="char-resume-list-wrap"><p class="loading">Loading…</p></div>
+    <div class="btn-row" style="margin-top:24px;">
+      <button class="btn btn-primary" id="btn-new-character-in-session">+ Create New Character</button>
+      <button class="btn btn-ghost" id="btn-back-to-sessions">← Sessions</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 1: RACE ══ -->
+  <div id="screen-race" class="screen">
+    <div class="section-label">I. Choose Your Race</div>
+    <div id="race-grid" class="card-grid"><p class="loading">Loading races…</p></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-to-class" disabled>Choose Class →</button>
+      <button class="btn btn-ghost" id="btn-back-to-charselect">← Back</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 2: CLASS ══ -->
+  <div id="screen-class" class="screen">
+    <div class="section-label">II. Choose Your Class</div>
+    <div id="class-grid" class="card-grid"><p class="loading">Loading…</p></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-to-context" disabled>Choose Background →</button>
+      <button class="btn btn-ghost" id="btn-back-to-race">← Race</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 3: CONTEXT ══ -->
+  <div id="screen-context" class="screen">
+    <div class="section-label">III. Your Background</div>
+    <p style="color:var(--ash);font-size:.9rem;margin-bottom:8px;font-style:italic;">
+      Why are you here? This shapes your opening situation, starting flags, and the story threads available to you.
+    </p>
+    <p id="context-location-note" style="color:var(--gold);font-size:.82rem;margin-bottom:20px;font-family:'Cinzel',serif;letter-spacing:.1em;"></p>
+    <div id="context-grid" class="card-grid"></div>
+    <div id="context-auto-note" class="info-msg" style="display:none;margin-bottom:16px;">
+      No specific backgrounds for this location — one will be determined by fate.
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-to-name">Choose Name →</button>
+      <button class="btn btn-ghost" id="btn-back-to-class">← Class</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 4: NAME ══ -->
+  <div id="screen-name" class="screen">
+    <div class="section-label">IV. Your Name</div>
+    <div id="char-preview" style="margin-bottom:24px;"></div>
+    <div class="input-group">
+      <label for="char-name-input">Character Name</label>
+      <input type="text" id="char-name-input" placeholder="Enter your name…" maxlength="32">
+    </div>
+    <div id="backstory-preview" class="context-box" style="display:none;">
+      <div class="context-label">Your Story So Far</div>
+      <div class="context-desc" id="backstory-text"></div>
+    </div>
+    <p id="name-error" class="error-msg" style="display:none;"></p>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-create-char">Begin Your Story →</button>
+      <button class="btn btn-ghost" id="btn-back-to-context">← Background</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 6: STORY ══ -->
+  <div id="screen-story" class="screen">
+    <div id="story-arc-title"></div>
+    <div class="hud" id="story-hud"></div>
+    
+    <!-- Side Quest Navigation -->
+    <div id="quest-nav" style="display:none;margin-bottom:20px;background:var(--card-bg);border:1px solid rgba(201,168,76,.15);border-radius:6px;padding:16px;">
+      <div style="font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;color:var(--gold);margin-bottom:12px;text-transform:uppercase;">Available Quests</div>
+      <div id="quest-list" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+    </div>
+    
+    <div class="story-text-box" id="story-text"></div>
+    <div id="roll-display"></div>
+    <div class="choices-list" id="choices-list"></div>
+    <div id="arc-complete-box" style="display:none;margin-top:24px;">
+      <p style="color:var(--gold);font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.2em;margin-bottom:12px;">CHAPTER COMPLETE</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-next-arc">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary btn-sm" id="btn-open-sheet" style="display:none;">Character Sheet</button>
+</div>
+
+<!-- ══ CHARACTER SHEET OVERLAY ══ -->
+<div class="sheet-overlay" id="sheet-overlay">
+  <div class="sheet-panel">
+    <button class="sheet-close" id="sheet-close">Close ✕</button>
+    <div class="sheet-title" id="sheet-char-name"></div>
+    <div class="sheet-subtitle" id="sheet-char-sub"></div>
+    <div class="sheet-tabs">
+      <button class="sheet-tab active" data-tab="stats">Stats</button>
+      <button class="sheet-tab" data-tab="abilities">Abilities</button>
+      <button class="sheet-tab" data-tab="inventory">Inventory</button>
+      <button class="sheet-tab" data-tab="world">World</button>
+    </div>
+    <div id="tab-stats" class="tab-panel active"></div>
+    <div id="tab-abilities" class="tab-panel"></div>
+    <div id="tab-inventory" class="tab-panel"></div>
+    <div id="tab-world" class="tab-panel"></div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:8000';
+
+// ── State ──────────────────────────────────────────────────────────────────────
+const state = {
+  sessions: [],
+  activeSession: null,       // { session_id, display_name, ... }
+  sessionWorld: null,        // world_state for current session
+  characters: [],            // characters in active session
+  activeChar: null,          // loaded character dict
+  // creation flow
+  selectedRace: null,
+  selectedClass: null,
+
+  selectedContext: null,     // context object or null
+  // story
+  currentArc: 'prologue',
+  currentNode: 'start',
+  nextArc: null,
+};
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+const show = id => {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+};
+const $ = id => document.getElementById(id);
+const api = async (path, opts={}) => {
+  const r = await fetch(API + path, {
+    headers: {'Content-Type':'application/json'},
+    ...opts,
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({detail:'Unknown error'}));
+    throw new Error(err.detail || JSON.stringify(err));
+  }
+  return r.json();
+};
+const fmtDate = iso => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, {month:'short',day:'numeric',year:'numeric'});
+};
+
+// ── SESSION SCREEN ─────────────────────────────────────────────────────────────
+
+async function loadSessions() {
+  try {
+    state.sessions = await api('/sessions/');
+    renderSessions();
+  } catch(e) {
+    $('session-list-wrap').innerHTML = `<p class="error-msg">Could not reach server. Is the backend running?</p>`;
+  }
+}
+
+function renderSessions() {
+  const wrap = $('session-list-wrap');
+  if (!state.sessions.length) {
+    wrap.innerHTML = `<p style="color:var(--ash);font-style:italic;margin-bottom:16px;">No sessions yet. Create your first world below.</p>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="section-label" style="margin-bottom:12px;">Continue a Session</div>
+    <div class="session-list">${state.sessions.map(s => `
+      <div class="session-card" data-id="${s.session_id}">
+        <div class="session-info">
+          <div class="session-name">${s.display_name}</div>
+          <div class="session-meta">Created ${fmtDate(s.created)} · Last played ${fmtDate(s.last_played)}</div>
+          <div class="session-chars">${s.character_count} character${s.character_count !== 1 ? 's' : ''}</div>
+        </div>
+        <div class="session-actions">
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();deleteSession('${s.session_id}')">Delete</button>
+        </div>
+      </div>
+    `).join('')}</div>`;
+
+  wrap.querySelectorAll('.session-card').forEach(card => {
+    card.addEventListener('click', () => enterSession(card.dataset.id));
+  });
+}
+
+async function deleteSession(sid) {
+  if (!confirm('Delete this session and all its characters? This cannot be undone.')) return;
+  try {
+    await api(`/sessions/${sid}`, {method:'DELETE'});
+    state.sessions = state.sessions.filter(s => s.session_id !== sid);
+    renderSessions();
+  } catch(e) { alert(e.message); }
+}
+
+async function createSession() {
+  const name = $('new-session-name').value.trim();
+  try {
+    const meta = await api('/sessions/', {method:'POST', body:{display_name: name || ''}});
+    state.sessions.unshift({...meta, character_count: 0});
+    renderSessions();
+    $('new-session-name').value = '';
+    enterSession(meta.session_id);
+  } catch(e) {
+    $('session-error').textContent = e.message;
+    $('session-error').style.display = 'block';
+  }
+}
+
+async function enterSession(sid) {
+  try {
+    const data = await api(`/sessions/${sid}`);
+    state.activeSession = data;
+    state.characters = data.characters || [];
+    state.sessionWorld = await api(`/sessions/${sid}/world`);
+    renderCharSelect();
+    show('screen-charselect');
+  } catch(e) { alert('Failed to load session: ' + e.message); }
+}
+
+function renderCharSelect() {
+  $('charselect-session-name').textContent = state.activeSession.display_name;
+
+  // World warnings (destroyed regions)
+  const regions = state.sessionWorld?.regions || {};
+  const destroyed = Object.entries(regions)
+    .filter(([,r]) => r.stability === 'destroyed' || r.accessible === false)
+    .map(([k,r]) => r.display_name || k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()));
+  const warnDiv = $('world-warnings');
+  warnDiv.innerHTML = destroyed.length
+    ? `<div class="world-warning">⚠ Destroyed locations in this world: ${destroyed.join(', ')}. New characters cannot start there.</div>`
+    : '';
+
+  const wrap = $('char-resume-list-wrap');
+  if (!state.characters.length) {
+    wrap.innerHTML = `<p style="color:var(--ash);font-style:italic;">No characters yet. Create your first.</p>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="section-label" style="margin-bottom:12px;">Resume a Character</div>
+    <div class="char-resume-list">${state.characters.map(c => `
+      <div class="char-resume-card" data-name="${c.name}">
+        <div class="char-info">
+          <div class="char-name">${c.name}</div>
+          <div class="char-sub">${c.race} ${c.character_class} · Level ${c.level} · ${c.starting_location}</div>
+          ${c.starting_context_label ? `<div class="char-context">${c.starting_context_label}</div>` : ''}
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();deleteChar('${c.name}')">Delete</button>
+          <span style="color:var(--conixia);font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.1em;">RESUME →</span>
+        </div>
+      </div>
+    `).join('')}</div>`;
+
+  wrap.querySelectorAll('.char-resume-card').forEach(card => {
+    card.addEventListener('click', () => resumeCharacter(card.dataset.name));
+  });
+}
+
+async function deleteChar(name) {
+  if (!confirm(`Delete ${name}? This cannot be undone.`)) return;
+  try {
+    await api(`/sessions/${state.activeSession.session_id}/characters/${name}`, {method:'DELETE'});
+    state.characters = state.characters.filter(c => c.name !== name);
+    renderCharSelect();
+  } catch(e) { alert(e.message); }
+}
+
+async function resumeCharacter(name) {
+  try {
+    const char = await api(`/game/character/${state.activeSession.session_id}/${name}`);
+    state.activeChar = char;
+    startStory();
+  } catch(e) { alert('Failed to load character: ' + e.message); }
+}
+
+// ── CREATION FLOW ──────────────────────────────────────────────────────────────
+
+async function loadRaces() {
+  try {
+    const races = await api('/data/races');
+    renderRaceGrid(races);
+  } catch(e) {
+    $('race-grid').innerHTML = `<p class="error-msg">Could not load races.</p>`;
+  }
+}
+
+function renderRaceGrid(races) {
+  $('race-grid').innerHTML = races.map(r => `
+    <div class="card" data-race='${JSON.stringify(r).replace(/'/g,"&#39;")}'>
+      <div class="card-name">${r.name}</div>
+      <div class="card-sub">${r.conixia_style}</div>
+      <div>${Object.entries(r.stat_modifiers).filter(([,v])=>v>0).map(([k,v])=>`<span class="stat-pill">${k} +${v}</span>`).join('')}</div>
+      <div class="perk-box"><strong>${r.perk.name}</strong><br>${r.perk.description}</div>
+    </div>
+  `).join('');
+
+  $('race-grid').querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      $('race-grid').querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.selectedRace = JSON.parse(card.dataset.race.replace(/&#39;/g,"'"));
+      state.selectedClass = null; state.selectedContext = null;
+      $('btn-to-class').disabled = false;
+      $('btn-to-context').disabled = true;
+    });
+  });
+}
+
+async function loadClasses() {
+  // Use client-side race check — no need for a server round-trip
+  await loadClassesForRace();
+}
+
+async function loadClassesForRace() {
+  try {
+    const classes = await api('/data/classes');
+    const rendered = classes.map(c => {
+      const unlock = c.unlock || 'default';
+      let available = true, reason = '';
+      if (unlock.startsWith('race:')) {
+        const req = unlock.split('race:')[1].trim();
+        available = req.toLowerCase() === state.selectedRace.name.toLowerCase();
+        reason = available ? '' : `Requires ${req}`;
+      }
+      return {...c, available, locked_reason: reason};
+    });
+    renderClassGrid(rendered);
+  } catch(e) {
+    $('class-grid').innerHTML = `<p class="error-msg">Could not load classes.</p>`;
+  }
+}
+
+function renderClassGrid(classes) {
+  $('class-grid').innerHTML = classes.map(c => `
+    <div class="card ${c.available===false?'locked':''}" data-class='${JSON.stringify(c).replace(/'/g,"&#39;")}'>
+      <div class="card-name">${c.name}</div>
+      <div class="card-sub">${c.conixia_focus}</div>
+      <div style="font-size:.82rem;color:var(--ash);margin-bottom:8px;">${c.role}</div>
+      ${(c.primary_stats||[]).map(s=>`<span class="stat-pill">${s}</span>`).join('')}
+      ${c.available===false?`<div class="lock-badge">🔒 ${c.locked_reason}</div>`:''}
+    </div>
+  `).join('');
+
+  $('class-grid').querySelectorAll('.card:not(.locked)').forEach(card => {
+    card.addEventListener('click', () => {
+      $('class-grid').querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.selectedClass = JSON.parse(card.dataset.class.replace(/&#39;/g,"'"));
+      state.selectedContext = null;
+      $('btn-to-context').disabled = false;
+    });
+  });
+}
+
+// Location is now random — this helper picks a weighted location client-side
+// for preview purposes only. The server does the real roll on creation.
+function pickWeightedLocation(locations) {
+  // Filter out destroyed locations
+  const regions = state.sessionWorld?.regions || {};
+  const getKey = n => n.toLowerCase().replace(/ /g,'_').replace(/'/g,'');
+  const available = locations.filter(l => {
+    const r = regions[getKey(l.name)] || {};
+    return r.stability !== 'destroyed' && r.accessible !== false;
+  });
+  if (!available.length) return locations[0]; // fallback
+  const total = available.reduce((s,l)=>s+l.weight, 0);
+  let roll = Math.random() * total;
+  for (const loc of available) {
+    roll -= loc.weight;
+    if (roll <= 0) return loc;
+  }
+  return available[available.length - 1];
+}
+
+async function loadContexts() {
+  if (!state.selectedRace) return;
+  // Pick a random location for preview — server will re-roll on creation
+  const previewLoc = pickWeightedLocation(state.selectedRace.starting_locations);
+  state.previewLocation = previewLoc; // store for name screen preview
+  if ($('context-location-note')) {
+    $('context-location-note').textContent = `Preview location: ${previewLoc.name} (assigned randomly on creation)`;
+  }
+  try {
+    const data = await api(`/game/contexts/${encodeURIComponent(state.selectedRace.name)}/${encodeURIComponent(previewLoc.name)}`);
+    renderContextGrid(data.contexts || [], previewLoc.name);
+  } catch(e) {
+    renderContextGrid([], previewLoc.name);
+  }
+}
+
+function renderContextGrid(contexts, locationName) {
+  if (!contexts.length) {
+    $('context-grid').innerHTML = '';
+    $('context-auto-note').style.display = 'block';
+    state.selectedContext = null;
+    return;
+  }
+  $('context-auto-note').style.display = 'none';
+
+  $('context-grid').innerHTML = contexts.map(c => `
+    <div class="card" data-ctx='${JSON.stringify(c).replace(/'/g,"&#39;")}'>
+      <div class="card-name">${c.label}</div>
+      <div class="card-sub">Weight: ${c.weight}</div>
+      <div style="font-size:.85rem;color:var(--ash);line-height:1.55;margin-top:8px;">${c.description}</div>
+      <div style="margin-top:10px;">${(c.flags||[]).slice(0,3).map(f=>`<span class="stat-pill" style="font-size:9px;">${f}</span>`).join('')}</div>
+    </div>
+  `).join('');
+
+  // Add "Surprise me" card
+  $('context-grid').innerHTML += `
+    <div class="card" id="ctx-random" style="border-style:dashed;opacity:.7;">
+      <div class="card-name">Fate Decides</div>
+      <div class="card-sub">Weighted random</div>
+      <div style="font-size:.85rem;color:var(--ash);margin-top:8px;line-height:1.5;">Let the dice determine your background. Could be anything.</div>
+    </div>`;
+
+  $('context-grid').querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      $('context-grid').querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      if (card.id === 'ctx-random') {
+        state.selectedContext = null; // server picks randomly
+      } else {
+        state.selectedContext = JSON.parse(card.dataset.ctx.replace(/&#39;/g,"'"));
+      }
+    });
+  });
+}
+
+function renderNamePreview() {
+  const r = state.selectedRace, c = state.selectedClass, ctx = state.selectedContext;
+  const previewLoc = state.previewLocation;
+  const stats = r.stat_modifiers;
+  $('char-preview').innerHTML = `
+    <div style="background:var(--card-bg);border:1px solid rgba(201,168,76,.15);border-radius:6px;padding:20px 24px;margin-bottom:8px;">
+      <div style="font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.25em;color:var(--gold);margin-bottom:12px;">CHARACTER SUMMARY</div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
+        <div>
+          <div style="font-size:.8rem;color:var(--ash);margin-bottom:4px;">Race</div>
+          <div style="font-family:'Cinzel',serif;color:var(--parchment);">${r.name}</div>
+        </div>
+        <div>
+          <div style="font-size:.8rem;color:var(--ash);margin-bottom:4px;">Class</div>
+          <div style="font-family:'Cinzel',serif;color:var(--parchment);">${c.name}</div>
+        </div>
+        <div>
+          <div style="font-size:.8rem;color:var(--ash);margin-bottom:4px;">Starting Location</div>
+          <div style="font-family:'Cinzel',serif;color:var(--ash);font-style:italic;">Assigned by fate${previewLoc ? ` — preview: ${previewLoc.name}` : ''}</div>
+        </div>
+        ${ctx ? `<div>
+          <div style="font-size:.8rem;color:var(--ash);margin-bottom:4px;">Background</div>
+          <div style="font-family:'Cinzel',serif;color:var(--gold);">${ctx.label}</div>
+        </div>` : `<div>
+          <div style="font-size:.8rem;color:var(--ash);margin-bottom:4px;">Background</div>
+          <div style="font-style:italic;color:var(--ash);">Fate decides</div>
+        </div>`}
+      </div>
+      <div style="margin-top:14px;display:flex;gap:6px;flex-wrap:wrap;">
+        ${Object.entries(stats).map(([k,v])=>`<div style="text-align:center;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:8px 10px;min-width:44px;">
+          <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;color:var(--ash);margin-bottom:3px;">${k}</div>
+          <div style="font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold);">${v}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  if (ctx) {
+    $('backstory-preview').style.display = 'block';
+    $('backstory-text').textContent = ctx.backstory || ctx.description;
+  } else {
+    $('backstory-preview').style.display = 'none';
+  }
+}
+
+// ── CHARACTER CREATION ─────────────────────────────────────────────────────────
+
+async function createCharacter() {
+  const name = $('char-name-input').value.trim();
+  $('name-error').style.display = 'none';
+  if (!name) { showNameError('Please enter a name.'); return; }
+  if (name.length < 2) { showNameError('Name must be at least 2 characters.'); return; }
+
+  const btn = $('btn-create-char');
+  btn.disabled = true; btn.textContent = 'Creating…';
+
+  try {
+    const result = await api('/game/character/create', {
+      method: 'POST',
+      body: {
+        name,
+        race: state.selectedRace.name,
+        character_class: state.selectedClass.name,
+        starting_location: state.previewLocation?.name || null,  // send preview so display matches
+        context_id: state.selectedContext?.id || null,
+        session_id: state.activeSession.session_id,
+      }
+    });
+    state.activeChar = result.character;
+    // Show the actual location the server assigned (may differ from preview)
+    if (result.assigned_location && result.assigned_location !== state.previewLocation?.name) {
+      console.info(`Location assigned: ${result.assigned_location} (preview was ${state.previewLocation?.name})`);
+    }
+    startStory();
+  } catch(e) {
+    showNameError(e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Begin Your Story →';
+  }
+}
+
+function showNameError(msg) {
+  $('name-error').textContent = msg;
+  $('name-error').style.display = 'block';
+}
+
+// ── STORY ──────────────────────────────────────────────────────────────────────
+
+async function startStory() {
+  show('screen-story');
+  $('btn-open-sheet').style.display = 'block';
+  renderHud();
+  try {
+    const data = await api(`/game/story/${state.activeSession.session_id}/${state.currentArc}/start?character_name=${encodeURIComponent(state.activeChar.name)}`);
+    renderStoryNode(data.text, data.choices);
+    state.currentNode = 'start';
+    $('story-arc-title').textContent = state.currentArc.replace(/_/g,' ').toUpperCase();
+  } catch(e) {
+    $('story-text').textContent = 'Error loading story: ' + e.message;
+  }
+}
+
+async function makeChoice(index) {
+  try {
+    const result = await api('/game/story/choose', {
+      method: 'POST',
+      body: {
+        character_name: state.activeChar.name,
+        arc: state.currentArc,
+        node_id: state.currentNode,
+        choice_index: index,
+        session_id: state.activeSession.session_id,
+      }
+    });
+    state.currentNode = result.node_id;
+    if (result.flags_added?.length) {
+      state.activeChar.flags = [...(state.activeChar.flags||[]), ...result.flags_added];
+    }
+    renderStoryNode(result.text, result.choices, result.roll_result);
+    if (result.arc_complete) {
+      state.nextArc = result.next_arc;
+      $('arc-complete-box').style.display = 'block';
+    }
+    renderHud();
+  } catch(e) {
+    alert('Story error: ' + e.message);
+  }
+}
+
+function renderStoryNode(text, choices, rollResult=null) {
+  $('story-text').textContent = text;
+  $('arc-complete-box').style.display = 'none';
+  $('roll-display').innerHTML = '';
+
+  if (rollResult) {
+    const isSuccess = rollResult.outcome === 'success' || rollResult.outcome === 'critical_success';
+    const isPartial = rollResult.outcome === 'partial';
+    const cls = isSuccess ? 'success' : isPartial ? 'partial' : 'failure';
+    const dice = isSuccess ? '🎲' : isPartial ? '🎯' : '💀';
+    $('roll-display').innerHTML = `
+      <div class="roll-result ${cls}">
+        <div class="roll-dice">${dice}</div>
+        <div class="roll-detail">
+          <div>${rollResult.outcome.replace(/_/g,' ').toUpperCase()} — Roll: ${rollResult.roll} + Mod: ${rollResult.modifier} = ${rollResult.total} vs DC ${rollResult.dc}</div>
+          <small>${rollResult.is_weighted ? 'Weighted RNG' : 'Flat d20'}</small>
+        </div>
+      </div>`;
+  }
+
+  $('choices-list').innerHTML = '';
+  if (!choices || !choices.length) {
+    $('choices-list').innerHTML = `<p style="color:var(--ash);font-style:italic;font-size:.9rem;margin-top:8px;">The path continues…</p>`;
+    return;
+  }
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span>${c.text}</span>${c.has_check?`<span class="choice-check-tag">${c.check_stat} CHECK</span>`:''}`;
+    btn.addEventListener('click', () => makeChoice(c.index));
+    $('choices-list').appendChild(btn);
+  });
+}
+
+function renderHud() {
+  const char = state.activeChar;
+  if (!char) return;
+  renderQuestNav();
+  const hpPct = Math.round((char.hp/char.max_hp)*100);
+  const cxPct = Math.round((char.conixia_energy/char.max_conixia)*100);
+  $('story-hud').innerHTML = `
+    <div class="hud-item">
+      <div class="hud-label">Name</div>
+      <div class="hud-value" style="font-family:'Cinzel',serif;">${char.name}</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Race · Class</div>
+      <div class="hud-value">${char.race} ${char.character_class}</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Location</div>
+      <div class="hud-value">${char.starting_location}</div>
+    </div>
+    ${char.starting_context_label ? `<div class="hud-item">
+      <div class="hud-label">Background</div>
+      <div class="hud-value" style="color:var(--gold);font-size:.85rem;font-style:italic;">${char.starting_context_label}</div>
+    </div>` : ''}
+    <div class="hud-item">
+      <div class="hud-label">HP</div>
+      <div class="hud-bar-wrap">
+        <div class="hud-bar"><div class="hud-bar-fill hp" style="width:${hpPct}%"></div></div>
+        <span style="font-size:.85rem;">${char.hp}/${char.max_hp}</span>
+      </div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Conixia</div>
+      <div class="hud-bar-wrap">
+        <div class="hud-bar"><div class="hud-bar-fill conixia" style="width:${cxPct}%"></div></div>
+        <span style="font-size:.85rem;">${char.conixia_energy}/${char.max_conixia}</span>
+      </div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Level</div>
+      <div class="hud-value">${char.level}</div>
+    </div>`;
+}
+
+// ── CHARACTER SHEET ────────────────────────────────────────────────────────────
+
+async function openSheet() {
+  $('sheet-overlay').classList.add('open');
+  try {
+    const sheet = await api(`/game/character/${state.activeSession.session_id}/${state.activeChar.name}/sheet`);
+    renderSheet(sheet);
+  } catch(e) {
+    $('tab-stats').innerHTML = `<p class="error-msg">${e.message}</p>`;
+  }
+}
+
+function renderSheet(s) {
+  $('sheet-char-name').textContent = s.identity.name;
+  $('sheet-char-sub').textContent = `${s.identity.race} ${s.identity.class} · Level ${s.identity.level} · ${s.identity.starting_location}`;
+
+  // Stats tab
+  const stats = s.stats;
+  $('tab-stats').innerHTML = `
+    <div class="sheet-section">
+      <div class="sheet-section-title">Current Stats</div>
+      <div class="stats-full">${Object.entries(stats).map(([k,v])=>`
+        <div class="stat-box"><div class="stat-name">${k}</div><div class="stat-val">${v}</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Identity</div>
+      <div style="font-size:.9rem;color:var(--ash);line-height:1.7;">
+        <div><strong style="color:var(--parchment);font-family:'Cinzel',serif;font-size:.78rem;">Background</strong> — ${s.identity.starting_context_label || 'Unknown'}</div>
+        <div style="margin-top:8px;font-style:italic;">"${s.identity.backstory}"</div>
+        ${s.identity.location_state?.stability ? `<div style="margin-top:10px;font-size:.8rem;">Location status: <span style="color:var(--gold);font-family:'Cinzel',serif;letter-spacing:.1em;">${s.identity.location_state.stability.toUpperCase()}</span></div>` : ''}
+      </div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Vitals</div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div><div style="font-size:.8rem;color:var(--ash);">HP</div><div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--success);">${s.vitals.hp}/${s.vitals.max_hp}</div></div>
+        <div><div style="font-size:.8rem;color:var(--ash);">Conixia</div><div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--conixia);">${s.vitals.conixia_energy}/${s.vitals.max_conixia}</div></div>
+        <div><div style="font-size:.8rem;color:var(--ash);">Gold</div><div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold);">${s.gold} gp</div></div>
+      </div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Active Flags</div>
+      <div>${(s.flags||[]).length ? s.flags.map(f=>`<span class="stat-pill" style="margin-bottom:4px;">${f}</span>`).join(' ') : '<span style="color:var(--ash);font-size:.85rem;">None yet</span>'}</div>
+    </div>`;
+
+  // Abilities tab
+  const ab = s.abilities;
+  const abilityHtml = type => ab[type].map(a=>`
+    <div class="ability-card">
+      <div class="ability-icon ${type}">${type==='active'?'⚡':type==='ultimate'?'✦':'◈'}</div>
+      <div class="ability-info">
+        <div class="ability-name">${a.name}</div>
+        <div class="ability-desc">${a.description}</div>
+        <div class="ability-meta">
+          <span class="ability-tag type-${type}">${type}</span>
+          ${a.cost?`<span class="ability-tag cost">${a.cost} cx</span>`:''}
+          ${a.cooldown?`<span class="ability-tag cd">${a.cooldown}t cd</span>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+  $('tab-abilities').innerHTML = `
+    ${ab.active.length?`<div class="ability-type-label">Active</div>${abilityHtml('active')}`:''}
+    ${ab.passive.length?`<div class="ability-type-label">Passive</div>${abilityHtml('passive')}`:''}
+    ${ab.ultimate.length?`<div class="ability-type-label">Ultimate</div>${abilityHtml('ultimate')}`:''}
+    ${!ab.active.length&&!ab.passive.length&&!ab.ultimate.length?'<p style="color:var(--ash);font-style:italic;">No abilities yet.</p>':''}`;
+
+  // Inventory tab
+  const rarityClass = r => `rarity-${r||'common'}`;
+  $('tab-inventory').innerHTML = `
+    <div class="gold-bar">⚜ ${s.gold} Gold Pieces</div>
+    <div class="carry-bar">Carry weight: ${s.carry_weight} units</div>
+    <div class="inv-grid">${s.inventory.map(item=>`
+      <div class="inv-item ${item.equipped?'equipped':''}">
+        <div class="inv-rarity ${rarityClass(item.rarity)}"></div>
+        <div class="inv-info">
+          <div class="inv-name">${item.name}${item.equipped?'<span class="equipped-badge">Equipped</span>':''}</div>
+          <div class="inv-desc">${item.description}</div>
+          <div class="inv-meta">${item.subcategory} · ${item.weight}w · ${item.value}gp · ${item.rarity}</div>
+        </div>
+        <div class="inv-qty">×${item.quantity}</div>
+      </div>`).join('')}
+    ${!s.inventory.length?'<p style="color:var(--ash);font-style:italic;">Inventory empty.</p>':''}</div>`;
+
+  // World tab
+  const factions = s.factions;
+  const dispClass = d => `disp-${d||'neutral'}`;
+  const events = s.world_events;
+  const storylines = state.sessionWorld?.global_storylines || {};
+  $('tab-world').innerHTML = `
+    <div class="sheet-section">
+      <div class="sheet-section-title">Faction Standing</div>
+      <div class="faction-grid">${Object.entries(factions).map(([k,f])=>`
+        <div class="faction-card">
+          <div class="faction-name">${k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</div>
+          <div class="faction-inf">
+            <div class="faction-inf-bar"><div class="faction-inf-fill" style="width:${f.influence}%"></div></div>
+            <span style="font-size:.78rem;color:var(--ash);">${f.influence}</span>
+          </div>
+          <div class="faction-disp ${dispClass(f.disposition)}">${(f.disposition||'neutral').toUpperCase()}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Global Storylines</div>
+      ${Object.entries(storylines).map(([k,v])=>`
+        <div class="storyline-row">
+          <div class="storyline-name">${k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</div>
+          <div class="storyline-status status-${v.status}">${v.status?.toUpperCase()}</div>
+        </div>`).join('')}
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">World Events</div>
+      ${events.length?`<ul class="event-log">${events.map(e=>`<li>${e}</li>`).join('')}</ul>`:'<p style="color:var(--ash);font-style:italic;font-size:.85rem;">No events recorded yet.</p>'}
+    </div>`;
+}
+
+// ── TAB HANDLING ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.sheet-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sheet-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    $('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ── EVENT BINDINGS ─────────────────────────────────────────────────────────────
+$('btn-create-session').addEventListener('click', createSession);
+$('btn-new-character-in-session').addEventListener('click', () => {
+  state.selectedRace = null; state.selectedClass = null;
+  state.selectedContext = null; state.previewLocation = null;
+  $('btn-to-class').disabled = true;
+  loadRaces();
+  show('screen-race');
+});
+$('btn-back-to-sessions').addEventListener('click', () => { show('screen-session'); });
+$('btn-back-to-charselect').addEventListener('click', () => { show('screen-charselect'); });
+
+$('btn-to-class').addEventListener('click', () => {
+  loadClassesForRace();
+  show('screen-class');
+});
+$('btn-back-to-race').addEventListener('click', () => { show('screen-race'); });
+
+$('btn-to-context').addEventListener('click', () => {
+  loadContexts();
+  show('screen-context');
+});
+$('btn-back-to-class').addEventListener('click', () => { show('screen-class'); });
+
+$('btn-to-name').addEventListener('click', () => {
+  renderNamePreview();
+  $('char-name-input').value = '';
+  $('name-error').style.display = 'none';
+  show('screen-name');
+});
+$('btn-back-to-context').addEventListener('click', () => { show('screen-context'); });
+
+// ── SIDE QUESTS ───────────────────────────────────────────────────────────────────────
+
+const availableSideQuests = [
+  { id: 'missing_merchant', name: 'Missing Shipment', description: 'A merchant needs help finding a lost shipment at the docks.' },
+  { id: 'old_market', name: 'Market District Mystery', description: 'Strange occurrences in the Old Market District require investigation.' }
+];
+
+function renderQuestNav() {
+  const char = state.activeChar;
+  if (!char || !char.flags) {
+    $('quest-nav').style.display = 'none';
+    return;
+  }
+  
+  // Show quests that are available but not yet started
+  const availableQuests = availableSideQuests.filter(q => {
+    const activeFlag = `side_quest_${q.id}_active`;
+    const completeFlag = `side_quest_${q.id}_complete`;
+    return !char.flags.includes(activeFlag) && !char.flags.includes(completeFlag);
+  });
+  
+  if (availableQuests.length === 0) {
+    $('quest-nav').style.display = 'none';
+    return;
+  }
+  
+  $('quest-nav').style.display = 'block';
+  $('quest-list').innerHTML = availableQuests.map(q => `
+    <button class="btn btn-sm" style="background:rgba(255,204,128,.1);border:1px solid rgba(255,204,128,.3);color:var(--quest);" onclick="triggerSideQuest('${q.id}')">
+      ${q.name}
+    </button>
+  `).join('');
+}
+
+async function triggerSideQuest(questId) {
+  try {
+    // Map quest ID to the story node
+    const nodeMap = {
+      'missing_merchant': 'side_quest_missing_merchant',
+      'old_market': 'old_market_side_quest'
+    };
+    
+    const nodeId = nodeMap[questId];
+    if (!nodeId) return;
+    
+    // Load the side quest node
+    const result = await api('/game/story/node', {
+      method: 'POST',
+      body: {
+        character_name: state.activeChar.name,
+        arc: 'side_quests',
+        node_id: nodeId,
+        session_id: state.activeSession.session_id,
+      }
+    });
+    
+    // Update state to track that we're in a side quest
+    state.currentNode = nodeId;
+    state.previousArc = state.currentArc;
+    state.currentArc = 'side_quests';
+    
+    // Set the active flag
+    state.activeChar.flags = [...(state.activeChar.flags || []), `side_quest_${questId}_active`];
+    
+    // Render the side quest
+    renderStoryNode(result.text, result.choices);
+    $('story-arc-title').textContent = 'SIDE QUEST: ' + (availableSideQuests.find(q => q.id === questId)?.name || 'Unknown');
+    
+    // Hide quest nav while in quest
+    $('quest-nav').style.display = 'none';
+  } catch(e) {
+    alert('Failed to load side quest: ' + e.message);
+  }
+}
+
+$('btn-create-char').addEventListener('click', createCharacter);
+$('btn-open-sheet').addEventListener('click', openSheet);
+$('sheet-close').addEventListener('click', () => $('sheet-overlay').classList.remove('open'));
+$('btn-next-arc').addEventListener('click', () => {
+  if (state.nextArc) {
+    state.currentArc = state.nextArc;
+    state.nextArc = null;
+    startStory();
+  }
+});
+
+// ── BOOT ───────────────────────────────────────────────────────────────────────
+loadSessions();
+</script>
+</body>
+</html>

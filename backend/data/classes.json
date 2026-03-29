@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Spellblade",
+    "conixia_focus": "Arcane Combat",
+    "role": "Hybrid DPS",
+    "playstyle": ["Aggressive", "Close-Range", "Magic-Infused"],
+    "primary_stats": ["STR", "INT", "CHA"],
+    "starting_abilities": ["Arcane Slash", "Conixia Surge", "Mystic Guard", "Elemental Channel"],
+    "unlock": "default"
+  },
+  {
+    "name": "Whisper",
+    "conixia_focus": "Illusion & Stealth",
+    "role": "Assassin",
+    "playstyle": ["Stealth", "Ambush", "Mobility"],
+    "primary_stats": ["DEX", "INT", "CHA"],
+    "starting_abilities": ["Silent Step", "Shadow Veil", "Dagger Fade", "Smoke Bomb"],
+    "unlock": "default"
+  },
+  {
+    "name": "Seer",
+    "conixia_focus": "Temporal & Psychic",
+    "role": "Support",
+    "playstyle": ["Prediction", "Time Manipulation", "Control"],
+    "primary_stats": ["INT", "WIS", "CHA"],
+    "starting_abilities": ["Time Fracture", "Foresight", "Mental Barrier", "Future Echo"],
+    "unlock": "default"
+  },
+  {
+    "name": "Stonecaller",
+    "conixia_focus": "Gravitic Magic",
+    "role": "Tank",
+    "playstyle": ["Durable", "Grounded", "Heavy Magic"],
+    "primary_stats": ["STR", "CON", "INT"],
+    "starting_abilities": ["Earthen Wall", "Pulverize", "Stone Bind", "Weight of the World"],
+    "unlock": "race:Pillarian"
+  },
+  {
+    "name": "Emberheart",
+    "conixia_focus": "Flame Conduction",
+    "role": "AoE DPS",
+    "playstyle": ["Explosive", "Burn", "Raw Power"],
+    "primary_stats": ["STR", "CON", "INT"],
+    "starting_abilities": ["Flame Burst", "Molten Sweep", "Charred Skin", "Cinderstorm"],
+    "unlock": "race:Ignari"
+  },
+  {
+    "name": "Twilight Walker",
+    "conixia_focus": "Shadow Conixia",
+    "role": "Stealth Hybrid",
+    "playstyle": ["Silent", "Trickster", "Nightborn"],
+    "primary_stats": ["DEX", "INT", "CHA"],
+    "starting_abilities": ["Shadowmeld", "Night Pierce", "Dark Shroud", "Umbral Leap"],
+    "unlock": "race:Velari"
+  },
+  {
+    "name": "Warlord",
+    "conixia_focus": "Battle Conixia",
+    "role": "Frontline DPS",
+    "playstyle": ["Brutal", "Commanding", "High HP"],
+    "primary_stats": ["STR", "CON", "CHA"],
+    "starting_abilities": ["Crushing Blow", "War Cry", "Riposte", "Judgement"],
+    "unlock": "default"
+  },
+  {
+    "name": "Arcanist",
+    "conixia_focus": "Pure Arcane",
+    "role": "Burst Mage",
+    "playstyle": ["High Damage", "Fragile", "Versatile"],
+    "primary_stats": ["INT", "WIS", "AFF"],
+    "starting_abilities": ["Arcane Slash", "Conixia Surge", "Mirror Image", "Mana Surge"],
+    "unlock": "default"
+  }
+]

@@ -1,0 +1,621 @@
+{
+  "arc": "ironreach_investigation",
+  "title": "The Missing Caravans",
+  "_note": "A self-contained side arc. Accessible to any character at Ironreach Outpost, but branches differently based on context (guild_investigator, context_military, context_civilian, context_exile). Can be run alongside or before Chapter 1. World effects ripple into subsequent arcs.",
+  "nodes": {
+
+    "start": {
+      "id": "start",
+      "text": "Three supply caravans departed {starting_location} in the last six weeks. None arrived at their destinations. No wreckage. No survivors recovered. No ransom demands. The Ironclad Dominion's garrison commander has been rotating the same four theories — bandits, Void incursion, route failure, deliberate misdirection — without moving any of them past speculation. The Merchant Guild wants answers. The garrison wants the embarrassment contained. Neither has found what happened to seventeen people and their cargo.",
+      "choices": [
+        {
+          "text": "Start at the last known checkpoint. Work backward from the facts.",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "checkpoint_investigation_result"
+        },
+        {
+          "text": "Talk to people at the outpost. Someone always sees something.",
+          "stat_check": { "stat": "CHA", "dc": 9 },
+          "leads_to": "outpost_gossip_result"
+        },
+        {
+          "text": "Review the cargo manifests. The pattern might be in what was being moved.",
+          "stat_check": null,
+          "leads_to": "review_manifests",
+          "conditions": [
+            { "type": "flag", "flag": "guild_investigator", "value": true }
+          ]
+        },
+        {
+          "text": "Check the garrison's patrol logs. Someone authorised those routes.",
+          "stat_check": null,
+          "leads_to": "garrison_logs",
+          "conditions": [
+            { "type": "flag", "flag": "context_military", "value": true }
+          ]
+        }
+      ]
+    },
+
+    "checkpoint_investigation_result": {
+      "id": "checkpoint_investigation_result",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "The last confirmed checkpoint is a marker stone three miles east of the outpost. You find it and you find something else: the road beyond it has been recently repaired. Not patched — resurfaced. Someone removed evidence from a section of road long enough to hide a caravan. The work was professional. It wasn't done by bandits.",
+          "leads_to": "the_professional_angle",
+          "flag": "found_road_evidence"
+        },
+        "failure": {
+          "text": "The checkpoint tells you the caravans passed through. The road beyond tells you nothing — or rather, it tells you it was recently travelled, heavily, but that's normal for a supply route. You need a different line of inquiry.",
+          "leads_to": "outpost_gossip_result"
+        }
+      }
+    },
+
+    "outpost_gossip_result": {
+      "id": "outpost_gossip_result",
+      "text": "ROLL: CHA vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "Three conversations yield three fragments. The first: a trader who refused a cargo contract three weeks ago because the offered rate was 'insultingly low — like someone wanted cheap goods that couldn't be traced.' The second: two garrison soldiers who were reassigned to different routes the same week the first caravan disappeared. The third: a child who saw lights moving east of the road two nights ago — 'underground lights,' she says. 'Like lanterns through a floor.'",
+          "leads_to": "converging_evidence"
+        },
+        "failure": {
+          "text": "You get the currency of any outpost — rumour, complaint, theory. Bandits. Void cult. Cursed route. A garrison officer who's been taking bribes. Nothing specific, nothing verifiable. The noise is too loud to hear the signal.",
+          "leads_to": "review_manifests"
+        }
+      }
+    },
+
+    "review_manifests": {
+      "id": "review_manifests",
+      "text": "The manifests take an hour to pull and another to read. Three caravans, three different cargo profiles on paper. But cross-referencing the actual shipper registrations reveals something the manifest descriptions disguise: all three caravans were carrying, under different item codes, components that individually are unremarkable. Together they're the complete parts list for a mid-scale Conixia processing apparatus. Someone has been ordering a machine in pieces, using three separate caravans to avoid the single-shipment registration requirement.",
+      "choices": [
+        {
+          "text": "Identify who placed the original orders.",
+          "stat_check": { "stat": "INT", "dc": 11 },
+          "leads_to": "trace_orders_result"
+        },
+        {
+          "text": "Report the finding to the Guild and let them escalate.",
+          "stat_check": null,
+          "leads_to": "report_to_guild",
+          "conditions": [
+            { "type": "flag", "flag": "context_guild", "value": true }
+          ]
+        },
+        {
+          "text": "This is bigger than missing caravans. Find where the machine went.",
+          "stat_check": null,
+          "leads_to": "converging_evidence"
+        }
+      ]
+    },
+
+    "garrison_logs": {
+      "id": "garrison_logs",
+      "text": "The patrol logs have been amended. Not falsified outright — amended. Someone with authorisation access went back through six weeks of entries and made small changes: route times adjusted, checkpoint confirmations shifted by minutes, coverage gaps that originally existed now filled in on paper. Professional. But they amended the wrong logs. The ones they didn't touch show the gaps clearly: a two-hour window each time, same corridor, same eastern segment of the trade road.",
+      "choices": [
+        {
+          "text": "Identify who has amendment authorisation.",
+          "stat_check": { "stat": "INT", "dc": 12 },
+          "leads_to": "garrison_mole_result"
+        },
+        {
+          "text": "Go to the corridor during the two-hour window. If it's a pattern, it'll happen again.",
+          "stat_check": null,
+          "leads_to": "converging_evidence"
+        }
+      ]
+    },
+
+    "trace_orders_result": {
+      "id": "trace_orders_result",
+      "text": "ROLL: INT vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "The orders trace through three shell registrations to a real entity: a private research concern registered under Merchant Guild auspices three years ago, never active, never audited. The listed director is a name you don't recognise. The listed associate directors include, in the second position, a name attached to the Void Cult's known financial network. Someone is building a Conixia processor for an organisation that worships the corruption it causes.",
+          "leads_to": "converging_evidence",
+          "flag": "void_cult_connection",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "void_cult", "delta": -5 },
+            { "type": "advance_storyline", "storyline": "shifting_sands_of_power", "status": "escalating" },
+            { "type": "log_event", "description": "Void Cult connection identified in Ironreach caravan disappearances." }
+          ]
+        },
+        "failure": {
+          "text": "The shell registrations hold. You get as far as the second layer and hit a wall of inactive entities and expired documentation. The trail is cold by design. You have the shape of the thing without the name.",
+          "leads_to": "converging_evidence"
+        }
+      }
+    },
+
+    "report_to_guild": {
+      "id": "report_to_guild",
+      "text": "The Guild's regional coordinator listens to your manifest analysis with the expression of someone hearing a fire described while standing in it. They confirm: they've been getting similar fragments from other routes. Three separate grid points, all pointing east. They give you a name — Veth, a field agent who went dark four days ago investigating the same thread — and an instruction: find Veth before you find the machine.",
+      "choices": [
+        { "text": "Take the name and go east.", "stat_check": null, "leads_to": "converging_evidence", "flag": "knows_veth" }
+      ],
+      "world_effects": [
+        { "type": "faction_influence", "faction": "merchant_guild", "delta": 5 }
+      ]
+    },
+
+    "garrison_mole_result": {
+      "id": "garrison_mole_result",
+      "text": "ROLL: INT vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "Two officers have amendment access. One is the garrison commander — above suspicion only in the sense that he would have to be extraordinarily stupid to amend the logs he ordered. The other is a junior records officer, recently transferred, whose service record looks immaculate if you don't notice it was submitted two weeks after they arrived rather than on the same day, as required. Someone built a new identity in a hurry and posted it to Ironreach.",
+          "leads_to": "converging_evidence",
+          "flag": "found_garrison_mole"
+        },
+        "failure": {
+          "text": "You get the access list and no further. Both names on it have the kind of clean records that could mean innocence or a well-maintained cover. You'll need to approach them directly — with appropriate caution.",
+          "leads_to": "converging_evidence"
+        }
+      }
+    },
+
+    "the_professional_angle": {
+      "id": "the_professional_angle",
+      "text": "Professionally-resurfaced road in the middle of nowhere means resources, advance planning, and a route that was known before the caravans were dispatched. This wasn't opportunistic — it was engineered. Someone with access to the route schedules arranged for three separate caravans to pass through a section of road that was prepared to receive them. The caravans didn't disappear. They were delivered.",
+      "choices": [
+        {
+          "text": "Follow the road surface east. See where it leads.",
+          "stat_check": null,
+          "leads_to": "converging_evidence"
+        },
+        {
+          "text": "Go back to the outpost. The road schedules are internal — find the leak.",
+          "stat_check": null,
+          "leads_to": "garrison_logs"
+        }
+      ]
+    },
+
+    "converging_evidence": {
+      "id": "converging_evidence",
+      "text": "Whatever path brought you here, the evidence converges: the caravans went east, underground, through a section of the old Ironreach mine network that the garrison's maps show as collapsed. The lights through the floor. The professional road work. The Conixia processor components. There is a facility operating beneath the eastern ridge, and it has been operating for at least six weeks, and seventeen people are somewhere inside it — or were.",
+      "choices": [
+        {
+          "text": "Go in alone. Speed and surprise over numbers.",
+          "stat_check": { "stat": "DEX", "dc": 12 },
+          "leads_to": "infiltrate_alone_result"
+        },
+        {
+          "text": "Find allies first. This isn't a one-person operation.",
+          "stat_check": { "stat": "CHA", "dc": 11 },
+          "leads_to": "find_allies_result"
+        },
+        {
+          "text": "Get information to AIM. This Conixia processor is exactly what they monitor.",
+          "stat_check": null,
+          "leads_to": "alert_aim"
+        },
+        {
+          "text": "Get information to BASE. They'll know what the processor means.",
+          "stat_check": null,
+          "leads_to": "alert_base",
+          "conditions": [
+            { "type": "flag", "flag": "base_first_contact", "value": true }
+          ]
+        }
+      ]
+    },
+
+    "infiltrate_alone_result": {
+      "id": "infiltrate_alone_result",
+      "text": "ROLL: DEX vs DC 12",
+      "roll_outcomes": {
+        "critical_success": {
+          "text": "You find the entrance — a false collapse propped from the inside — and move through three levels before anyone knows you're there. The facility is larger than expected and staffed by people who are not what they appear: not mercenaries, not labourers, but technicians. Working with quiet intensity on a machine you can feel in your Conixia before you see it. The caravan workers are in a sealed chamber to the east, alive, contained. You're positioned to free them or destroy the machine. Not both.",
+          "leads_to": "facility_choice",
+          "flag": "infiltrated_undetected"
+        },
+        "success": {
+          "text": "You get in. You get two levels in. Then someone spots you — not a guard, a sensor array that reads Conixia signatures, and yours is apparently notable enough to trigger an alarm. You have very little time before the facility locks down.",
+          "leads_to": "facility_alarm"
+        },
+        "failure": {
+          "text": "You're stopped at the entrance. Not by guards — by a ward that reads your Conixia signature and simply doesn't open the door. From the inside, someone's voice: 'We know you're out there. We have the caravan workers. If you want a conversation instead of a standoff, knock three times.'",
+          "leads_to": "forced_negotiation"
+        }
+      }
+    },
+
+    "find_allies_result": {
+      "id": "find_allies_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "You find four people willing to move: two former garrison soldiers who lost friends on the second caravan, one Guild enforcer who was already investigating, and a Velari who has been watching the east ridge for three nights without telling anyone why. They bring skills, anger, and in the Velari's case, the ability to move through a section of the facility that the others physically cannot. You go in with a plan.",
+          "leads_to": "facility_with_allies"
+        },
+        "failure": {
+          "text": "You find one person — a garrison soldier with a personal stake — who's willing to move now rather than wait for authorisation. Better than nothing. You go in underprepared and aware of it.",
+          "leads_to": "facility_alarm"
+        }
+      }
+    },
+
+    "alert_aim": {
+      "id": "alert_aim",
+      "text": "AIM's response is measured and fast. A field team arrives within four hours — six operatives and an assessor who reads the Conixia signature of the area with equipment you've never seen. The assessor says three words: 'Class Four emitter.' The field team changes posture. What began as a caravan investigation becomes something AIM handles alone, with you standing to one side and being thanked for your cooperation. The facility is raided. The workers are recovered. You are given a case number and a formal commendation. The machine is taken to an AIM facility. You never learn what it was for.",
+      "choices": [
+        {
+          "text": "Accept the outcome. The workers are safe.",
+          "stat_check": null,
+          "leads_to": "arc_close",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "aim", "delta": 12 },
+            { "type": "faction_influence", "faction": "base", "delta": -5 },
+            { "type": "set_flag", "flag": "ironreach_resolved_aim", "value": true },
+            { "type": "log_event", "description": "{character_name} turned the Ironreach facility over to AIM. Machine confiscated." }
+          ]
+        },
+        {
+          "text": "Ask the assessor what a Class Four emitter does.",
+          "stat_check": { "stat": "CHA", "dc": 14 },
+          "leads_to": "aim_knowledge_attempt"
+        }
+      ]
+    },
+
+    "aim_knowledge_attempt": {
+      "id": "aim_knowledge_attempt",
+      "text": "ROLL: CHA vs DC 14",
+      "roll_outcomes": {
+        "success": {
+          "text": "The assessor tells you more than they're supposed to — you've earned some professional latitude. A Class Four emitter is a device that broadcasts a specific Conixia frequency designed to artificially trigger resonance events in nearby susceptibles. Someone has been manufacturing new Conixia sensitives on purpose. The question of why they were targeting this route, this region, sits unresolved in your file alongside the case number.",
+          "leads_to": "arc_close",
+          "flag": "knows_class_four",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "aim", "delta": 15 },
+            { "type": "advance_storyline", "storyline": "conixia_blight", "status": "spreading" },
+            { "type": "log_event", "description": "Class Four Conixia emitter discovered near Ironreach — deliberate resonance induction confirmed." }
+          ]
+        },
+        "failure": {
+          "text": "The assessor smiles with the warmth of someone who is not going to tell you anything. 'Above my authority to share. Your commendation will note your cooperation.' You are efficiently redirected.",
+          "leads_to": "arc_close",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "aim", "delta": 12 }
+          ]
+        }
+      }
+    },
+
+    "alert_base": {
+      "id": "alert_base",
+      "text": "BASE's response comes through Meridian within two hours. Three words: 'Don't let AIM.' Then a longer message: the machine, if it's what Meridian suspects from your description, is a resonance emitter — something that manufactures Conixia sensitives artificially. BASE wants it preserved and studied, not confiscated and sealed. 'We think we know who built the first one,' Meridian says. 'If there's a second, the series matters more than the unit.'",
+      "choices": [
+        {
+          "text": "Work with BASE to recover the machine and the workers.",
+          "stat_check": null,
+          "leads_to": "base_extraction"
+        },
+        {
+          "text": "Prioritise the workers. The machine can wait.",
+          "stat_check": null,
+          "leads_to": "facility_choice"
+        }
+      ]
+    },
+
+    "forced_negotiation": {
+      "id": "forced_negotiation",
+      "text": "You knock three times. The door opens. Inside is a single person — a {race} who identifies themselves as a researcher, not a guard, and who is visibly afraid but committed. 'We weren't hurting the caravan workers,' they say. 'We were waiting for this moment. For someone who could feel the machine. We needed to know if it worked.' A pause. 'It works.'",
+      "choices": [
+        {
+          "text": "'Release the caravan workers. Then we can talk.'",
+          "stat_check": { "stat": "CHA", "dc": 11 },
+          "leads_to": "negotiate_workers_result"
+        },
+        {
+          "text": "'Who do you work for?'",
+          "stat_check": null,
+          "leads_to": "researcher_reveals"
+        }
+      ]
+    },
+
+    "negotiate_workers_result": {
+      "id": "negotiate_workers_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "They agree. The workers are released into the passage above. They're shaken, unharmed, bewildered. The researcher waits. 'Your turn,' they say. 'Ask what you need to ask.' They're not a hostage-taker — they're someone who ran out of legitimate options.",
+          "leads_to": "researcher_reveals"
+        },
+        "failure": {
+          "text": "'After the conversation,' they say. Not hostile. Firm. Whatever they need from you, they need it before they give up their only leverage. You decide whether to accept those terms.",
+          "leads_to": "researcher_reveals"
+        }
+      }
+    },
+
+    "researcher_reveals": {
+      "id": "researcher_reveals",
+      "text": "The researcher's story: they are former AIM, dismissed for pursuing research into artificial Conixia induction. They believed — and their data suggested — that the Conixia shift could be accelerated in a controlled way to trigger beneficial adaptation rather than catastrophic collapse. The machine is their proof of concept. The caravan workers were the test population. They're alive because the researcher refused the alternative. 'I know what this looks like,' they say. 'I know I can't make it look like anything else. But I need someone to take the data. If I'm arrested, AIM destroys it.'",
+      "choices": [
+        {
+          "text": "Take the data. Let the researcher face the consequences.",
+          "stat_check": null,
+          "leads_to": "take_data_outcome"
+        },
+        {
+          "text": "Take the data and help the researcher disappear.",
+          "stat_check": { "stat": "CHA", "dc": 13 },
+          "leads_to": "help_researcher_result"
+        },
+        {
+          "text": "Turn everything over to AIM including the researcher and the data.",
+          "stat_check": null,
+          "leads_to": "alert_aim"
+        }
+      ]
+    },
+
+    "take_data_outcome": {
+      "id": "take_data_outcome",
+      "text": "You take the data and step aside. The researcher doesn't run. They sit down and wait. AIM will be here eventually. They have made their choice about what the data is worth. You have made yours about what you're willing to carry.",
+      "choices": [
+        { "text": "Leave with the data.", "stat_check": null, "leads_to": "arc_close", "flag": "has_resonance_data" }
+      ],
+      "world_effects": [
+        { "type": "log_event", "description": "{character_name} recovered resonance induction data from the Ironreach facility." },
+        { "type": "advance_storyline", "storyline": "conixia_blight", "status": "spreading" }
+      ]
+    },
+
+    "help_researcher_result": {
+      "id": "help_researcher_result",
+      "text": "ROLL: CHA vs DC 13",
+      "roll_outcomes": {
+        "success": {
+          "text": "You have the contacts or the credibility to make it work. The researcher moves through channels that make them invisible to AIM's grid for long enough to get clear. They leave you everything: the data, their research notes, and a location key for a secondary cache they built three years ago 'in case this exact thing happened.' They expected to be caught. They planned for it.",
+          "leads_to": "arc_close",
+          "flag": "has_resonance_data",
+          "flag_2": "researcher_contact",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "aim", "delta": -8 },
+            { "type": "log_event", "description": "{character_name} helped a rogue researcher escape AIM and recovered artificial resonance data." }
+          ]
+        },
+        "failure": {
+          "text": "You try. The researcher is stopped at the outpost's northern checkpoint by an AIM sweep that was already in motion — they were tracking the facility, not you. The data you're carrying doesn't flag their instruments. The researcher goes with them. They look at you once before the door closes, and what's in their expression is not accusation.",
+          "leads_to": "arc_close",
+          "flag": "has_resonance_data",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "aim", "delta": 5 },
+            { "type": "log_event", "description": "{character_name} recovered resonance data. The researcher was taken by AIM." }
+          ]
+        }
+      }
+    },
+
+    "facility_with_allies": {
+      "id": "facility_with_allies",
+      "text": "Six people entering a facility designed for secrecy rather than defence. The Velari takes the sensor array apart from the inside — shadow-stepping past it before it can read anything. The guild enforcer deals with the actual guard, which turns out to be two people who surrender immediately. The workers are found in the east chamber, shaken and confused. The machine hums at the facility's centre, unguarded, waiting. Your Conixia responds to it like a bell answering a bell.",
+      "choices": [
+        { "text": "Go to the machine.", "stat_check": null, "leads_to": "facility_choice" }
+      ]
+    },
+
+    "facility_alarm": {
+      "id": "facility_alarm",
+      "text": "You have maybe four minutes before the facility fully seals. The layout from what you've seen: workers east, machine centre, the sensor array behind you still screaming. You can reach the workers or you can reach the machine. Not both before the doors close.",
+      "choices": [
+        {
+          "text": "Go for the workers. People before equipment.",
+          "stat_check": { "stat": "DEX", "dc": 10 },
+          "leads_to": "rescue_workers_result"
+        },
+        {
+          "text": "Go for the machine. Destroying it stops whoever built it.",
+          "stat_check": { "stat": "STR", "dc": 11 },
+          "leads_to": "destroy_machine_result"
+        }
+      ]
+    },
+
+    "rescue_workers_result": {
+      "id": "rescue_workers_result",
+      "text": "ROLL: DEX vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "You reach them and get them out before the seals engage. Seventeen people, alive, bewildered, grateful. The machine is still running somewhere below you. Whoever built it will know it was found and will have to decide what to do next. You've saved the people. The problem is still alive.",
+          "leads_to": "arc_close",
+          "world_effects": [
+            { "type": "log_event", "description": "{character_name} rescued the Ironreach caravan workers. The Conixia emitter escaped." },
+            { "type": "advance_storyline", "storyline": "conixia_blight", "status": "spreading" }
+          ]
+        },
+        "failure": {
+          "text": "You reach the chamber and the door seals ahead of you. The workers are behind it — you can hear them. The facility's backup systems engage. You're locked in a section with no exits and a Conixia machine humming through the floor. You have time to think before anything else happens. Think carefully.",
+          "leads_to": "trapped_in_facility"
+        }
+      }
+    },
+
+    "destroy_machine_result": {
+      "id": "destroy_machine_result",
+      "text": "ROLL: STR vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "The machine comes apart under sufficient violence. The hum stops. Then the workers' chamber opens — the machine was powering the locks. Seventeen people walk out into the passage, alive and bewildered. You've traded the evidence for their freedom. The data that might have explained everything is scattered across the floor.",
+          "leads_to": "arc_close",
+          "world_effects": [
+            { "type": "log_event", "description": "{character_name} destroyed the Conixia emitter at Ironreach. Workers rescued." }
+          ]
+        },
+        "failure": {
+          "text": "The machine doesn't break cleanly — it fractures, and the Conixia it was processing discharges through the facility in a wave that staggers everyone inside. When your vision clears, the machine is dark, the workers' chamber is open, and your own Conixia is buzzing at a frequency you've never felt before. Something changed.",
+          "leads_to": "arc_close",
+          "flag": "conixia_discharge_experienced",
+          "world_effects": [
+            { "type": "log_event", "description": "{character_name} triggered a Conixia discharge at Ironreach. Unknown systemic effect." },
+            { "type": "advance_storyline", "storyline": "conixia_blight", "status": "spreading" }
+          ]
+        }
+      }
+    },
+
+    "facility_choice": {
+      "id": "facility_choice",
+      "text": "You stand at the machine's centre. It reads you as you read it — a mutual recognition between two systems that are, apparently, compatible. You understand, intuitively, what it does: it finds the Conixia fault-lines in people and applies pressure. Carefully, in this configuration. Catastrophically, if the calibration changes. The workers are in the eastern chamber. The machine is here. You have time to do one thing fully.",
+      "choices": [
+        {
+          "text": "Free the workers and leave the machine intact for study.",
+          "stat_check": null,
+          "leads_to": "leave_machine_intact"
+        },
+        {
+          "text": "Overload the machine. No one should have this.",
+          "stat_check": { "stat": "INT", "dc": 12 },
+          "leads_to": "overload_machine_result"
+        },
+        {
+          "text": "Interface with the machine directly. You want to understand it from the inside.",
+          "stat_check": { "stat": "AFF", "dc": 13 },
+          "leads_to": "interface_machine_result"
+        }
+      ]
+    },
+
+    "leave_machine_intact": {
+      "id": "leave_machine_intact",
+      "text": "You open the eastern chamber. Seventeen people come out — alive, shaken, fundamentally changed in ways they won't fully understand for weeks. The machine hums behind you. You bring everyone out and seal the entrance behind you with a Conixia ward that will hold long enough for the right people to find it.",
+      "choices": [
+        { "text": "Report it to BASE.", "stat_check": null, "leads_to": "arc_close", "flag": "preserved_machine" },
+        { "text": "Report it to AIM.", "stat_check": null, "leads_to": "alert_aim" }
+      ],
+      "world_effects": [
+        { "type": "log_event", "description": "{character_name} preserved the Ironreach Conixia emitter. Workers rescued." }
+      ]
+    },
+
+    "overload_machine_result": {
+      "id": "overload_machine_result",
+      "text": "ROLL: INT vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You understand enough of its structure to find the fail-safe — and disable it before triggering the overload sequence. The machine destroys itself cleanly, with more light than sound, and the eastern chamber opens automatically with the power cut. The workers walk out into a facility that is, now, just a tunnel.",
+          "leads_to": "arc_close",
+          "world_effects": [
+            { "type": "log_event", "description": "{character_name} destroyed the Ironreach emitter cleanly. Workers rescued." }
+          ]
+        },
+        "failure": {
+          "text": "You misjudge the fail-safe. The overload is uncontrolled — the discharge tears through the facility and through you, and you come back to yourself outside with no memory of the last forty minutes, seventeen bewildered workers around you, and the Conixia in your chest running at a pitch you've never felt before. Something was changed by the discharge. You're not sure what yet.",
+          "leads_to": "arc_close",
+          "flag": "conixia_discharge_experienced",
+          "world_effects": [
+            { "type": "log_event", "description": "{character_name} triggered uncontrolled Conixia discharge at Ironreach. Unknown effect." }
+          ]
+        }
+      }
+    },
+
+    "interface_machine_result": {
+      "id": "interface_machine_result",
+      "text": "ROLL: AFF vs DC 13",
+      "roll_outcomes": {
+        "critical_success": {
+          "text": "You go in. The machine is vast from the inside — not physical, but structural, a crystallised understanding of how Conixia moves through living systems. You learn it in seconds: the architecture, the calibration, the purpose. And something else — a signature embedded in the design, a maker's mark pressed into the machine's fundamental structure like a fingerprint. You know this Conixia signature. It was in the alley. It was on the figure who was bleeding. They built this. Or someone like them did.",
+          "leads_to": "arc_close",
+          "flag": "machine_knowledge_deep",
+          "flag_2": "builder_signature_known",
+          "world_effects": [
+            { "type": "log_event", "description": "{character_name} interfaced with the Ironreach emitter and identified the builder's Conixia signature." }
+          ]
+        },
+        "success": {
+          "text": "You go in and come back with more than you expected: the machine's purpose is therapeutic, not weaponised, in its current configuration. It was built by someone who understood the Conixia shift and wanted to prepare people for it rather than wait for them to be overwhelmed. Misguided, illegal, and possibly the most compassionate thing anyone has built with this technology. You come out changed in a way that is hard to articulate.",
+          "leads_to": "arc_close",
+          "flag": "machine_knowledge_deep",
+          "world_effects": [
+            { "type": "log_event", "description": "{character_name} interfaced with the Ironreach emitter. Therapeutic intent confirmed." }
+          ]
+        },
+        "failure": {
+          "text": "You reach in and the machine pushes back — a reflexive defence that reads your attempt as intrusion and discharges through your system. You're out for three minutes. When you return, the workers have freed themselves and are standing around you with expressions ranging from concern to practical alarm. The machine is still running. You know nothing more than when you went in.",
+          "leads_to": "arc_close"
+        }
+      }
+    },
+
+    "trapped_in_facility": {
+      "id": "trapped_in_facility",
+      "text": "Sealed in. The machine's hum is your only company. Your Conixia is responding to it — not in distress, but in recognition, the way a tuning fork responds to its frequency. You have time and something that might, if you let it, become an opportunity.",
+      "choices": [
+        {
+          "text": "Let the Conixia respond. See what the machine does with it.",
+          "stat_check": { "stat": "AFF", "dc": 11 },
+          "leads_to": "machine_bond_result"
+        },
+        {
+          "text": "Fight it. Keep your Conixia locked down until you find another way out.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "resist_machine_result"
+        }
+      ]
+    },
+
+    "machine_bond_result": {
+      "id": "machine_bond_result",
+      "text": "ROLL: AFF vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "The machine reads your Conixia as an authorisation key it wasn't expecting. The seals open. The workers' chamber opens. Everything the machine was holding closed opens, because your system is, apparently, what it was looking for. You walk out at the head of seventeen bewildered caravan workers, more questions than when you entered, and a Conixia that hums with something new.",
+          "leads_to": "arc_close",
+          "flag": "machine_knowledge_deep"
+        },
+        "failure": {
+          "text": "The machine reads you and goes quiet — not dark, quiet. Waiting. The seals don't open. But nothing bad happens either. You sit with the machine in its waiting state until external forces eventually breach the facility from the outside. You're found with the machine in a state of mutual consideration.",
+          "leads_to": "arc_close"
+        }
+      }
+    },
+
+    "resist_machine_result": {
+      "id": "resist_machine_result",
+      "text": "ROLL: WIS vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You hold. The machine cycles without reaching you — you are, for the duration, simply not a Conixia-bearing entity as far as its sensors are concerned. When the external breach team arrives three hours later, you're the only person in the facility who isn't disoriented. They find that impressive. You find it exhausting. Both are appropriate.",
+          "leads_to": "arc_close",
+          "flag": "conixia_discipline"
+        },
+        "failure": {
+          "text": "You hold for an hour before the machine's frequency overtops your resistance. What happens in the next three hours is experienced rather than remembered. You come back to yourself outside, sitting against the facility wall, with seventeen caravan workers around you and the knowledge that something in your Conixia system has been permanently reorganised.",
+          "leads_to": "arc_close",
+          "flag": "conixia_discharge_experienced"
+        }
+      }
+    },
+
+    "base_extraction": {
+      "id": "base_extraction",
+      "text": "BASE sends a two-person team — fast, quiet, equipped for exactly this. The workers are extracted first, through a secondary passage BASE somehow already knew about. The machine is documented in place — measurements, resonance readings, structural photographs — in under twenty minutes. What they can't take with them, they map. The researcher who built it is in the deeper chamber, and they look at the BASE operatives with the expression of someone who has been waiting for this knock specifically.",
+      "choices": [
+        { "text": "Let the extraction proceed.", "stat_check": null, "leads_to": "arc_close", "flag": "preserved_machine" }
+      ],
+      "world_effects": [
+        { "type": "faction_influence", "faction": "base", "delta": 15 },
+        { "type": "faction_influence", "faction": "aim", "delta": -5 },
+        { "type": "log_event", "description": "{character_name} coordinated BASE extraction of Ironreach emitter. Workers and researcher recovered." }
+      ]
+    },
+
+    "arc_close": {
+      "id": "arc_close",
+      "text": "The Ironreach investigation closes in its way — whatever outcome you navigated, the seventeen caravan workers are alive, the machine is resolved by whatever means you chose, and {starting_location} continues its particular version of ordinary. You are slightly different than when you started. The Conixia shift that AIM is tracking, that BASE is studying, that the Void Cult is apparently trying to accelerate — it runs through this investigation like a thread through all its parts. You're holding one end of something very long. The other end is somewhere east.",
+      "choices": [],
+      "arc_complete": true,
+      "next_arc": "chapter_1"
+    }
+  }
+}

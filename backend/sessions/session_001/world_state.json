@@ -1,0 +1,134 @@
+{
+  "_comment": "This file is the living record of Avalon. It is read and written by the backend as the story progresses.",
+  "global_storylines": {
+    "conixia_blight": {
+      "status": "dormant",
+      "intensity": 0.0,
+      "note": "Status: dormant | spreading | escalating | critical"
+    },
+    "sundered_sovereignty": {
+      "status": "unstable",
+      "dominant_faction": null,
+      "war_phase": "cold",
+      "note": "Status: peaceful | unstable | war | cold_war"
+    },
+    "whispers_of_the_void": {
+      "status": "dormant",
+      "corruption_level": 0.0,
+      "manifested": false,
+      "note": "Status: dormant | stirring | active | manifesting"
+    },
+    "echoes_of_the_ancestors": {
+      "status": "fading",
+      "dominant_philosophy": "balanced",
+      "note": "Status: fading | resurgence | clash | harmony"
+    },
+    "shifting_sands_of_power": {
+      "status": "contained",
+      "dominant_syndicate": null,
+      "note": "Status: contained | escalating | dominant"
+    }
+  },
+  "factions": {
+    "ironclad_dominion": {
+      "influence": 50,
+      "disposition_to_player": "neutral",
+      "note": "Military-industrial faction. Controls most trade routes."
+    },
+    "void_cult": {
+      "influence": 20,
+      "disposition_to_player": "neutral",
+      "note": "Fringe faction. Worship the corruption. Growing quietly."
+    },
+    "merchant_guild": {
+      "influence": 60,
+      "disposition_to_player": "neutral",
+      "note": "Oldest guild. Politically neutral but economically powerful."
+    },
+    "aim": {
+      "influence": 85,
+      "disposition_to_player": "watchful",
+      "note": "Conixia regulatory body. Monitors all Conixia users."
+    },
+    "base": {
+      "influence": 30,
+      "disposition_to_player": "neutral",
+      "note": "Bureau of Anomalous Studies and Escape Art. Fringe researchers."
+    }
+  },
+  "regions": {
+    "duskmire_ruins": {
+      "blight_severity": "none",
+      "controlling_faction": null,
+      "stability": "unstable",
+      "accessible": true
+    },
+    "ashveil_keep": {
+      "blight_severity": "none",
+      "controlling_faction": "ironclad_dominion",
+      "stability": "stable",
+      "accessible": true
+    },
+    "hollow_glen": {
+      "blight_severity": "low",
+      "controlling_faction": null,
+      "stability": "unstable",
+      "accessible": true
+    },
+    "cinderheart_forge": {
+      "blight_severity": "none",
+      "controlling_faction": "merchant_guild",
+      "stability": "stable",
+      "accessible": true
+    },
+    "celestwatch_observatory": {
+      "blight_severity": "none",
+      "controlling_faction": "aim",
+      "stability": "stable",
+      "accessible": true
+    },
+    "ironreach_outpost": {
+      "blight_severity": "none",
+      "controlling_faction": "ironclad_dominion",
+      "stability": "tense",
+      "accessible": true
+    },
+    "fennmire_swamps": {
+      "blight_severity": "medium",
+      "controlling_faction": null,
+      "stability": "volatile",
+      "accessible": true
+    }
+  },
+  "npc_states": {
+    "investigator_vael": {
+      "disposition": "watchful",
+      "location": "aim_headquarters",
+      "quest_stage": null,
+      "known_to_player": false
+    },
+    "the_elder": {
+      "disposition": "amused",
+      "location": "unknown",
+      "quest_stage": null,
+      "known_to_player": false,
+      "note": "Elder being that plays chess with Damien."
+    }
+  },
+  "world_events_log": [
+    "steve the Human Spellblade began their story at Sunshade Market.",
+    "steve completed the prologue.",
+    "steve completed the prologue."
+  ],
+  "flags": {
+    "prologue_complete": true,
+    "genesta_event_known": false,
+    "aim_first_contact": true,
+    "void_first_sign": false
+  },
+  "time": {
+    "day": 1,
+    "period": "morning",
+    "note": "Periods: dawn | morning | afternoon | evening | night | deep_night"
+  }
+}

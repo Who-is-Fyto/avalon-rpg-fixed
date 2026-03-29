@@ -1,0 +1,410 @@
+{
+  "arc": "chapter_1",
+  "title": "The Weight of the First Step",
+  "_note": "Picks up directly after the prologue. The player has just left the AIM interrogation and is back in their starting location. Branches based on context flags and world state.",
+  "nodes": {
+
+    "start": {
+      "id": "start",
+      "text": "{starting_location} receives you like it always has — without ceremony. The interrogation room is behind you. The city doesn't know, and wouldn't care. You have: whatever you brought with you, whatever you didn't say in there, and a name in a thin file that now exists somewhere inside AIM's infrastructure. The question isn't what they know. It's what you do next.",
+      "choices": [
+        {
+          "text": "Go to where you sleep. Think before you move.",
+          "stat_check": null,
+          "leads_to": "return_to_base"
+        },
+        {
+          "text": "Find out if anyone else was called in today.",
+          "stat_check": { "stat": "CHA", "dc": 10 },
+          "leads_to": "ask_around_result",
+          "conditions": [
+            { "type": "flag", "flag": "knows_locals", "value": true }
+          ]
+        },
+        {
+          "text": "Find somewhere high and watch the street for a tail.",
+          "stat_check": { "stat": "WIS", "dc": 9 },
+          "leads_to": "watch_street_result"
+        },
+        {
+          "text": "Go straight to your contacts. Someone knew AIM was coming.",
+          "stat_check": null,
+          "leads_to": "contact_network",
+          "conditions": [
+            { "type": "flag", "flag": "has_trade_contacts", "value": true }
+          ]
+        }
+      ]
+    },
+
+    "return_to_base": {
+      "id": "return_to_base",
+      "text": "Your place is small and it's yours. You sit with the file's existence for a while. The Conixia event — whatever it was, wherever it happened — has made you visible to a regulatory body that monitors things most people pretend don't exist. That means it happened. That means it can happen again. The question of whether you want it to is still open.",
+      "choices": [
+        {
+          "text": "Study what you know about Conixia. Try to understand what's inside you.",
+          "stat_check": { "stat": "INT", "dc": 11 },
+          "leads_to": "study_conixia_result"
+        },
+        {
+          "text": "Sleep on it. You'll think more clearly with rest.",
+          "stat_check": null,
+          "leads_to": "interrupted_sleep"
+        }
+      ]
+    },
+
+    "study_conixia_result": {
+      "id": "study_conixia_result",
+      "text": "ROLL: INT vs DC 11",
+      "roll_outcomes": {
+        "critical_success": {
+          "text": "You piece it together from what you've felt and what you've read. The Conixia event wasn't random — it was a response. Something in your circumstance triggered a survival reflex in the energy that runs through this world. You don't control it yet. But you understand the condition that called it. That's more than most people ever get.",
+          "leads_to": "the_second_sign",
+          "flag": "conixia_self_aware",
+          "world_effects": [
+            { "type": "set_flag", "flag": "void_first_sign", "value": true }
+          ]
+        },
+        "success": {
+          "text": "You find the edge of it — a pattern in the sensation, a rhythm that matches something you've felt before in moments of extremity. You don't have a name for it yet. You have a shape. That's enough to start.",
+          "leads_to": "the_second_sign",
+          "flag": "conixia_self_aware"
+        },
+        "partial": {
+          "text": "You circle the edges of understanding without landing anywhere definitive. There's something there — you're not imagining it — but the more you reach for it, the more it retreats. Understanding will require more than thinking. It will require circumstance.",
+          "leads_to": "the_second_sign"
+        },
+        "failure": {
+          "text": "You get nothing but a headache and the growing suspicion that you are not the right instrument for your own investigation. Someone else must know more about this. You'll need to find them.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "interrupted_sleep": {
+      "id": "interrupted_sleep",
+      "text": "You don't get through the night. Around the third hour, something wakes you — not a sound, not a presence. A sensation in your chest like a wire pulled taut. The Conixia. It found something, or something found it. By the time you're upright and at the window, the street outside {starting_location} is empty except for one figure standing very still in the middle of it, looking directly at your window.",
+      "choices": [
+        {
+          "text": "Stay still. Let them think you didn't notice.",
+          "stat_check": { "stat": "WIS", "dc": 10 },
+          "leads_to": "watch_watcher_result"
+        },
+        {
+          "text": "Go to the door. If they're here for you, make them say it.",
+          "stat_check": null,
+          "leads_to": "confront_watcher"
+        },
+        {
+          "text": "Exit through the back. You don't need to answer questions you didn't ask for.",
+          "stat_check": { "stat": "DEX", "dc": 9 },
+          "leads_to": "slip_away_result"
+        }
+      ]
+    },
+
+    "watch_watcher_result": {
+      "id": "watch_watcher_result",
+      "text": "ROLL: WIS vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "You hold still long enough to see them leave. They weren't watching your window — they were watching the building across the street. You were the observer, not the observed. But you saw something on their coat as they turned: the three-line mark of AIM's field division. Someone is already working.",
+          "leads_to": "the_second_sign",
+          "flag": "spotted_aim_fieldwork"
+        },
+        "failure": {
+          "text": "You move. They see it. By the time you've processed the mistake, they're gone. You've confirmed your presence to whoever that was, and gotten nothing in return.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "confront_watcher": {
+      "id": "confront_watcher",
+      "text": "By the time you reach the street, there's no one there. Just an impression in the dust where someone stood — and a folded piece of paper left exactly where they were. It says: 'You're not the only one. Second bell, the old waystation south of the market. Come if you're ready to understand what happened to you.'",
+      "choices": [
+        {
+          "text": "Keep it and go to the waystation at second bell.",
+          "stat_check": null,
+          "leads_to": "the_second_sign",
+          "flag": "waystation_invitation"
+        },
+        {
+          "text": "Burn it. You don't follow anonymous instructions.",
+          "stat_check": null,
+          "leads_to": "the_second_sign"
+        }
+      ]
+    },
+
+    "slip_away_result": {
+      "id": "slip_away_result",
+      "text": "ROLL: DEX vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "You're out and three streets away before the figure could have moved. You loop back after twenty minutes. They're gone. No note, no trace. Either they weren't there for you, or they're better at this than you are. Both are useful to know.",
+          "leads_to": "the_second_sign"
+        },
+        "failure": {
+          "text": "You knock something over on the way out — a jar, a shelf, your own gracelessness. By the time you're in the alley, the figure has moved. When you peek back at the street they're gone, but so is your night's sleep.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "ask_around_result": {
+      "id": "ask_around_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "Three people you trust confirm it: seven others were called in today. All within a two-mile radius of {starting_location}. All in the last forty-eight hours. AIM is running a grid sweep — they're looking for a specific type of Conixia signature, not just any anomaly. Yours was close enough to what they wanted to earn you a room and a file.",
+          "leads_to": "the_second_sign",
+          "flag": "knows_aim_sweep"
+        },
+        "failure": {
+          "text": "You ask the wrong people in the wrong way. Nobody answers directly, but two of them went quiet in a manner that tells you they know something and won't say it. You've confirmed there's something to know. That's half the work.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "watch_street_result": {
+      "id": "watch_street_result",
+      "text": "ROLL: WIS vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "You find a vantage and hold it for an hour. No tail. But you notice something else — a pattern in the people moving through the street below. Three separate individuals, no apparent connection, each pausing at the same point near the old grain store and then continuing without looking at it. They're marking something. Or guarding it.",
+          "leads_to": "the_second_sign",
+          "flag": "spotted_grain_store_pattern"
+        },
+        "failure": {
+          "text": "You find a vantage. You hold it. Nothing obvious reveals itself. Either you're not being followed, or whoever is following you is better than a rooftop vigil can catch. You come down cold and no more certain than when you went up.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "contact_network": {
+      "id": "contact_network",
+      "text": "Your contacts are cagey in the way people get when something happened they weren't paid to predict. The best of them — a woman who moves information the way rivers move water, inevitably and in all directions — tells you that AIM's Conixia sweep isn't new. It's been running for six weeks. {starting_location} was the last grid sector. Whatever they're looking for, they think they've found it.",
+      "choices": [
+        {
+          "text": "Ask who else in the network got swept up.",
+          "stat_check": { "stat": "CHA", "dc": 12 },
+          "leads_to": "network_deep_result"
+        },
+        {
+          "text": "Pay for more and ask what they found.",
+          "stat_check": null,
+          "leads_to": "pay_for_information",
+          "conditions": [
+            { "type": "world_value", "path": "factions.merchant_guild.influence", "op": "gte", "value": 40 }
+          ]
+        },
+        {
+          "text": "Thank her and leave. You have enough to work with.",
+          "stat_check": null,
+          "leads_to": "the_second_sign"
+        }
+      ]
+    },
+
+    "network_deep_result": {
+      "id": "network_deep_result",
+      "text": "ROLL: CHA vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "Eleven names. Three of them you know. One of them is dead — found in the canal two days before their scheduled AIM appointment. The timing is wrong enough to be intentional. Someone is staying ahead of the sweep, and they're not interested in leaving witnesses.",
+          "leads_to": "the_second_sign",
+          "flag": "knows_canal_death",
+          "world_effects": [
+            { "type": "log_event", "description": "A Conixia-sweep witness was found dead in the canal before their AIM appointment." },
+            { "type": "advance_storyline", "storyline": "shifting_sands_of_power", "status": "escalating" }
+          ]
+        },
+        "failure": {
+          "text": "She closes the topic with the particular firmness of someone who's already been asked and already decided not to answer. You've reached the edge of what she'll give freely. The rest has a higher price than information.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "pay_for_information": {
+      "id": "pay_for_information",
+      "text": "The coin changes hands and the story shifts. AIM found what they were looking for: a Conixia signature that doesn't match any known type. Not Velari shadow-work, not Ignari flame-conduction, not Aetherin astral flow. Something older. Or something new. The sweep was looking for the source. They think the source is a person. They think you might be close to it. That's why you were called in.",
+      "choices": [
+        { "text": "Process this. Continue.", "stat_check": null, "leads_to": "the_second_sign", "flag": "knows_aim_true_target" }
+      ]
+    },
+
+    "the_second_sign": {
+      "id": "the_second_sign",
+      "text": "Whatever the morning brought, the afternoon answers with something you didn't plan for. You feel it before you see it — the same sensation from the night of the first event, the dam-breaking in your chest, but quieter. A tremor rather than a flood. The source is close: a figure collapsed in the alleyway off the main street, Conixia energy bleeding off them in visible waves, the colour of something that has no name yet. They're alive. Just.",
+      "choices": [
+        {
+          "text": "Help them. Whatever they are, they need it.",
+          "stat_check": null,
+          "leads_to": "help_collapsed"
+        },
+        {
+          "text": "Assess the situation first. Visible Conixia means danger.",
+          "stat_check": { "stat": "WIS", "dc": 10 },
+          "leads_to": "assess_collapsed_result"
+        },
+        {
+          "text": "Alert someone. This is above your involvement level.",
+          "stat_check": null,
+          "leads_to": "alert_others"
+        }
+      ]
+    },
+
+    "help_collapsed": {
+      "id": "help_collapsed",
+      "text": "You move into the alley and reach for them. The moment your hands make contact, the Conixia bleeding off their body reads yours — and stabilises. Not healed. Contained. As if your presence is enough to keep it from spreading. They open their eyes. They're young, barely grown, and the first thing they say is: 'You're one of the new ones. I've been looking for you for three weeks.'",
+      "choices": [
+        {
+          "text": "'One of the new ones.' Ask what that means.",
+          "stat_check": null,
+          "leads_to": "new_ones_explanation"
+        },
+        {
+          "text": "Ask who sent them.",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "ask_sender_result"
+        }
+      ]
+    },
+
+    "assess_collapsed_result": {
+      "id": "assess_collapsed_result",
+      "text": "ROLL: WIS vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "You read the situation correctly: the energy isn't aggressive. It's a containment failure — something inside them is trying to stabilise and can't manage it alone. You've seen Conixia disruption before, not like this, but the mechanics are similar. They need a ground point — something to anchor against. You are, apparently, something to anchor against.",
+          "leads_to": "help_collapsed",
+          "flag": "understands_conixia_anchor"
+        },
+        "failure": {
+          "text": "You hesitate too long. The energy spikes and you're thrown back a half-step before it settles. You're unhurt but shaken. And now the figure in the alley is looking at you with something that might be desperation and might be relief. They know you felt it.",
+          "leads_to": "help_collapsed"
+        }
+      }
+    },
+
+    "alert_others": {
+      "id": "alert_others",
+      "text": "You call for help. Three people come, look, and back away quickly — visible Conixia dispersal is the kind of problem nobody wants to be adjacent to in a city where AIM has been running sweeps. The figure in the alley opens one eye. 'Don't,' they say, with the economy of someone who has very little strength left. 'Not them. Just you. Please.'",
+      "choices": [
+        {
+          "text": "Send the others away and help alone.",
+          "stat_check": null,
+          "leads_to": "help_collapsed"
+        },
+        {
+          "text": "This is exactly what AIM should handle. Send for them.",
+          "stat_check": null,
+          "leads_to": "send_for_aim"
+        }
+      ]
+    },
+
+    "send_for_aim": {
+      "id": "send_for_aim",
+      "text": "AIM arrives in twelve minutes. Efficient. They take the figure from the alley, and they take your statement, and they add to your file, and they thank you for your cooperation. The figure doesn't look at you as they're carried out. You don't see them again for a long time. What you do see, three hours later, is the alley — empty, scrubbed clean — and a small mark scratched into the wall at eye height: a circle with a vertical line through it. A Conixia glyph. It means: 'I was here. I waited.'",
+      "choices": [
+        { "text": "Record it and move on.", "stat_check": null, "leads_to": "chapter_close" }
+      ],
+      "world_effects": [
+        { "type": "faction_influence", "faction": "aim", "delta": 8 },
+        { "type": "set_flag", "flag": "aim_cooperative", "value": true },
+        { "type": "log_event", "description": "The player turned over a distressed Conixia user to AIM." }
+      ]
+    },
+
+    "new_ones_explanation": {
+      "id": "new_ones_explanation",
+      "text": "They tell you, in fragments between steadying breaths: the Conixia events of the last six months are not random. They're eruptions — like pressure finding cracks. The world's Conixia system is shifting at a structural level. People close to the fault lines are triggering. AIM knows. AIM is cataloguing. What AIM doesn't know — what the person in the alley is apparently part of a group trying to figure out — is whether the shift is catastrophic or evolutionary. 'The last time this happened,' they say, 'it was called the Collapse.'",
+      "choices": [
+        {
+          "text": "Ask who they're with. Who knows about this.",
+          "stat_check": null,
+          "leads_to": "the_base_contact"
+        },
+        {
+          "text": "Ask about the Collapse. What happened the last time.",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "collapse_knowledge_result"
+        }
+      ],
+      "world_effects": [
+        { "type": "advance_storyline", "storyline": "conixia_blight", "status": "spreading" },
+        { "type": "set_flag", "flag": "knows_conixia_shift", "value": true }
+      ]
+    },
+
+    "ask_sender_result": {
+      "id": "ask_sender_result",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "You ask the right question: not 'who sent you' but 'who told you to look for me.' They pause. Then: 'An organisation called BASE. Bureau of Anomalous Studies. They're not AIM. They're older than AIM. And they've been tracking the Conixia shift for longer than AIM has known it exists.'",
+          "leads_to": "the_base_contact",
+          "flag": "knows_base_org"
+        },
+        "failure": {
+          "text": "They answer your question sideways — 'Someone who needed to know you existed' — and then ask one of their own: 'Has AIM contacted you yet?' When you confirm it, something changes in their expression. Relief, maybe. Or dread.",
+          "leads_to": "new_ones_explanation"
+        }
+      }
+    },
+
+    "collapse_knowledge_result": {
+      "id": "collapse_knowledge_result",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "The Collapse. You know the outline — every schoolchild does — but you find yourself connecting it now to things you've read and half-dismissed. The Collapse wasn't a war or a plague or a natural disaster. It was a Conixia restructuring event that the world's population was not adapted to survive. Most weren't. The ones who were became the modern races. The ones who weren't became the ruins you've been living around your whole life.",
+          "leads_to": "the_base_contact",
+          "flag": "collapse_lore_known"
+        },
+        "failure": {
+          "text": "You know the word. You know it was catastrophic. Beyond that your knowledge is the kind schools teach — clean, outline-shaped, stripped of mechanics. The figure in the alley sees your expression. 'You'll need to learn the real version,' they say. 'Not the comfortable one.'",
+          "leads_to": "the_base_contact"
+        }
+      }
+    },
+
+    "the_base_contact": {
+      "id": "the_base_contact",
+      "text": "When the figure is stable enough to stand, they give you a location — not an address, a landmark. The old waystation south of the market, which you may already know. 'Ask for Meridian,' they say. 'Tell them the alley held. They'll know what that means.' They slip away before you can ask more. The city moves around the space where they were like water closing over a stone.",
+      "choices": [
+        {
+          "text": "Go to the waystation. Find Meridian.",
+          "stat_check": null,
+          "leads_to": "chapter_close",
+          "flag": "meridian_invitation"
+        },
+        {
+          "text": "Not yet. You need more information before you walk into an unknown organisation's front door.",
+          "stat_check": null,
+          "leads_to": "chapter_close"
+        }
+      ],
+      "world_effects": [
+        { "type": "faction_influence", "faction": "base", "delta": 10 },
+        { "type": "set_flag", "flag": "base_first_contact", "value": true },
+        { "type": "log_event", "description": "The player encountered a BASE operative in distress and stabilised their Conixia dispersal." }
+      ]
+    },
+
+    "chapter_close": {
+      "id": "chapter_close",
+      "text": "{starting_location} is the same as it was this morning. You are not. You have a name — Meridian — and a location and the weight of knowing that the thing inside your chest is not an accident, is not a disorder, and is not unique to you. The world is shifting. You are one of the cracks. Whether that makes you a casualty or a key is still, mercifully, undecided.",
+      "choices": [],
+      "arc_complete": true,
+      "next_arc": "chapter_2"
+    }
+  }
+}

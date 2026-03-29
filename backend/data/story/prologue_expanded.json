@@ -1,0 +1,1728 @@
+{
+  "arc": "prologue_expanded",
+  "title": "Echoes Before the Spark - Expanded",
+  "_note": "Opening arc with variations based on race, class, and starting location.",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "text": "The night you arrived in {starting_location} is a blur of smoke and instinct. You remember a crowd, a locked door, and the sound of something cracking open inside your chest — like a dam giving way. Whatever Conixia is, it found you first. Now someone wants to know how.",
+      "choices": [
+        {
+          "text": "Begin your story as a Human.",
+          "char_conditions": [{"type": "flag", "flag": "race_human", "value": true}],
+          "leads_to": "human_intro"
+        },
+        {
+          "text": "Begin your story as a Velari.",
+          "char_conditions": [{"type": "flag", "flag": "race_velari", "value": true}],
+          "leads_to": "velari_intro"
+        },
+        {
+          "text": "Begin your story as an Ignari.",
+          "char_conditions": [{"type": "flag", "flag": "race_ignari", "value": true}],
+          "leads_to": "ignari_intro"
+        },
+        {
+          "text": "Begin your story as an Aetherin.",
+          "char_conditions": [{"type": "flag", "flag": "race_aetherin", "value": true}],
+          "leads_to": "aetherin_intro"
+        },
+        {
+          "text": "Begin your story as a Pillarian.",
+          "char_conditions": [{"type": "flag", "flag": "race_pillarian", "value": true}],
+          "leads_to": "pillarian_intro"
+        },
+        {
+          "text": "Begin your story as an Elarin.",
+          "char_conditions": [{"type": "flag", "flag": "race_elarin", "value": true}],
+          "leads_to": "elarin_intro"
+        },
+        {
+          "text": "Begin your story as an Ogrin.",
+          "char_conditions": [{"type": "flag", "flag": "race_ogrin", "value": true}],
+          "leads_to": "ogrin_intro"
+        },
+        {
+          "text": "Begin your story as a Trollan.",
+          "char_conditions": [{"type": "flag", "flag": "race_trollan", "value": true}],
+          "leads_to": "trollan_intro"
+        }
+      ]
+    },
+
+    "human_intro": {
+      "id": "human_intro",
+      "text": "As a Human, your adaptability has always been your strength. You blend in, you learn fast, and you survive. But this time, blending in isn't an option. The Conixia event has marked you, and the agents of AIM are very interested in how a 'normal' human like you became involved.",
+      "choices": [
+        {
+          "text": "You were a Spellblade, drawn to the arcane arts.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "human_spellblade_prologue"
+        },
+        {
+          "text": "You were a Whisper, moving in the shadows.",
+          "char_conditions": [{"type": "flag", "flag": "class_whisper", "value": true}],
+          "leads_to": "human_whisper_prologue"
+        },
+        {
+          "text": "You were a Seer, touched by visions.",
+          "char_conditions": [{"type": "flag", "flag": "class_seer", "value": true}],
+          "leads_to": "human_seer_prologue"
+        },
+        {
+          "text": "You were a Warlord, leading from the front.",
+          "char_conditions": [{"type": "flag", "flag": "class_warlord", "value": true}],
+          "leads_to": "human_warlord_prologue"
+        },
+        {
+          "text": "You were an Arcanist, a master of pure magic.",
+          "char_conditions": [{"type": "flag", "flag": "class_arcanist", "value": true}],
+          "leads_to": "human_arcanist_prologue"
+        }
+      ]
+    },
+
+    "human_spellblade_prologue": {
+      "id": "human_spellblade_prologue",
+      "text": "Your training as a Spellblade taught you to channel Conixia through steel. The night of the event, your blade hummed with an unfamiliar power, a surge that ripped through the fabric of reality. The investigator eyes your hands, perhaps looking for residual energy. 'A Spellblade, then,' she muses. 'Tell me about the surge.'",
+      "choices": [
+        {
+          "text": "Describe the raw, untamed power.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Focus on the tactical implications.",
+          "leads_to": "soldier_report"
+        }
+      ]
+    },
+
+    "human_whisper_prologue": {
+      "id": "human_whisper_prologue",
+      "text": "As a Whisper, you're used to seeing what others miss. The Conixia event was a chaotic symphony of whispers and shadows, and you moved through it like a ghost. The investigator leans forward, her voice barely audible. 'You were there, but unseen. What did you observe from the shadows?'",
+      "choices": [
+        {
+          "text": "Recount the strange energy patterns.",
+          "leads_to": "observe_result"
+        },
+        {
+          "text": "Claim you saw nothing, maintaining your cover.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "human_seer_prologue": {
+      "id": "human_seer_prologue",
+      "text": "Your Seer abilities often grant you glimpses of what is to come, or what has been. The Conixia event was a cacophony of fractured timelines and overwhelming visions. The investigator studies you intently. 'Your kind often sees more than they let on. What did the Conixia show you?'",
+      "choices": [
+        {
+          "text": "Describe the unsettling visions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Demand to see your file, citing your unique perspective.",
+          "leads_to": "demand_file_result"
+        }
+      ]
+    },
+
+    "human_warlord_prologue": {
+      "id": "human_warlord_prologue",
+      "text": "A Warlord leads, even in chaos. The Conixia event was a battle for survival, and your instincts took over. You protected those around you, a natural leader in the face of the unknown. The investigator nods slowly. 'Your record indicates a strong command presence. How did you maintain order amidst the Conixia outbreak?'",
+      "choices": [
+        {
+          "text": "Detail your actions and observations.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Assert your authority and demand respect.",
+          "leads_to": "broker_gambit_result"
+        }
+      ]
+    },
+
+    "human_arcanist_prologue": {
+      "id": "human_arcanist_prologue",
+      "text": "As an Arcanist, you delve into the raw, untamed power of Conixia. The event was a surge of pure energy, a phenomenon you've only read about in ancient texts. The investigator's gaze is sharp. 'Your mastery of the arcane is noted. What did you perceive about the Conixia's nature during the incident?'",
+      "choices": [
+        {
+          "text": "Explain the theoretical implications.",
+          "leads_to": "demand_file_result"
+        },
+        {
+          "text": "Describe the raw power and its effects.",
+          "leads_to": "confess"
+        }
+      ]
+    },
+
+    "velari_intro": {
+      "id": "velari_intro",
+      "text": "As a Velari, shadows are your allies, and secrets are your currency. The Conixia event was a disturbance in the subtle energies you perceive, a tear in the veil. The investigator's voice is smooth, almost a whisper. 'The Silent Watchers are rarely caught unawares. What did you see in the shadows that night, Velari?'",
+      "choices": [
+        {
+          "text": "You were a Twilight Walker, embracing the night.",
+          "char_conditions": [{"type": "flag", "flag": "class_twilight_walker", "value": true}],
+          "leads_to": "velari_twilight_walker_prologue"
+        },
+        {
+          "text": "You were a Whisper, a silent observer.",
+          "char_conditions": [{"type": "flag", "flag": "class_whisper", "value": true}],
+          "leads_to": "velari_whisper_prologue"
+        },
+        {
+          "text": "You were a Seer, glimpsing fragmented futures.",
+          "char_conditions": [{"type": "flag", "flag": "class_seer", "value": true}],
+          "leads_to": "velari_seer_prologue"
+        }
+      ]
+    },
+
+    "velari_twilight_walker_prologue": {
+      "id": "velari_twilight_walker_prologue",
+      "text": "Your path as a Twilight Walker led you to embrace the subtle energies of shadow. The Conixia event felt like a violation of that natural order, a raw, uncontrolled burst of power. The investigator's eyes seem to pierce the gloom. 'Your kind are attuned to the unseen. What did this 'tear in the veil' reveal to you?'",
+      "choices": [
+        {
+          "text": "Describe the chaotic flow of shadow energy.",
+          "leads_to": "observe_result"
+        },
+        {
+          "text": "Deny any unusual perceptions, maintaining your mystique.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "velari_whisper_prologue": {
+      "id": "velari_whisper_prologue",
+      "text": "As a Whisper, you are a master of infiltration and observation. The Conixia event was a sudden, violent disruption that forced you to adapt, to become even more elusive. The investigator's gaze is unnervingly direct. 'Your skills are well-known, Velari. What did your silent vigil uncover during the incident?'",
+      "choices": [
+        {
+          "text": "Report your observations with precision.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Attempt to negotiate for your information.",
+          "leads_to": "broker_gambit_result"
+        }
+      ]
+    },
+
+    "velari_seer_prologue": {
+      "id": "velari_seer_prologue",
+      "text": "Your Seer abilities, already potent, were overwhelmed by the Conixia event. Visions, fragmented and terrifying, flashed through your mind. The investigator's expression is unreadable. 'The Seers of Velari are said to touch the threads of fate. What threads did the Conixia event unravel for you?'",
+      "choices": [
+        {
+          "text": "Share the disturbing fragments of your visions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Refuse to speak without understanding their intentions.",
+          "leads_to": "demand_file_result"
+        }
+      ]
+    },
+
+    "ignari_intro": {
+      "id": "ignari_intro",
+      "text": "Ignari are forged in fire, and the Conixia event felt like a primal scream of raw energy. Your connection to flame surged, almost uncontrollably. The investigator watches you, a flicker of apprehension in her eyes. 'The Tempered Warriors are known for their control. What happened when the Conixia met your inner fire, Ignari?'",
+      "choices": [
+        {
+          "text": "You were an Emberheart, a conduit of pure flame.",
+          "char_conditions": [{"type": "flag", "flag": "class_emberheart", "value": true}],
+          "leads_to": "ignari_emberheart_prologue"
+        },
+        {
+          "text": "You were a Warlord, leading with strength and fire.",
+          "char_conditions": [{"type": "flag", "flag": "class_warlord", "value": true}],
+          "leads_to": "ignari_warlord_prologue"
+        },
+        {
+          "text": "You were a Spellblade, merging fire with steel.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "ignari_spellblade_prologue"
+        }
+      ]
+    },
+
+    "ignari_emberheart_prologue": {
+      "id": "ignari_emberheart_prologue",
+      "text": "As an Emberheart, you are a living furnace, and the Conixia event stoked your flames to an inferno. You felt a terrifying connection to the raw power, a desire to consume and unleash. The investigator's gaze is wary. 'Your kind are powerful. Did you contribute to the Conixia's spread, or contain it?'",
+      "choices": [
+        {
+          "text": "Describe the overwhelming power and your struggle for control.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Deny any involvement, claiming self-preservation.",
+          "leads_to": "exile_denial_result"
+        }
+      ]
+    },
+
+    "ignari_warlord_prologue": {
+      "id": "ignari_warlord_prologue",
+      "text": "Your strength as a Warlord is legendary, and the Conixia event was another challenge to be met head-on. You fought, you commanded, you endured. The investigator's voice is firm. 'The Ignari Warlords are renowned for their resilience. What tactical insights did you gain from the Conixia outbreak?'",
+      "choices": [
+        {
+          "text": "Provide a detailed, objective report.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Challenge her authority, demanding to know her purpose.",
+          "leads_to": "broker_gambit_result"
+        }
+      ]
+    },
+
+    "ignari_spellblade_prologue": {
+      "id": "ignari_spellblade_prologue",
+      "text": "The Spellblade's path is one of disciplined power. The Conixia event, however, was anything but disciplined. Your blade, usually an extension of your will, felt alive with a dangerous, foreign energy. The investigator's eyes narrow. 'An Ignari Spellblade. A rare combination. How did your unique connection to Conixia manifest during the incident?'",
+      "choices": [
+        {
+          "text": "Explain the unpredictable nature of the Conixia.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Observe her reactions, trying to gauge her intent.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "aetherin_intro": {
+      "id": "aetherin_intro",
+      "text": "As an Aetherin, you perceive the flow of time and the echoes of the past and future. The Conixia event was a temporal anomaly, a ripple that threatened to unravel reality. The investigator speaks softly, almost reverently. 'The Aetherin see beyond the present. What temporal distortions did the Conixia inflict upon your senses?'",
+      "choices": [
+        {
+          "text": "You were a Seer, burdened by visions.",
+          "char_conditions": [{"type": "flag", "flag": "class_seer", "value": true}],
+          "leads_to": "aetherin_seer_prologue"
+        },
+        {
+          "text": "You were an Arcanist, manipulating raw temporal energy.",
+          "char_conditions": [{"type": "flag", "flag": "class_arcanist", "value": true}],
+          "leads_to": "aetherin_arcanist_prologue"
+        },
+        {
+          "text": "You were a Whisper, using temporal shifts to your advantage.",
+          "char_conditions": [{"type": "flag", "flag": "class_whisper", "value": true}],
+          "leads_to": "aetherin_whisper_prologue"
+        }
+      ]
+    },
+
+    "aetherin_seer_prologue": {
+      "id": "aetherin_seer_prologue",
+      "text": "Your Seer abilities, already a delicate balance, were thrown into disarray by the Conixia event. You saw countless possibilities, terrifying futures, and echoes of forgotten pasts. The investigator's voice is laced with curiosity. 'What fragments of time did the Conixia reveal to you, Seer?'",
+      "choices": [
+        {
+          "text": "Describe the most unsettling visions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Attempt to use your intellect to gain an advantage.",
+          "leads_to": "demand_file_result"
+        }
+      ]
+    },
+
+    "aetherin_arcanist_prologue": {
+      "id": "aetherin_arcanist_prologue",
+      "text": "As an Arcanist, you sought to understand and control the temporal energies unleashed by the Conixia. It was a dangerous dance, pushing the boundaries of your knowledge. The investigator's gaze is piercing. 'Your pursuit of knowledge is commendable, Arcanist. What did your studies of the Conixia reveal about its temporal nature?'",
+      "choices": [
+        {
+          "text": "Explain the complex temporal mechanics.",
+          "leads_to": "demand_file_result"
+        },
+        {
+          "text": "Focus on the raw, destructive power.",
+          "leads_to": "confess"
+        }
+      ]
+    },
+
+    "aetherin_whisper_prologue": {
+      "id": "aetherin_whisper_prologue",
+      "text": "Your Whisper training allowed you to exploit the temporal distortions of the Conixia event, moving through moments as others struggled. You saw opportunities in the chaos. The investigator's smile is faint. 'A Whisper who can dance through time. What secrets did the temporal chaos unveil for you?'",
+      "choices": [
+        {
+          "text": "Report your observations, carefully omitting certain details.",
+          "leads_to": "bluff_result"
+        },
+        {
+          "text": "Observe her, searching for any tells.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "pillarian_intro": {
+      "id": "pillarian_intro",
+      "text": "Pillarians are connected to the very earth, and the Conixia event felt like a tremor deep within the world's core. Your stone skin tingled with an unfamiliar energy, a resonance that was both ancient and new. The investigator's voice is steady, almost rumbling. 'The Earth Collective rarely stirs without reason. What did the Conixia awaken within you, Pillarian?'",
+      "choices": [
+        {
+          "text": "You were a Stonecaller, wielding the earth's might.",
+          "char_conditions": [{"type": "flag", "flag": "class_stonecaller", "value": true}],
+          "leads_to": "pillarian_stonecaller_prologue"
+        },
+        {
+          "text": "You were a Warlord, a bulwark of stone and will.",
+          "char_conditions": [{"type": "flag", "flag": "class_warlord", "value": true}],
+          "leads_to": "pillarian_warlord_prologue"
+        },
+        {
+          "text": "You were a Spellblade, infusing earth with magic.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "pillarian_spellblade_prologue"
+        }
+      ]
+    },
+
+    "pillarian_stonecaller_prologue": {
+      "id": "pillarian_stonecaller_prologue",
+      "text": "As a Stonecaller, you command the very gravitas of the earth. The Conixia event was a chaotic symphony of shifting forces, and you felt the world groan under its influence. The investigator's gaze is unblinking. 'Your connection to the earth is profound. How did the Conixia disrupt the natural order you so carefully maintain?'",
+      "choices": [
+        {
+          "text": "Describe the geological and energetic disturbances.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Remain silent, observing her for weaknesses.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "pillarian_warlord_prologue": {
+      "id": "pillarian_warlord_prologue",
+      "text": "Your strength as a Warlord is rooted in the earth itself. The Conixia event was a test of endurance, a force that threatened to shatter even the strongest resolve. You stood firm. The investigator's voice holds a hint of respect. 'A Pillarian Warlord is an immovable object. What did you witness that could challenge such resolve?'",
+      "choices": [
+        {
+          "text": "Provide a stoic, factual account.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Attempt to leverage your position for information.",
+          "leads_to": "broker_gambit_result"
+        }
+      ]
+    },
+
+    "pillarian_spellblade_prologue": {
+      "id": "pillarian_spellblade_prologue",
+      "text": "Your Spellblade training allowed you to imbue your weapons with the earth's raw power. The Conixia event was a chaotic surge that threatened to overwhelm your control, turning your own strength against you. The investigator's eyes are keen. 'A Pillarian Spellblade. A rare and potent combination. How did the Conixia affect your unique magical attunement?'",
+      "choices": [
+        {
+          "text": "Explain the struggle to maintain control.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Feign ignorance, protecting your secrets.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "elarin_intro": {
+      "id": "elarin_intro",
+      "text": "As an Elarin, you are a steward of nature and magic, your senses attuned to the subtle flows of the world. The Conixia event was a jarring disharmony, a violent disruption of the natural order. The investigator's voice is gentle, yet probing. 'The Elarin are known for their wisdom and connection to the weave. What discord did the Conixia sing to your spirit?'",
+      "choices": [
+        {
+          "text": "You were an Arcanist, seeking to understand the disruption.",
+          "char_conditions": [{"type": "flag", "flag": "class_arcanist", "value": true}],
+          "leads_to": "elarin_arcanist_prologue"
+        },
+        {
+          "text": "You were a Seer, witnessing the unraveling of fate.",
+          "char_conditions": [{"type": "flag", "flag": "class_seer", "value": true}],
+          "leads_to": "elarin_seer_prologue"
+        },
+        {
+          "text": "You were a Spellblade, defending the natural world.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "elarin_spellblade_prologue"
+        }
+      ]
+    },
+
+    "elarin_arcanist_prologue": {
+      "id": "elarin_arcanist_prologue",
+      "text": "Your path as an Arcanist led you to study the intricate patterns of magic. The Conixia event was a chaotic surge, a raw, untamed force that defied all known magical principles. The investigator's eyes gleam with intellectual curiosity. 'An Elarin Arcanist. Your insights into the Conixia's magical signature would be invaluable. What did you discern?'",
+      "choices": [
+        {
+          "text": "Detail the aberrant magical signatures.",
+          "leads_to": "demand_file_result"
+        },
+        {
+          "text": "Describe the overwhelming, destructive power.",
+          "leads_to": "confess"
+        }
+      ]
+    },
+
+    "elarin_seer_prologue": {
+      "id": "elarin_seer_prologue",
+      "text": "Your Seer abilities were heightened and tormented by the Conixia event. You saw glimpses of a world unraveling, of futures twisted and broken. The investigator's voice is hushed. 'The Elarin Seers are said to be touched by the very essence of magic. What dark omens did the Conixia reveal to you?'",
+      "choices": [
+        {
+          "text": "Share the fragmented, disturbing visions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Observe her reactions, seeking hidden motives.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "elarin_spellblade_prologue": {
+      "id": "elarin_spellblade_prologue",
+      "text": "As an Elarin Spellblade, you are a protector of the natural world, and the Conixia event was a direct assault on that which you hold dear. Your blade sang with defensive magic, pushing back against the encroaching chaos. The investigator's gaze is respectful. 'An Elarin Spellblade's resolve is legendary. How did you defend against the Conixia's destructive influence?'",
+      "choices": [
+        {
+          "text": "Describe your defensive actions and observations.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Downplay your involvement, preferring to remain unnoticed.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "ogrin_intro": {
+      "id": "ogrin_intro",
+      "text": "Ogrin are massive, powerful, and often misunderstood. The Conixia event was a raw, physical force that you met with brute strength and primal instinct. The investigator's posture is cautious, her voice carefully neutral. 'The Ogrin are known for their formidable presence. How did you contend with the Conixia's raw power, Ogrin?'",
+      "choices": [
+        {
+          "text": "You were a Warlord, embracing the chaos of battle.",
+          "char_conditions": [{"type": "flag", "flag": "class_warlord", "value": true}],
+          "leads_to": "ogrin_warlord_prologue"
+        },
+        {
+          "text": "You were an Emberheart, unleashing primal flames.",
+          "char_conditions": [{"type": "flag", "flag": "class_emberheart", "value": true}],
+          "leads_to": "ogrin_emberheart_prologue"
+        },
+        {
+          "text": "You were a Stonecaller, grounding yourself against the surge.",
+          "char_conditions": [{"type": "flag", "flag": "class_stonecaller", "value": true}],
+          "leads_to": "ogrin_stonecaller_prologue"
+        }
+      ]
+    },
+
+    "ogrin_warlord_prologue": {
+      "id": "ogrin_warlord_prologue",
+      "text": "As an Ogrin Warlord, you thrive in the heart of conflict. The Conixia event was a brutal, overwhelming force, and you met it with a roar and a charge. The investigator's gaze is assessing. 'Your kind are formidable in battle. What did you learn about the Conixia's weaknesses from direct confrontation?'",
+      "choices": [
+        {
+          "text": "Describe the physical manifestations and vulnerabilities.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Express your frustration with the intangible nature of the threat.",
+          "leads_to": "confess"
+        }
+      ]
+    },
+
+    "ogrin_emberheart_prologue": {
+      "id": "ogrin_emberheart_prologue",
+      "text": "Your Emberheart abilities, already potent, became a raging inferno during the Conixia event. You felt a primal connection to the destructive energy, a terrifying kinship. The investigator's voice is cautious. 'An Ogrin Emberheart. A force of nature. Did your power amplify the Conixia, or did you bend it to your will?'",
+      "choices": [
+        {
+          "text": "Describe the raw, untamed power and your struggle for control.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Claim ignorance, feigning a lack of understanding.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "ogrin_stonecaller_prologue": {
+      "id": "ogrin_stonecaller_prologue",
+      "text": "As an Ogrin Stonecaller, you are a living anchor, a conduit for the earth's resilience. The Conixia event was a destabilizing force, threatening to tear apart the very ground beneath your feet. You stood firm, a mountain against the tide. The investigator's expression is thoughtful. 'Your connection to the earth is undeniable. How did the Conixia challenge your ability to maintain stability?'",
+      "choices": [
+        {
+          "text": "Detail the tremors and energetic disruptions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Demand to know what they truly seek.",
+          "leads_to": "demand_file_result"
+        }
+      ]
+    },
+
+    "trollan_intro": {
+      "id": "trollan_intro",
+      "text": "Trollan are creatures of resilience and primal instinct, born of the swamps. The Conixia event was a disruption of the natural cycle, a festering wound in the world. Your regenerative abilities pulsed, fighting against an unseen corruption. The investigator's gaze is analytical. 'The Trollan are known for their unique resilience. How did the Conixia manifest in your swamp-born senses?'",
+      "choices": [
+        {
+          "text": "You were a Stonecaller, rooted in the swamp's ancient power.",
+          "char_conditions": [{"type": "flag", "flag": "class_stonecaller", "value": true}],
+          "leads_to": "trollan_stonecaller_prologue"
+        },
+        {
+          "text": "You were a Whisper, blending with the swamp's shadows.",
+          "char_conditions": [{"type": "flag", "flag": "class_whisper", "value": true}],
+          "leads_to": "trollan_whisper_prologue"
+        },
+        {
+          "text": "You were a Spellblade, wielding biotic energy.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "trollan_spellblade_prologue"
+        }
+      ]
+    },
+
+    "trollan_stonecaller_prologue": {
+      "id": "trollan_stonecaller_prologue",
+      "text": "As a Trollan Stonecaller, you draw strength from the very earth, and the swamp is your sanctuary. The Conixia event was a violation of that sanctuary, a corruption that seeped into the land. The investigator's voice is low. 'Your connection to the land is profound. What did the Conixia reveal about its insidious nature within the swamp?'",
+      "choices": [
+        {
+          "text": "Describe the ecological disruption and energetic corruption.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Observe her, seeking to understand her true agenda.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "trollan_whisper_prologue": {
+      "id": "trollan_whisper_prologue",
+      "text": "Your Whisper training taught you to move unseen, to become one with the environment. The Conixia event was a sudden, violent intrusion that forced you to use every ounce of your cunning to survive and observe. The investigator's gaze is sharp. 'A Trollan Whisper. Your survival skills are legendary. What secrets did you uncover while hidden in the chaos?'",
+      "choices": [
+        {
+          "text": "Report your observations, focusing on vulnerabilities.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Deny any significant findings, protecting your knowledge.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "trollan_spellblade_prologue": {
+      "id": "trollan_spellblade_prologue",
+      "text": "As a Trollan Spellblade, your biotic resonance allows you to channel the swamp's life force into your attacks. The Conixia event was a parasitic force, attempting to twist and corrupt that very life force. The investigator's expression is curious. 'A Trollan Spellblade's biotic connection is unique. How did the Conixia attempt to subvert your natural abilities?'",
+      "choices": [
+        {
+          "text": "Explain the struggle against the corrupting influence.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Feign ignorance, concealing your true capabilities.",
+          "leads_to": "exile_denial_result"
+        }
+      ]
+    },
+
+    "end_prologue": {
+      "id": "end_prologue",
+      "text": "The interrogation ends, but your journey has just begun. The Conixia has touched you, and the world will never be the same. You step out of the interrogation room, the weight of newfound knowledge heavy on your shoulders. What will you do next?",
+      "arc_complete": true,
+      "next_arc": "chapter_1"
+    },
+
+    "confess": {
+      "id": "confess",
+      "text": "You lay it out plainly. The investigator across the table makes no notes — she just watches. 'That's either the most honest thing anyone has said in this room,' she says, 'or the most calculated.' She slides a folder across the table. Your file. It's thin. That worries you more than a thick one would.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "Push it back. 'You tell me.'",
+          "stat_check": { "stat": "CHA", "dc": 12 },
+          "leads_to": "push_back_result"
+        }
+      ]
+    },
+
+    "soldier_report": {
+      "id": "soldier_report",
+      "text": "You give it like a debrief. Time, location, observable phenomena, immediate response, secondary effects. No speculation, no emotion. The investigator's pen stops moving partway through. She studies you differently — the way an assessor looks at a tool they didn't expect to find in a parts bin. 'You've been trained,' she says. Not a question. 'Your unit's classification protocols don't cover Conixia events. Whose did you use?' The folder she slides across is slightly thicker than the one she started with.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "'That's not in my file because it didn't happen. I improvised.'",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "improvised_result"
+        }
+      ]
+    },
+
+    "improvised_result": {
+      "id": "improvised_result",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She accepts it — and more, she's interested in how. 'That kind of structural thinking in a live event is unusual. AIM trains for it. You arrived at it independently.' Something shifts in how she's categorising you. The folder gets a handwritten addendum. You've distinguished yourself — for better or worse.",
+          "leads_to": "read_file",
+          "flag": "aim_flagged_capable"
+        },
+        "failure": {
+          "text": "She writes something. You can't read it upside down. Whatever it is, it doesn't look like a commendation. 'Improvised,' she repeats, as if testing the word for structural integrity and finding it wanting.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "demand_file_result": {
+      "id": "demand_file_result",
+      "text": "ROLL: INT vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator pauses. Most people don't ask. Most people don't know they can. 'You're entitled to review the basis for your summons,' she says, and there's something in her voice that might be approval. She slides the file across. It contains three things: your name, your registered location, and a Conixia signature reading from the night of the event. The signature is annotated with a code you don't recognise — but you recognise the format. It's a classification marker. They've seen this type before.",
+          "leads_to": "read_file",
+          "flag": "spotted_classification_marker"
+        },
+        "failure": {
+          "text": "She considers it. Then: 'After you answer my question.' The file stays where it is. You've shown your hand and gotten nothing for it — but she noted the instinct. She'll note everything.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "broker_gambit_result": {
+      "id": "broker_gambit_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator doesn't blink. 'AIM doesn't pay for testimony,' she says. Then, after a beat: 'But we do offer consideration in exchange for cooperation that proves useful.' Different word. Same mechanism. You've established the frame without triggering the rejection. She leans back slightly — you're being evaluated differently now. 'What kind of consideration did you have in mind?'",
+          "leads_to": "negotiate_aim",
+          "flag": "negotiating_with_aim"
+        },
+        "failure": {
+          "text": "She looks at you with the specific exhaustion of someone who has heard this approach before and was not impressed then either. 'This isn't that kind of room,' she says. 'Try again.' The folder appears on the table. The conversation has reset on her terms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "negotiate_aim": {
+      "id": "negotiate_aim",
+      "text": "'Information about the event, freely given, in exchange for access to my own file and a record that I cooperated.' You keep it simple. She considers it the way professionals consider fair offers — with suspicion about what's being hidden. 'Done,' she says eventually. 'Tell me what happened.'",
+      "choices": [
+        { "text": "Deliver on the deal.", "stat_check": null, "leads_to": "confess_post_deal" }
+      ]
+    },
+
+    "confess_post_deal": {
+      "id": "confess_post_deal",
+      "text": "You tell her. All of it. She listens without interrupting and slides the file across when you finish. It contains more than the standard entry — there's a secondary notation, a coded addendum, and at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. But there's something else: a second file beneath yours. Another name. Another location. Another event, six days ago, same classification marker.",
+      "choices": [
+        {
+          "text": "Memorise the second name before she notices you've seen it.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "second_file_result"
+        },
+        {
+          "text": "Ask about the second file directly.",
+          "stat_check": null,
+          "leads_to": "ask_second_file"
+        }
+      ]
+    },
+
+    "second_file_result": {
+      "id": "second_file_result",
+      "text": "ROLL: WIS vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You have the name. She doesn't know you have it. That asymmetry is worth more than anything else in this room.",
+          "leads_to": "end_prologue",
+          "flag": "knows_second_resonant"
+        },
+        "failure": {
+          "text": "She catches your eye line and pulls the second file smoothly. 'That one isn't yours,' she says without inflection. You've shown curiosity she'll remember.",
+          "leads_to": "end_prologue"
+        }
+      }
+    },
+
+    "ask_second_file": {
+      "id": "ask_second_file",
+      "text": "She pulls it back, efficient and unsurprised. 'Another case. Not yours.' A pause. 'The fact that you noticed it tells me something.' She makes a note. You've given her information without meaning to — and possibly created a thread that connects you to someone you've never met.",
+      "choices": [
+        { "text": "Move on.", "stat_check": null, "leads_to": "end_prologue", "flag": "aim_noted_curiosity" }
+      ]
+    },
+
+    "exile_denial_result": {
+      "id": "exile_denial_result",
+      "text": "ROLL: CHA vs DC 13",
+      "roll_outcomes": {
+        "success": {
+          "text": "She lets you finish. Then: 'We know you were there. We're not asking if you were there. We're asking what happened.' The denial bought you nothing — but the way she handled it tells you something. They have confirmation of your presence but not its nature. The event itself is still a question mark in their file. That's the gap.",
+          "leads_to": "confess",
+          "flag": "knows_aim_evidence_limit"
+        },
+        "failure": {
+          "text": "She slides a second document across — a timestamped location record from AIM's passive Conixia sensor grid. Your signature, your location, the exact moment. 'Try the truth,' she says, not unkindly. 'We already have most of it.'",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "bluff_result": {
+      "id": "bluff_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She buys it — or pretends to. Either way, she moves on. You've bought yourself time, but the lie sits in the room like a third person.",
+          "leads_to": "read_file"
+        },
+        "failure": {
+          "text": "She doesn't call you a liar. She just smiles, slowly, and writes something down. Whatever she knows, it's more than you expected. 'We'll revisit that,' she says.",
+          "leads_to": "caught_lying"
+        }
+      }
+    },
+
+    "observe_result": {
+      "id": "observe_result",
+      "text": "ROLL: WIS vs DC 8",
+      "roll_outcomes": {
+        "success": {
+          "text": "You catch it — a faint flicker of Conixia energy around her left hand. She's a user too. This isn't an interrogation. It's an audition.",
+          "leads_to": "read_file",
+          "flag": "spotted_investigator_aura"
+        },
+        "failure": {
+          "text": "She waits you out. Silence is a weapon she's better at than you, at least today. 'Whenever you're ready,' she says, crossing her arms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "read_file": {
+      "id": "read_file",
+      "text": "Your name. Your race. Your registered location. And a single line at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. But there's something else: a second file beneath yours. Another name. Another location. Another event, six days ago, same classification marker.",
+      "choices": [
+        {
+          "text": "Memorise the second name before she notices you've seen it.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "second_file_result"
+        },
+        {
+          "text": "Ask about the second file directly.",
+          "stat_check": null,
+          "leads_to": "ask_second_file"
+        }
+      ]
+    },
+
+    "push_back_result": {
+      "id": "push_back_result",
+      "text": "ROLL: CHA vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "She raises an eyebrow, a flicker of amusement in her eyes. 'Bold. I like that. But you're here to answer questions, not ask them.' She still pushes the file across. 'Your file. Read it. Then we talk.'",
+          "leads_to": "read_file"
+        },
+        "failure": {
+          "text": "She sighs, a long, weary sound. 'We don't have all day. Read the file, or we can do this the hard way.' The file is pushed closer, a silent threat.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "caught_lying": {
+      "id": "caught_lying",
+      "text": "She smiles, a slow, unsettling expression. 'We have ways of knowing. You're not as clever as you think.' She gestures to a screen on the wall, displaying a detailed, timestamped record of your movements. 'Now, let's try that again. What happened?'",
+      "choices": [
+        {
+          "text": "Confess, knowing you're caught.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Attempt to bluff again, despite the evidence.",
+          "stat_check": { "stat": "CHA", "dc": 15 },
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+    "ignari_intro": {
+      "id": "ignari_intro",
+      "text": "Ignari are forged in fire, and the Conixia event felt like a primal scream of raw energy. Your connection to flame surged, almost uncontrollably. The investigator watches you, a flicker of apprehension in her eyes. 'The Tempered Warriors are known for their control. What happened when the Conixia met your inner fire, Ignari?'",
+      "choices": [
+        {
+          "text": "You were an Emberheart, a conduit of pure flame.",
+          "char_conditions": [{"type": "flag", "flag": "class_emberheart", "value": true}],
+          "leads_to": "ignari_emberheart_prologue"
+        },
+        {
+          "text": "You were a Warlord, leading with strength and fire.",
+          "char_conditions": [{"type": "flag", "flag": "class_warlord", "value": true}],
+          "leads_to": "ignari_warlord_prologue"
+        },
+        {
+          "text": "You were a Spellblade, merging fire with steel.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "ignari_spellblade_prologue"
+        }
+      ]
+    },
+
+    "ignari_emberheart_prologue": {
+      "id": "ignari_emberheart_prologue",
+      "text": "As an Emberheart, you are a living furnace, and the Conixia event stoked your flames to an inferno. You felt a terrifying connection to the raw power, a desire to consume and unleash. The investigator's gaze is wary. 'Your kind are powerful. Did you contribute to the Conixia's spread, or contain it?'",
+      "choices": [
+        {
+          "text": "Describe the overwhelming power and your struggle for control.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Deny any involvement, claiming self-preservation.",
+          "leads_to": "exile_denial_result"
+        }
+      ]
+    },
+
+    "ignari_warlord_prologue": {
+      "id": "ignari_warlord_prologue",
+      "text": "Your strength as a Warlord is legendary, and the Conixia event was another challenge to be met head-on. You fought, you commanded, you endured. The investigator's voice is firm. 'The Ignari Warlords are renowned for their resilience. What tactical insights did you gain from the Conixia outbreak?'",
+      "choices": [
+        {
+          "text": "Provide a detailed, objective report.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Challenge her authority, demanding to know her purpose.",
+          "leads_to": "broker_gambit_result"
+        }
+      ]
+    },
+
+    "ignari_spellblade_prologue": {
+      "id": "ignari_spellblade_prologue",
+      "text": "The Spellblade's path is one of disciplined power. The Conixia event, however, was anything but disciplined. Your blade, usually an extension of your will, felt alive with a dangerous, foreign energy. The investigator's eyes narrow. 'An Ignari Spellblade. A rare combination. How did your unique connection to Conixia manifest during the incident?'",
+      "choices": [
+        {
+          "text": "Explain the unpredictable nature of the Conixia.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Observe her reactions, trying to gauge her intent.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "aetherin_intro": {
+      "id": "aetherin_intro",
+      "text": "As an Aetherin, you perceive the flow of time and the echoes of the past and future. The Conixia event was a temporal anomaly, a ripple that threatened to unravel reality. The investigator speaks softly, almost reverently. 'The Aetherin see beyond the present. What temporal distortions did the Conixia inflict upon your senses?'",
+      "choices": [
+        {
+          "text": "You were a Seer, burdened by visions.",
+          "char_conditions": [{"type": "flag", "flag": "class_seer", "value": true}],
+          "leads_to": "aetherin_seer_prologue"
+        },
+        {
+          "text": "You were an Arcanist, manipulating raw temporal energy.",
+          "char_conditions": [{"type": "flag", "flag": "class_arcanist", "value": true}],
+          "leads_to": "aetherin_arcanist_prologue"
+        },
+        {
+          "text": "You were a Whisper, using temporal shifts to your advantage.",
+          "char_conditions": [{"type": "flag", "flag": "class_whisper", "value": true}],
+          "leads_to": "aetherin_whisper_prologue"
+        }
+      ]
+    },
+
+    "aetherin_seer_prologue": {
+      "id": "aetherin_seer_prologue",
+      "text": "Your Seer abilities, already a delicate balance, were thrown into disarray by the Conixia event. You saw countless possibilities, terrifying futures, and echoes of forgotten pasts. The investigator's voice is laced with curiosity. 'What fragments of time did the Conixia reveal to you, Seer?'",
+      "choices": [
+        {
+          "text": "Describe the most unsettling visions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Attempt to use your intellect to gain an advantage.",
+          "leads_to": "demand_file_result"
+        }
+      ]
+    },
+
+    "aetherin_arcanist_prologue": {
+      "id": "aetherin_arcanist_prologue",
+      "text": "As an Arcanist, you sought to understand and control the temporal energies unleashed by the Conixia. It was a dangerous dance, pushing the boundaries of your knowledge. The investigator's gaze is piercing. 'Your pursuit of knowledge is commendable, Arcanist. What did your studies of the Conixia reveal about its temporal nature?'",
+      "choices": [
+        {
+          "text": "Explain the complex temporal mechanics.",
+          "leads_to": "demand_file_result"
+        },
+        {
+          "text": "Focus on the raw, destructive power.",
+          "leads_to": "confess"
+        }
+      ]
+    },
+
+    "aetherin_whisper_prologue": {
+      "id": "aetherin_whisper_prologue",
+      "text": "Your Whisper training allowed you to exploit the temporal distortions of the Conixia event, moving through moments as others struggled. You saw opportunities in the chaos. The investigator's smile is faint. 'A Whisper who can dance through time. What secrets did the temporal chaos unveil for you?'",
+      "choices": [
+        {
+          "text": "Report your observations, carefully omitting certain details.",
+          "leads_to": "bluff_result"
+        },
+        {
+          "text": "Observe her, searching for any tells.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "pillarian_intro": {
+      "id": "pillarian_intro",
+      "text": "Pillarians are connected to the very earth, and the Conixia event felt like a tremor deep within the world's core. Your stone skin tingled with an unfamiliar energy, a resonance that was both ancient and new. The investigator's voice is steady, almost rumbling. 'The Earth Collective rarely stirs without reason. What did the Conixia awaken within you, Pillarian?'",
+      "choices": [
+        {
+          "text": "You were a Stonecaller, wielding the earth's might.",
+          "char_conditions": [{"type": "flag", "flag": "class_stonecaller", "value": true}],
+          "leads_to": "pillarian_stonecaller_prologue"
+        },
+        {
+          "text": "You were a Warlord, a bulwark of stone and will.",
+          "char_conditions": [{"type": "flag", "flag": "class_warlord", "value": true}],
+          "leads_to": "pillarian_warlord_prologue"
+        },
+        {
+          "text": "You were a Spellblade, infusing earth with magic.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "pillarian_spellblade_prologue"
+        }
+      ]
+    },
+
+    "pillarian_stonecaller_prologue": {
+      "id": "pillarian_stonecaller_prologue",
+      "text": "As a Stonecaller, you command the very gravitas of the earth. The Conixia event was a chaotic symphony of shifting forces, and you felt the world groan under its influence. The investigator's gaze is unblinking. 'Your connection to the earth is profound. How did the Conixia disrupt the natural order you so carefully maintain?'",
+      "choices": [
+        {
+          "text": "Describe the geological and energetic disturbances.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Remain silent, observing her for weaknesses.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "pillarian_warlord_prologue": {
+      "id": "pillarian_warlord_prologue",
+      "text": "Your strength as a Warlord is rooted in the earth itself. The Conixia event was a test of endurance, a force that threatened to shatter even the strongest resolve. You stood firm. The investigator's voice holds a hint of respect. 'A Pillarian Warlord is an immovable object. What did you witness that could challenge such resolve?'",
+      "choices": [
+        {
+          "text": "Provide a stoic, factual account.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Attempt to leverage your position for information.",
+          "leads_to": "broker_gambit_result"
+        }
+      ]
+    },
+
+    "pillarian_spellblade_prologue": {
+      "id": "pillarian_spellblade_prologue",
+      "text": "Your Spellblade training allowed you to imbue your weapons with the earth's raw power. The Conixia event was a chaotic surge that threatened to overwhelm your control, turning your own strength against you. The investigator's eyes are keen. 'A Pillarian Spellblade. A rare and potent combination. How did the Conixia affect your unique magical attunement?'",
+      "choices": [
+        {
+          "text": "Explain the struggle to maintain control.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Feign ignorance, protecting your secrets.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "elarin_intro": {
+      "id": "elarin_intro",
+      "text": "As an Elarin, you are a steward of nature and magic, your senses attuned to the subtle flows of the world. The Conixia event was a jarring disharmony, a violent disruption of the natural order. The investigator's voice is gentle, yet probing. 'The Elarin are known for their wisdom and connection to the weave. What discord did the Conixia sing to your spirit?'",
+      "choices": [
+        {
+          "text": "You were an Arcanist, seeking to understand the disruption.",
+          "char_conditions": [{"type": "flag", "flag": "class_arcanist", "value": true}],
+          "leads_to": "elarin_arcanist_prologue"
+        },
+        {
+          "text": "You were a Seer, witnessing the unraveling of fate.",
+          "char_conditions": [{"type": "flag", "flag": "class_seer", "value": true}],
+          "leads_to": "elarin_seer_prologue"
+        },
+        {
+          "text": "You were a Spellblade, defending the natural world.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "elarin_spellblade_prologue"
+        }
+      ]
+    },
+
+    "elarin_arcanist_prologue": {
+      "id": "elarin_arcanist_prologue",
+      "text": "Your path as an Arcanist led you to study the intricate patterns of magic. The Conixia event was a chaotic surge, a raw, untamed force that defied all known magical principles. The investigator's eyes gleam with intellectual curiosity. 'An Elarin Arcanist. Your insights into the Conixia's magical signature would be invaluable. What did you discern?'",
+      "choices": [
+        {
+          "text": "Detail the aberrant magical signatures.",
+          "leads_to": "demand_file_result"
+        },
+        {
+          "text": "Describe the overwhelming, destructive power.",
+          "leads_to": "confess"
+        }
+      ]
+    },
+
+    "elarin_seer_prologue": {
+      "id": "elarin_seer_prologue",
+      "text": "Your Seer abilities were heightened and tormented by the Conixia event. You saw glimpses of a world unraveling, of futures twisted and broken. The investigator's voice is hushed. 'The Elarin Seers are said to be touched by the very essence of magic. What dark omens did the Conixia reveal to you?'",
+      "choices": [
+        {
+          "text": "Share the fragmented, disturbing visions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Observe her reactions, seeking hidden motives.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "elarin_spellblade_prologue": {
+      "id": "elarin_spellblade_prologue",
+      "text": "As an Elarin Spellblade, you are a protector of the natural world, and the Conixia event was a direct assault on that which you hold dear. Your blade sang with defensive magic, pushing back against the encroaching chaos. The investigator's gaze is respectful. 'An Elarin Spellblade's resolve is legendary. How did you defend against the Conixia's destructive influence?'",
+      "choices": [
+        {
+          "text": "Describe your defensive actions and observations.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Downplay your involvement, preferring to remain unnoticed.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "ogrin_intro": {
+      "id": "ogrin_intro",
+      "text": "Ogrin are massive, powerful, and often misunderstood. The Conixia event was a raw, physical force that you met with brute strength and primal instinct. The investigator's posture is cautious, her voice carefully neutral. 'The Ogrin are known for their formidable presence. How did you contend with the Conixia's raw power, Ogrin?'",
+      "choices": [
+        {
+          "text": "You were a Warlord, embracing the chaos of battle.",
+          "char_conditions": [{"type": "flag", "flag": "class_warlord", "value": true}],
+          "leads_to": "ogrin_warlord_prologue"
+        },
+        {
+          "text": "You were an Emberheart, unleashing primal flames.",
+          "char_conditions": [{"type": "flag", "flag": "class_emberheart", "value": true}],
+          "leads_to": "ogrin_emberheart_prologue"
+        },
+        {
+          "text": "You were a Stonecaller, grounding yourself against the surge.",
+          "char_conditions": [{"type": "flag", "flag": "class_stonecaller", "value": true}],
+          "leads_to": "ogrin_stonecaller_prologue"
+        }
+      ]
+    },
+
+    "ogrin_warlord_prologue": {
+      "id": "ogrin_warlord_prologue",
+      "text": "As an Ogrin Warlord, you thrive in the heart of conflict. The Conixia event was a brutal, overwhelming force, and you met it with a roar and a charge. The investigator's gaze is assessing. 'Your kind are formidable in battle. What did you learn about the Conixia's weaknesses from direct confrontation?'",
+      "choices": [
+        {
+          "text": "Describe the physical manifestations and vulnerabilities.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Express your frustration with the intangible nature of the threat.",
+          "leads_to": "confess"
+        }
+      ]
+    },
+
+    "ogrin_emberheart_prologue": {
+      "id": "ogrin_emberheart_prologue",
+      "text": "Your Emberheart abilities, already potent, became a raging inferno during the Conixia event. You felt a primal connection to the destructive energy, a terrifying kinship. The investigator's voice is cautious. 'An Ogrin Emberheart. A force of nature. Did your power amplify the Conixia, or did you bend it to your will?'",
+      "choices": [
+        {
+          "text": "Describe the raw, untamed power and your struggle for control.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Claim ignorance, feigning a lack of understanding.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "ogrin_stonecaller_prologue": {
+      "id": "ogrin_stonecaller_prologue",
+      "text": "As an Ogrin Stonecaller, you are a living anchor, a conduit for the earth's resilience. The Conixia event was a destabilizing force, threatening to tear apart the very ground beneath your feet. You stood firm, a mountain against the tide. The investigator's expression is thoughtful. 'Your connection to the earth is undeniable. How did the Conixia challenge your ability to maintain stability?'",
+      "choices": [
+        {
+          "text": "Detail the tremors and energetic disruptions.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Demand to know what they truly seek.",
+          "leads_to": "demand_file_result"
+        }
+      ]
+    },
+
+    "trollan_intro": {
+      "id": "trollan_intro",
+      "text": "Trollan are creatures of resilience and primal instinct, born of the swamps. The Conixia event was a disruption of the natural cycle, a festering wound in the world. Your regenerative abilities pulsed, fighting against an unseen corruption. The investigator's gaze is analytical. 'The Trollan are known for their unique resilience. How did the Conixia manifest in your swamp-born senses?'",
+      "choices": [
+        {
+          "text": "You were a Stonecaller, rooted in the swamp's ancient power.",
+          "char_conditions": [{"type": "flag", "flag": "class_stonecaller", "value": true}],
+          "leads_to": "trollan_stonecaller_prologue"
+        },
+        {
+          "text": "You were a Whisper, blending with the swamp's shadows.",
+          "char_conditions": [{"type": "flag", "flag": "class_whisper", "value": true}],
+          "leads_to": "trollan_whisper_prologue"
+        },
+        {
+          "text": "You were a Spellblade, wielding biotic energy.",
+          "char_conditions": [{"type": "flag", "flag": "class_spellblade", "value": true}],
+          "leads_to": "trollan_spellblade_prologue"
+        }
+      ]
+    },
+
+    "trollan_stonecaller_prologue": {
+      "id": "trollan_stonecaller_prologue",
+      "text": "As a Trollan Stonecaller, you draw strength from the very earth, and the swamp is your sanctuary. The Conixia event was a violation of that sanctuary, a corruption that seeped into the land. The investigator's voice is low. 'Your connection to the land is profound. What did the Conixia reveal about its insidious nature within the swamp?'",
+      "choices": [
+        {
+          "text": "Describe the ecological disruption and energetic corruption.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Observe her, seeking to understand her true agenda.",
+          "leads_to": "observe_result"
+        }
+      ]
+    },
+
+    "trollan_whisper_prologue": {
+      "id": "trollan_whisper_prologue",
+      "text": "Your Whisper training taught you to move unseen, to become one with the environment. The Conixia event was a sudden, violent intrusion that forced you to use every ounce of your cunning to survive and observe. The investigator's gaze is sharp. 'A Trollan Whisper. Your survival skills are legendary. What secrets did you uncover while hidden in the chaos?'",
+      "choices": [
+        {
+          "text": "Report your observations, focusing on vulnerabilities.",
+          "leads_to": "soldier_report"
+        },
+        {
+          "text": "Deny any significant findings, protecting your knowledge.",
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+
+    "trollan_spellblade_prologue": {
+      "id": "trollan_spellblade_prologue",
+      "text": "As a Trollan Spellblade, your biotic resonance allows you to channel the swamp's life force into your attacks. The Conixia event was a parasitic force, attempting to twist and corrupt that very life force. The investigator's expression is curious. 'A Trollan Spellblade's biotic connection is unique. How did the Conixia attempt to subvert your natural abilities?'",
+      "choices": [
+        {
+          "text": "Explain the struggle against the corrupting influence.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Feign ignorance, concealing your true capabilities.",
+          "leads_to": "exile_denial_result"
+        }
+      ]
+    },
+
+    "end_prologue": {
+      "id": "end_prologue",
+      "text": "The interrogation ends, but your journey has just begun. The Conixia has touched you, and the world will never be the same. You step out of the interrogation room, the weight of newfound knowledge heavy on your shoulders. What will you do next?",
+      "arc_complete": true,
+      "next_arc": "chapter_1"
+    },
+
+    "confess": {
+      "id": "confess",
+      "text": "You lay it out plainly. The investigator across the table makes no notes — she just watches. 'That's either the most honest thing anyone has said in this room,' she says, 'or the most calculated.' She slides a folder across the table. Your file. It's thin. That worries you more than a thick one would.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "Push it back. 'You tell me.'",
+          "stat_check": { "stat": "CHA", "dc": 12 },
+          "leads_to": "push_back_result"
+        }
+      ]
+    },
+
+    "soldier_report": {
+      "id": "soldier_report",
+      "text": "You give it like a debrief. Time, location, observable phenomena, immediate response, secondary effects. No speculation, no emotion. The investigator's pen stops moving partway through. She studies you differently — the way an assessor looks at a tool they didn't expect to find in a parts bin. 'You've been trained,' she says. Not a question. 'Your unit's classification protocols don't cover Conixia events. Whose did you use?' The folder she slides across is slightly thicker than the one she started with.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "'That's not in my file because it didn't happen. I improvised.'",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "improvised_result"
+        }
+      ]
+    },
+
+    "improvised_result": {
+      "id": "improvised_result",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She accepts it — and more, she's interested in how. 'That kind of structural thinking in a live event is unusual. AIM trains for it. You arrived at it independently.' Something shifts in how she's categorising you. The folder gets a handwritten addendum. You've distinguished yourself — for better or worse.",
+          "leads_to": "read_file",
+          "flag": "aim_flagged_capable"
+        },
+        "failure": {
+          "text": "She writes something. You can't read it upside down. Whatever it is, it doesn't look like a commendation. 'Improvised,' she repeats, as if testing the word for structural integrity and finding it wanting.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "demand_file_result": {
+      "id": "demand_file_result",
+      "text": "ROLL: INT vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator pauses. Most people don't ask. Most people don't know they can. 'You're entitled to review the basis for your summons,' she says, and there's something in her voice that might be approval. She slides the file across. It contains three things: your name, your registered location, and a Conixia signature reading from the night of the event. The signature is annotated with a code you don't recognise — but you recognise the format. It's a classification marker. They've seen this type before.",
+          "leads_to": "read_file",
+          "flag": "spotted_classification_marker"
+        },
+        "failure": {
+          "text": "She considers it. Then: 'After you answer my question.' The file stays where it is. You've shown your hand and gotten nothing for it — but she noted the instinct. She'll note everything.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "broker_gambit_result": {
+      "id": "broker_gambit_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator doesn't blink. 'AIM doesn't pay for testimony,' she says. Then, after a beat: 'But we do offer consideration in exchange for cooperation that proves useful.' Different word. Same mechanism. You've established the frame without triggering the rejection. She leans back slightly — you're being evaluated differently now. 'What kind of consideration did you have in mind?'",
+          "leads_to": "negotiate_aim",
+          "flag": "negotiating_with_aim"
+        },
+        "failure": {
+          "text": "She looks at you with the specific exhaustion of someone who has heard this approach before and was not impressed then either. 'This isn't that kind of room,' she says. 'Try again.' The folder appears on the table. The conversation has reset on her terms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "negotiate_aim": {
+      "id": "negotiate_aim",
+      "text": "'Information about the event, freely given, in exchange for access to my own file and a record that I cooperated.' You keep it simple. She considers it the way professionals consider fair offers — with suspicion about what's being hidden. 'Done,' she says eventually. 'Tell me what happened.'",
+      "choices": [
+        { "text": "Deliver on the deal.", "stat_check": null, "leads_to": "confess_post_deal" }
+      ]
+    },
+
+    "confess_post_deal": {
+      "id": "confess_post_deal",
+      "text": "You tell her. All of it. She listens without interrupting and slides the file across when you finish. It contains more than the standard entry — there's a secondary notation, a coded addendum, and at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. But there's something else: a second file beneath yours. Another name. Another location. Another event, six days ago, same classification marker.",
+      "choices": [
+        {
+          "text": "Memorise the second name before she notices you've seen it.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "second_file_result"
+        },
+        {
+          "text": "Ask about the second file directly.",
+          "stat_check": null,
+          "leads_to": "ask_second_file"
+        }
+      ]
+    },
+
+    "second_file_result": {
+      "id": "second_file_result",
+      "text": "ROLL: WIS vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You have the name. She doesn't know you have it. That asymmetry is worth more than anything else in this room.",
+          "leads_to": "end_prologue",
+          "flag": "knows_second_resonant"
+        },
+        "failure": {
+          "text": "She catches your eye line and pulls the second file smoothly. 'That one isn't yours,' she says without inflection. You've shown curiosity she'll remember.",
+          "leads_to": "end_prologue"
+        }
+      }
+    },
+
+    "ask_second_file": {
+      "id": "ask_second_file",
+      "text": "She pulls it back, efficient and unsurprised. 'Another case. Not yours.' A pause. 'The fact that you noticed it tells me something.' She makes a note. You've given her information without meaning to — and possibly created a thread that connects you to someone you've never met.",
+      "choices": [
+        { "text": "Move on.", "stat_check": null, "leads_to": "end_prologue", "flag": "aim_noted_curiosity" }
+      ]
+    },
+
+    "exile_denial_result": {
+      "id": "exile_denial_result",
+      "text": "ROLL: CHA vs DC 13",
+      "roll_outcomes": {
+        "success": {
+          "text": "She lets you finish. Then: 'We know you were there. We're not asking if you were there. We're asking what happened.' The denial bought you nothing — but the way she handled it tells you something. They have confirmation of your presence but not its nature. The event itself is still a question mark in their file. That's the gap.",
+          "leads_to": "confess",
+          "flag": "knows_aim_evidence_limit"
+        },
+        "failure": {
+          "text": "She slides a second document across — a timestamped location record from AIM's passive Conixia sensor grid. Your signature, your location, the exact moment. 'Try the truth,' she says, not unkindly. 'We already have most of it.'",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "bluff_result": {
+      "id": "bluff_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She buys it — or pretends to. Either way, she moves on. You've bought yourself time, but the lie sits in the room like a third person.",
+          "leads_to": "read_file"
+        },
+        "failure": {
+          "text": "She doesn't call you a liar. She just smiles, slowly, and writes something down. Whatever she knows, it's more than you expected. 'We'll revisit that,' she says.",
+          "leads_to": "caught_lying"
+        }
+      }
+    },
+
+    "observe_result": {
+      "id": "observe_result",
+      "text": "ROLL: WIS vs DC 8",
+      "roll_outcomes": {
+        "success": {
+          "text": "You catch it — a faint flicker of Conixia energy around her left hand. She's a user too. This isn't an interrogation. It's an audition.",
+          "leads_to": "read_file",
+          "flag": "spotted_investigator_aura"
+        },
+        "failure": {
+          "text": "She waits you out. Silence is a weapon she's better at than you, at least today. 'Whenever you're ready,' she says, crossing her arms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "read_file": {
+      "id": "read_file",
+      "text": "Your name. Your race. Your registered location. And a single line at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. But there's something else: a second file beneath yours. Another name. Another location. Another event, six days ago, same classification marker.",
+      "choices": [
+        {
+          "text": "Memorise the second name before she notices you've seen it.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "second_file_result"
+        },
+        {
+          "text": "Ask about the second file directly.",
+          "stat_check": null,
+          "leads_to": "ask_second_file"
+        }
+      ]
+    },
+
+    "push_back_result": {
+      "id": "push_back_result",
+      "text": "ROLL: CHA vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "She raises an eyebrow, a flicker of amusement in her eyes. 'Bold. I like that. But you're here to answer questions, not ask them.' She still pushes the file across. 'Your file. Read it. Then we talk.'",
+          "leads_to": "read_file"
+        },
+        "failure": {
+          "text": "She sighs, a long, weary sound. 'We don't have all day. Read the file, or we can do this the hard way.' The file is pushed closer, a silent threat.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "caught_lying": {
+      "id": "caught_lying",
+      "text": "She smiles, a slow, unsettling expression. 'We have ways of knowing. You're not as clever as you think.' She gestures to a screen on the wall, displaying a detailed, timestamped record of your movements. 'Now, let's try that again. What happened?'",
+      "choices": [
+        {
+          "text": "Confess, knowing you're caught.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Attempt to bluff again, despite the evidence.",
+          "stat_check": { "stat": "CHA", "dc": 15 },
+          "leads_to": "bluff_result"
+        }
+      ]
+    },
+    "end_prologue": {
+      "id": "end_prologue",
+      "text": "The interrogation ends, but your journey has just begun. The Conixia has touched you, and the world will never be the same. You step out of the interrogation room, the weight of newfound knowledge heavy on your shoulders. What will you do next?",
+      "arc_complete": true,
+      "next_arc": "chapter_1"
+    },
+
+    "confess": {
+      "id": "confess",
+      "text": "You lay it out plainly. The investigator across the table makes no notes — she just watches. 'That's either the most honest thing anyone has said in this room,' she says, 'or the most calculated.' She slides a folder across the table. Your file. It's thin. That worries you more than a thick one would.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "Push it back. 'You tell me.'",
+          "stat_check": { "stat": "CHA", "dc": 12 },
+          "leads_to": "push_back_result"
+        }
+      ]
+    },
+
+    "soldier_report": {
+      "id": "soldier_report",
+      "text": "You give it like a debrief. Time, location, observable phenomena, immediate response, secondary effects. No speculation, no emotion. The investigator's pen stops moving partway through. She studies you differently — the way an assessor looks at a tool they didn't expect to find in a parts bin. 'You've been trained,' she says. Not a question. 'Your unit's classification protocols don't cover Conixia events. Whose did you use?' The folder she slides across is slightly thicker than the one she started with.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "'That's not in my file because it didn't happen. I improvised.'",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "improvised_result"
+        }
+      ]
+    },
+
+    "improvised_result": {
+      "id": "improvised_result",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She accepts it — and more, she's interested in how. 'That kind of structural thinking in a live event is unusual. AIM trains for it. You arrived at it independently.' Something shifts in how she's categorising you. The folder gets a handwritten addendum. You've distinguished yourself — for better or worse.",
+          "leads_to": "read_file",
+          "flag": "aim_flagged_capable"
+        },
+        "failure": {
+          "text": "She writes something. You can't read it upside down. Whatever it is, it doesn't look like a commendation. 'Improvised,' she repeats, as if testing the word for structural integrity and finding it wanting.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "demand_file_result": {
+      "id": "demand_file_result",
+      "text": "ROLL: INT vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator pauses. Most people don't ask. Most people don't know they can. 'You're entitled to review the basis for your summons,' she says, and there's something in her voice that might be approval. She slides the file across. It contains three things: your name, your registered location, and a Conixia signature reading from the night of the event. The signature is annotated with a code you don't recognise — but you recognise the format. It's a classification marker. They've seen this type before.",
+          "leads_to": "read_file",
+          "flag": "spotted_classification_marker"
+        },
+        "failure": {
+          "text": "She considers it. Then: 'After you answer my question.' The file stays where it is. You've shown your hand and gotten nothing for it — but she noted the instinct. She'll note everything.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "broker_gambit_result": {
+      "id": "broker_gambit_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator doesn't blink. 'AIM doesn't pay for testimony,' she says. Then, after a beat: 'But we do offer consideration in exchange for cooperation that proves useful.' Different word. Same mechanism. You've established the frame without triggering the rejection. She leans back slightly — you're being evaluated differently now. 'What kind of consideration did you have in mind?'",
+          "leads_to": "negotiate_aim",
+          "flag": "negotiating_with_aim"
+        },
+        "failure": {
+          "text": "She looks at you with the specific exhaustion of someone who has heard this approach before and was not impressed then either. 'This isn't that kind of room,' she says. 'Try again.' The folder appears on the table. The conversation has reset on her terms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "negotiate_aim": {
+      "id": "negotiate_aim",
+      "text": "'Information about the event, freely given, in exchange for access to my own file and a record that I cooperated.' You keep it simple. She considers it the way professionals consider fair offers — with suspicion about what's being hidden. 'Done,' she says eventually. 'Tell me what happened.'",
+      "choices": [
+        { "text": "Deliver on the deal.", "stat_check": null, "leads_to": "confess_post_deal" }
+      ]
+    },
+
+    "confess_post_deal": {
+      "id": "confess_post_deal",
+      "text": "You tell her. All of it. She listens without interrupting and slides the file across when you finish. It contains more than the standard entry — there's a secondary notation, a coded addendum, and at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. But there's something else: a second file beneath yours. Another name. Another location. Another event, six days ago, same classification marker.",
+      "choices": [
+        {
+          "text": "Memorise the second name before she notices you've seen it.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "second_file_result"
+        },
+        {
+          "text": "Ask about the second file directly.",
+          "stat_check": null,
+          "leads_to": "ask_second_file"
+        }
+      ]
+    },
+
+    "second_file_result": {
+      "id": "second_file_result",
+      "text": "ROLL: WIS vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You have the name. She doesn't know you have it. That asymmetry is worth more than anything else in this room.",
+          "leads_to": "end_prologue",
+          "flag": "knows_second_resonant"
+        },
+        "failure": {
+          "text": "She catches your eye line and pulls the second file smoothly. 'That one isn't yours,' she says without inflection. You've shown curiosity she'll remember.",
+          "leads_to": "end_prologue"
+        }
+      }
+    },
+
+    "ask_second_file": {
+      "id": "ask_second_file",
+      "text": "She pulls it back, efficient and unsurprised. 'Another case. Not yours.' A pause. 'The fact that you noticed it tells me something.' She makes a note. You've given her information without meaning to — and possibly created a thread that connects you to someone you've never met.",
+      "choices": [
+        { "text": "Move on.", "stat_check": null, "leads_to": "end_prologue", "flag": "aim_noted_curiosity" }
+      ]
+    },
+
+    "exile_denial_result": {
+      "id": "exile_denial_result",
+      "text": "ROLL: CHA vs DC 13",
+      "roll_outcomes": {
+        "success": {
+          "text": "She lets you finish. Then: 'We know you were there. We're not asking if you were there. We're asking what happened.' The denial bought you nothing — but the way she handled it tells you something. They have confirmation of your presence but not its nature. The event itself is still a question mark in their file. That's the gap.",
+          "leads_to": "confess",
+          "flag": "knows_aim_evidence_limit"
+        },
+        "failure": {
+          "text": "She slides a second document across — a timestamped location record from AIM's passive Conixia sensor grid. Your signature, your location, the exact moment. 'Try the truth,' she says, not unkindly. 'We already have most of it.'",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "bluff_result": {
+      "id": "bluff_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She buys it — or pretends to. Either way, she moves on. You've bought yourself time, but the lie sits in the room like a third person.",
+          "leads_to": "read_file"
+        },
+        "failure": {
+          "text": "She doesn't call you a liar. She just smiles, slowly, and writes something down. Whatever she knows, it's more than you expected. 'We'll revisit that,' she says.",
+          "leads_to": "caught_lying"
+        }
+      }
+    },
+
+    "observe_result": {
+      "id": "observe_result",
+      "text": "ROLL: WIS vs DC 8",
+      "roll_outcomes": {
+        "success": {
+          "text": "You catch it — a faint flicker of Conixia energy around her left hand. She's a user too. This isn't an interrogation. It's an audition.",
+          "leads_to": "read_file",
+          "flag": "spotted_investigator_aura"
+        },
+        "failure": {
+          "text": "She waits you out. Silence is a weapon she's better at than you, at least today. 'Whenever you're ready,' she says, crossing her arms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "read_file": {
+      "id": "read_file",
+      "text": "Your name. Your race. Your registered location. And a single line at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. But there's something else: a second file beneath yours. Another name. Another location. Another event, six days ago, same classification marker.",
+      "choices": [
+        {
+          "text": "Memorise the second name before she notices you've seen it.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "second_file_result"
+        },
+        {
+          "text": "Ask about the second file directly.",
+          "stat_check": null,
+          "leads_to": "ask_second_file"
+        }
+      ]
+    },
+
+    "push_back_result": {
+      "id": "push_back_result",
+      "text": "ROLL: CHA vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "She raises an eyebrow, a flicker of amusement in her eyes. 'Bold. I like that. But you're here to answer questions, not ask them.' She still pushes the file across. 'Your file. Read it. Then we talk.'",
+          "leads_to": "read_file"
+        },
+        "failure": {
+          "text": "She sighs, a long, weary sound. 'We don't have all day. Read the file, or we can do this the hard way.' The file is pushed closer, a silent threat.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "caught_lying": {
+      "id": "caught_lying",
+      "text": "She smiles, a slow, unsettling expression. 'We have ways of knowing. You're not as clever as you think.' She gestures to a screen on the wall, displaying a detailed, timestamped record of your movements. 'Now, let's try that again. What happened?'",
+      "choices": [
+        {
+          "text": "Confess, knowing you're caught.",
+          "leads_to": "confess"
+        },
+        {
+          "text": "Attempt to bluff again, despite the evidence.",
+          "stat_check": { "stat": "CHA", "dc": 15 },
+          "leads_to": "bluff_result"
+        }
+      ]
+    }
+  }
+}

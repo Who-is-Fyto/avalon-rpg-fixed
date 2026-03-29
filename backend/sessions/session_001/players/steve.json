@@ -1,0 +1,77 @@
+{
+  "name": "steve",
+  "race": "Human",
+  "character_class": "Spellblade",
+  "base_stats": {
+    "STR": 2,
+    "DEX": 2,
+    "CON": 2,
+    "INT": 2,
+    "WIS": 2,
+    "CHA": 2,
+    "AFF": 2
+  },
+  "current_stats": {
+    "STR": 2,
+    "DEX": 2,
+    "CON": 2,
+    "INT": 2,
+    "WIS": 2,
+    "CHA": 2,
+    "AFF": 2
+  },
+  "starting_location": "Sunshade Market",
+  "starting_context": "runaway_noble",
+  "starting_context_label": "Runaway Noble",
+  "level": 1,
+  "experience": 0,
+  "conixia_energy": 76,
+  "max_conixia": 76,
+  "hp": 88,
+  "max_hp": 88,
+  "known_abilities": [
+    "Arcane Slash",
+    "Conixia Surge",
+    "Mystic Guard",
+    "Elemental Channel"
+  ],
+  "backstory_seed": "Anonymity is a skill like any other. You're still learning it.",
+  "flags": [
+    "race_human",
+    "context_exile",
+    "context_noble_blood",
+    "disguised",
+    "docks_scorched_earth",
+    "class_spellblade",
+    "docks_ghost_ship_rumor"
+  ],
+  "inventory": [
+    {
+      "item_id": "health_potion_minor",
+      "quantity": 2
+    },
+    {
+      "item_id": "conixia_draught_minor",
+      "quantity": 2
+    },
+    {
+      "item_id": "sword_iron",
+      "quantity": 1
+    }
+  ],
+  "equipment": {
+    "weapon": "sword_iron",
+    "armour": null,
+    "trinket": null
+  },
+  "gold": 50,
+  "carry_weight": 0.0,
+  "fate_bound_used": false,
+  "active_buffs": [],
+  "faction_rep": {},
+  "combat_state": null,
+  "stamina": 100,
+  "max_stamina": 100,
+  "session_id": "session_001",
+  "last_saved": "2026-03-29T20:26:45.773622+00:00"
+}

@@ -1,0 +1,247 @@
+{
+  "arc": "side_quests",
+  "title": "Side Quests",
+  "_note": "Collection of optional side quests that can be triggered from various points in the main story.",
+  "nodes": {
+    "side_quest_missing_merchant": {
+      "id": "side_quest_missing_merchant",
+      "text": "A frantic merchant approaches you in the market, eyes wide with panic. 'My shipment! It's gone! Vanished from the docks overnight! No one saw anything, but I heard... whispers of strange lights, and a chilling hum.' He wrings his hands. 'Please, you must help me find it! I'll pay anything!'",
+      "choices": [
+        {
+          "text": "Agree to help the merchant.",
+          "stat_check": null,
+          "leads_to": "missing_merchant_investigate_docks"
+        },
+        {
+          "text": "Decline. You have more important matters.",
+          "stat_check": null,
+          "leads_to": "side_quest_declined"
+        }
+      ]
+    },
+
+    "missing_merchant_investigate_docks": {
+      "id": "missing_merchant_investigate_docks",
+      "text": "The docks are quiet, save for the creaking of ships and the distant cries of gulls. The air is heavy with the smell of salt and fish. You begin your search, looking for any sign of the missing shipment or the 'strange lights' the merchant mentioned.",
+      "choices": [
+        {
+          "text": "Examine the ground for tracks or disturbances.",
+          "stat_check": { "stat": "WIS", "dc": 9 },
+          "leads_to": "docks_tracks_result"
+        },
+        {
+          "text": "Question the dockworkers, discreetly.",
+          "stat_check": { "stat": "CHA", "dc": 10 },
+          "leads_to": "docks_question_workers_result"
+        }
+      ]
+    },
+
+    "docks_tracks_result": {
+      "id": "docks_tracks_result",
+      "text": "ROLL: WIS vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "You find faint scorch marks on the cobblestones, almost invisible, as if something intensely hot briefly rested there. They lead towards the abandoned warehouse at the far end of the docks.",
+          "leads_to": "docks_warehouse_lead",
+          "flag": "docks_scorched_earth"
+        },
+        "failure": {
+          "text": "The docks are a mess of footprints and cargo. You find nothing conclusive, only the usual grime and discarded ropes.",
+          "leads_to": "missing_merchant_investigate_docks"
+        }
+      }
+    },
+
+    "docks_question_workers_result": {
+      "id": "docks_question_workers_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "After some careful questioning, an old dockworker, after a generous coin, whispers of a 'ghost ship' that sometimes appears at night, glowing with an eerie blue light, and silently takes cargo. He points vaguely towards the abandoned warehouse.",
+          "leads_to": "docks_warehouse_lead",
+          "flag": "docks_ghost_ship_rumor"
+        },
+        "failure": {
+          "text": "The dockworkers are a tight-lipped bunch, or perhaps they genuinely saw nothing. You get no useful information, only suspicious glares.",
+          "leads_to": "missing_merchant_investigate_docks"
+        }
+      }
+    },
+
+    "docks_warehouse_lead": {
+      "id": "docks_warehouse_lead",
+      "text": "The abandoned warehouse looms, its windows dark and broken. A faint, rhythmic hum emanates from within, growing stronger as you approach. This must be where the missing shipment, and perhaps the source of the strange lights, is located.",
+      "choices": [
+        {
+          "text": "Enter the warehouse.",
+          "stat_check": null,
+          "leads_to": "warehouse_interior"
+        },
+        {
+          "text": "Report back to the merchant.",
+          "stat_check": null,
+          "leads_to": "missing_merchant_report_no_resolution"
+        }
+      ]
+    },
+
+    "warehouse_interior": {
+      "id": "warehouse_interior",
+      "text": "Inside, the warehouse is filled with a strange, pulsating blue light. The missing shipment is here, but it's not alone. Several shadowy figures, their forms indistinct in the flickering light, are meticulously siphoning energy from the crates into strange, glowing devices. They turn as you enter, their eyes burning with an unnatural light.",
+      "choices": [
+        {
+          "text": "Confront the figures.",
+          "stat_check": null,
+          "leads_to": "warehouse_confrontation"
+        },
+        {
+          "text": "Attempt to sneak past them and retrieve the shipment.",
+          "stat_check": { "stat": "DEX", "dc": 12 },
+          "leads_to": "warehouse_sneak_result"
+        }
+      ]
+    },
+
+    "warehouse_confrontation": {
+      "id": "warehouse_confrontation",
+      "text": "The shadowy figures hiss, their forms solidifying into gaunt, pale humanoids with glowing eyes. They are cultists, channeling Conixia energy for their own nefarious purposes. A fight ensues!",
+      "choices": [
+        {
+          "text": "Fight them!",
+          "stat_check": { "stat": "STR", "dc": 13 },
+          "leads_to": "warehouse_fight_result"
+        },
+        {
+          "text": "Attempt to reason with them.",
+          "stat_check": { "stat": "CHA", "dc": 11 },
+          "leads_to": "warehouse_reason_result"
+        }
+      ]
+    },
+
+    "warehouse_sneak_result": {
+      "id": "warehouse_sneak_result",
+      "text": "ROLL: DEX vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You move like a ghost, slipping past the cultists unnoticed. You manage to retrieve a portion of the shipment before making your escape. The cultists are none the wiser.",
+          "leads_to": "missing_merchant_partial_success",
+          "flag": "missing_merchant_recovered_partial"
+        },
+        "failure": {
+          "text": "A misplaced foot, a creaking floorboard – you're spotted! The shadowy figures turn, their glowing eyes fixed on you. They hiss, and their forms solidify. A fight is inevitable!",
+          "leads_to": "warehouse_confrontation"
+        }
+      }
+    },
+
+    "warehouse_fight_result": {
+      "id": "warehouse_fight_result",
+      "text": "ROLL: STR vs DC 13",
+      "roll_outcomes": {
+        "success": {
+          "text": "You fight with ferocity, your skills honed by countless encounters. The cultists are no match for you, their shadowy forms dissipating as you strike them down. The warehouse is cleared, and the entire shipment is safe.",
+          "leads_to": "missing_merchant_full_success",
+          "flag": "missing_merchant_recovered_full"
+        },
+        "failure": {
+          "text": "The cultists overwhelm you with their strange Conixia powers. You manage to escape, but not without taking some damage, and the shipment remains in their hands.",
+          "leads_to": "missing_merchant_failed"
+        }
+      }
+    },
+
+    "warehouse_reason_result": {
+      "id": "warehouse_reason_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "You appeal to their humanity, or what's left of it. You explain the dangers of uncontrolled Conixia, and the cultists, surprisingly, listen. Some of them hesitate, their glowing eyes dimming. You manage to convince a few to abandon their ritual, and the remaining cultists flee, leaving the shipment behind.",
+          "leads_to": "missing_merchant_full_success",
+          "flag": "missing_merchant_recovered_full"
+        },
+        "failure": {
+          "text": "Your words are met with hisses and snarls. They are too far gone, too consumed by the Conixia. They attack, and you are forced to defend yourself.",
+          "leads_to": "warehouse_fight_result"
+        }
+      }
+    },
+
+    "missing_merchant_full_success": {
+      "id": "missing_merchant_full_success",
+      "text": "You return to the frantic merchant, who nearly faints with relief when he sees his recovered shipment. He showers you with gratitude and a generous reward. 'You're a lifesaver! Anything you need, just ask!'",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end",
+          "world_effects": [
+            { "type": "add_gold", "value": 100 },
+            { "type": "faction_influence", "faction": "merchant_guild", "delta": 10 }
+          ]
+        }
+      ]
+    },
+
+    "missing_merchant_partial_success": {
+      "id": "missing_merchant_partial_success",
+      "text": "You return to the merchant with a portion of his shipment. He's relieved, but still distraught about the missing goods. He thanks you for what you could salvage and offers a smaller reward.",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end",
+          "world_effects": [
+            { "type": "add_gold", "value": 50 },
+            { "type": "faction_influence", "faction": "merchant_guild", "delta": 5 }
+          ]
+        }
+      ]
+    },
+
+    "missing_merchant_failed": {
+      "id": "missing_merchant_failed",
+      "text": "You return to the merchant with nothing. He's devastated, his business ruined. He looks at you with a mixture of despair and accusation. 'I trusted you...'",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "merchant_guild", "delta": -5 }
+          ]
+        }
+      ]
+    },
+
+    "missing_merchant_report_no_resolution": {
+      "id": "missing_merchant_report_no_resolution",
+      "text": "You report your findings to the merchant, explaining that you've located the missing shipment but haven't retrieved it yet. He urges you to continue your investigation.",
+      "choices": [
+        {
+          "text": "Return to the warehouse.",
+          "stat_check": null,
+          "leads_to": "warehouse_interior"
+        },
+        {
+          "text": "Abandon the quest.",
+          "stat_check": null,
+          "leads_to": "side_quest_declined"
+        }
+      ]
+    },
+
+    "side_quest_declined": {
+      "id": "side_quest_declined",
+      "text": "You decide not to get involved in the merchant's troubles. The world is full of problems, and you have your own path to forge.",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end"
+        }
+      ]
+    }
+  }
+}

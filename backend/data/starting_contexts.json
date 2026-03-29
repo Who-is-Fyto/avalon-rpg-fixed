@@ -1,0 +1,875 @@
+{
+  "_comment": "Starting contexts per race per location. Each context gives a reason to be there, sets flags, and seeds different story openings.",
+
+  "Human": {
+    "Ironreach Outpost": [
+      {
+        "id": "garrison_soldier",
+        "label": "Garrison Soldier",
+        "description": "You're posted here as part of the Ironclad Dominion's border guard. The work is dull, the pay is late, and something in the ruins has been making the sentries uneasy.",
+        "weight": 35,
+        "flags": ["context_military", "knows_garrison"],
+        "backstory": "Three years in the Dominion's service brought you to Ironreach — the posting nobody asks for twice."
+      },
+      {
+        "id": "guild_investigator",
+        "label": "Adventurers Guild Investigator",
+        "description": "The Guild sent you to look into a series of missing supply caravans. You've only been here two days and already you don't like what you're not being told.",
+        "weight": 30,
+        "flags": ["context_guild", "guild_investigator"],
+        "backstory": "The Guild's coin spends the same anywhere. What keeps you at Ironreach is a contract you can't quite close."
+      },
+      {
+        "id": "local_trader",
+        "label": "Local Trader",
+        "description": "You run a modest stall at the outpost market. You know everyone, everyone owes you something, and you've learned that 'quiet' here is never a good sign.",
+        "weight": 25,
+        "flags": ["context_civilian", "knows_locals", "has_trade_contacts"],
+        "backstory": "Commerce is just organised listening. You've been listening to Ironreach for years."
+      },
+      {
+        "id": "wandering_exile",
+        "label": "Wandering Exile",
+        "description": "You ended up here because here was far enough from somewhere else. The outpost doesn't ask questions. An uneasy arrangement, until tonight.",
+        "weight": 10,
+        "flags": ["context_exile", "no_local_ties"],
+        "backstory": "The road brought you here. You haven't decided if it's a destination or a waypoint."
+      }
+    ],
+    "Sunshade Market": [
+      {
+        "id": "merchant",
+        "label": "Established Merchant",
+        "description": "You've held a stall at Sunshade for two years. Business is good, the competition is fierce, and someone has been skimming from the Guild's ledgers.",
+        "weight": 40,
+        "flags": ["context_merchant", "knows_market", "has_trade_contacts"],
+        "backstory": "You built something here from nothing. Protecting it is just good sense."
+      },
+      {
+        "id": "guild_enforcer",
+        "label": "Merchant Guild Enforcer",
+        "description": "The Guild pays you to make sure debts get settled and rules get followed. It's not glamorous, it pays well, and you're very good at it.",
+        "weight": 30,
+        "flags": ["context_enforcer", "context_guild", "knows_market"],
+        "backstory": "You've never had to hurt anyone who didn't have it coming. That record is getting harder to maintain."
+      },
+      {
+        "id": "travelling_scholar",
+        "label": "Travelling Scholar",
+        "description": "You stopped at Sunshade to resupply and stayed three weeks chasing a lead buried in an old transaction record. The lead keeps growing legs.",
+        "weight": 20,
+        "flags": ["context_scholar", "research_minded"],
+        "backstory": "Truth hides in receipts and registers. Sunshade has excellent archives for a market."
+      },
+      {
+        "id": "runaway_noble",
+        "label": "Runaway Noble",
+        "description": "You've had to be very ordinary, very deliberately, for the past four months. Sunshade is good for that. Nobody cares who your family is.",
+        "weight": 10,
+        "flags": ["context_noble_blood", "context_exile", "disguised"],
+        "backstory": "Anonymity is a skill like any other. You're still learning it."
+      }
+    ],
+    "Ebonhall Academy": [
+      {
+        "id": "student",
+        "label": "Academy Student",
+        "description": "You're midway through your third year. Your marks are average except in Conixia theory, where they're suspiciously high given you've never attended that lecture.",
+        "weight": 50,
+        "flags": ["context_scholar", "academy_student", "conixia_curious"],
+        "backstory": "You came to Ebonhall to learn. What you've discovered here wasn't in any syllabus."
+      },
+      {
+        "id": "junior_faculty",
+        "label": "Junior Faculty",
+        "description": "You teach Introduction to Arcane History to students who mostly don't want to be there. A recent theft from the restricted archive has everyone on edge.",
+        "weight": 30,
+        "flags": ["context_scholar", "academy_faculty", "knows_archive"],
+        "backstory": "Teaching is how you stay close to the books that matter."
+      },
+      {
+        "id": "academy_guard",
+        "label": "Academy Security",
+        "description": "You guard the east wing — mostly from students who shouldn't be there after hours. Mostly.",
+        "weight": 20,
+        "flags": ["context_military", "knows_academy_layout"],
+        "backstory": "The Academy's secrets are above your clearance. You've started to suspect your clearance is lower than you were told."
+      }
+    ],
+    "Nocturn Cove": [
+      {
+        "id": "smuggler",
+        "label": "Independent Smuggler",
+        "description": "The Cove is neutral ground and you've used it as a base for three years. Business is brisk, the harbormaster is paid, and someone just put a price on your cargo.",
+        "weight": 40,
+        "flags": ["context_criminal", "knows_underworld", "has_ship_contact"],
+        "backstory": "Taxes are just piracy with better paperwork. You've made your peace with operating outside them."
+      },
+      {
+        "id": "sailor",
+        "label": "Ship's Crew",
+        "description": "Your vessel is docked for repairs after a rough run south. You've got coin, shore leave, and an overheard conversation you can't quite shake.",
+        "weight": 35,
+        "flags": ["context_sailor", "has_ship_contact"],
+        "backstory": "You've seen most of the coast. The Cove is where you always end up between voyages."
+      },
+      {
+        "id": "information_broker",
+        "label": "Information Broker",
+        "description": "Nocturn Cove is where secrets come to be sold. You're the one who sets the price. A new buyer has been asking for something they really shouldn't want.",
+        "weight": 25,
+        "flags": ["context_broker", "knows_underworld", "knows_locals"],
+        "backstory": "Everyone knows something worth knowing. Your talent is finding out what that is."
+      }
+    ]
+  },
+
+  "Velari": {
+    "Duskmire Ruins": [
+      {
+        "id": "shadow_warden",
+        "label": "Shadow Warden",
+        "description": "Your order keeps watch over what sleeps in the Duskmire. Something has started waking up. You haven't reported it yet — you're not sure who you trust.",
+        "weight": 40,
+        "flags": ["context_warden", "knows_ruins", "duskmire_watcher"],
+        "backstory": "The Wardens have kept this vigil for three generations. You've always wondered what you're actually guarding against."
+      },
+      {
+        "id": "relic_seeker",
+        "label": "Relic Seeker",
+        "description": "Pre-Collapse artefacts fetch extraordinary prices from the right buyers. The Duskmire Ruins are the best hunting ground left — and the most dangerous.",
+        "weight": 35,
+        "flags": ["context_scavenger", "knows_ruins"],
+        "backstory": "The dead left things behind. You've made a living returning them to the living."
+      },
+      {
+        "id": "velari_exile",
+        "label": "Exiled from the Order",
+        "description": "You were removed from the Silent Watchers for reasons that were explained very briefly and are not up for discussion. The ruins are the only place your name means nothing.",
+        "weight": 25,
+        "flags": ["context_exile", "former_watcher"],
+        "backstory": "Whatever you did or didn't do, the Order closed a door. You're still looking for the window."
+      }
+    ],
+    "Ashveil Keep": [
+      {
+        "id": "velari_spy",
+        "label": "Shadow Agent",
+        "description": "The Silent Watchers placed you here years ago to monitor Ironclad Dominion activity. You've gone so deep you sometimes forget which side briefed you first.",
+        "weight": 35,
+        "flags": ["context_spy", "dominion_contact", "silent_watcher_ties"],
+        "backstory": "A good spy remembers their loyalties. You have several. That's the problem."
+      },
+      {
+        "id": "velari_blade",
+        "label": "Dominion Retainer",
+        "description": "The Keep employs your skills for 'discreet work.' The coin is exceptional. The things you've been asked to discreetly do are keeping you up at night.",
+        "weight": 40,
+        "flags": ["context_mercenary", "dominion_contact", "moral_grey"],
+        "backstory": "You told yourself you'd draw a line somewhere. You're still looking for where it is."
+      },
+      {
+        "id": "velari_prisoner",
+        "label": "Reluctant Guest",
+        "description": "You're not quite a prisoner. You're also not free to leave. The Dominion calls it 'protective custody.' You call it something else.",
+        "weight": 25,
+        "flags": ["context_captive", "dominion_enemy", "shadow_step_hidden"],
+        "backstory": "They don't know what you can do in the dark. You've been deciding whether to show them."
+      }
+    ],
+    "Hollow Glen": [
+      {
+        "id": "spirit_speaker",
+        "label": "Spirit Speaker",
+        "description": "The Glen's echo speaks more loudly than usual. You've come to listen, as your bloodline has always done. What you're hearing isn't the ancestors.",
+        "weight": 45,
+        "flags": ["context_spiritual", "knows_glen_spirits"],
+        "backstory": "Some Velari hear the shadows. Your family line hears what's beneath them."
+      },
+      {
+        "id": "velari_hunter",
+        "label": "Shadow Hunter",
+        "description": "The Glen is your territory. You know every shadow path, every silent crossing. Something has been disturbing the patterns for three nights running.",
+        "weight": 35,
+        "flags": ["context_hunter", "knows_glen_paths"],
+        "backstory": "You've hunted the Glen since before you could name the stars. Something new has arrived."
+      },
+      {
+        "id": "velari_fugitive",
+        "label": "Fugitive",
+        "description": "The Glen hides you well. You've been here six weeks. The Ironclad Dominion's trackers are patient, but the shadows here are older than their maps.",
+        "weight": 20,
+        "flags": ["context_fugitive", "dominion_enemy"],
+        "backstory": "You saw something you weren't supposed to see. Now you're somewhere you weren't supposed to go."
+      }
+    ],
+    "Blackmoor Spires": [
+      {
+        "id": "spire_keeper",
+        "label": "Spire Keeper",
+        "description": "The Blackmoor Spires are ancient Velari signal towers, long thought dead. One of them lit up three nights ago. You're the only Watcher close enough to have seen it.",
+        "weight": 40,
+        "flags": ["context_warden", "spire_lore", "silent_watcher_ties"],
+        "backstory": "The Spires were built to call for help across great distances. Something is calling."
+      },
+      {
+        "id": "void_researcher",
+        "label": "Void Researcher",
+        "description": "The corruption seeping into the Blackmoor has properties unlike natural shadow. You've been documenting it. Your notes have started disappearing between entries.",
+        "weight": 35,
+        "flags": ["context_scholar", "void_awareness", "spire_lore"],
+        "backstory": "You came to study the dark. The dark has started studying you back."
+      },
+      {
+        "id": "velari_pilgrim",
+        "label": "Pilgrim",
+        "description": "The Spires are a place of ancestral silence for the Velari — a place to hear your bloodline's oldest memories. Yours have been louder than usual since you arrived.",
+        "weight": 25,
+        "flags": ["context_spiritual", "spire_lore"],
+        "backstory": "Your ancestors have been trying to tell you something for weeks. You're finally close enough to listen."
+      }
+    ]
+  },
+
+  "Ignari": {
+    "Cinderheart Forge": [
+      {
+        "id": "master_smith",
+        "label": "Master Smith",
+        "description": "Your work is spoken of three provinces over. A new commission arrived yesterday with specifications that are impossible by any technique you know. You agreed to attempt it anyway.",
+        "weight": 40,
+        "flags": ["context_artisan", "knows_forge", "master_craftsman"],
+        "backstory": "Fire teaches patience. You've been its student for twenty years."
+      },
+      {
+        "id": "forge_apprentice",
+        "label": "Forge Apprentice",
+        "description": "You're on your second year under a master who demonstrates rather than explains. Last night's demonstration involved something that shouldn't be possible with ordinary flame.",
+        "weight": 35,
+        "flags": ["context_apprentice", "knows_forge", "conixia_curious"],
+        "backstory": "You chose the forge because you wanted to make things that last. Now you wonder what else it might be able to make."
+      },
+      {
+        "id": "guild_weapons_inspector",
+        "label": "Weapons Inspector",
+        "description": "The Merchant Guild audits Cinderheart's output quarterly. Your last three reports were accurate. Something in this quarter's numbers doesn't add up — and the discrepancy is enormous.",
+        "weight": 25,
+        "flags": ["context_inspector", "context_guild"],
+        "backstory": "Numbers always tell a story. You've gotten very good at reading them."
+      }
+    ],
+    "Blazefall Bastion": [
+      {
+        "id": "bastion_defender",
+        "label": "Bastion Defender",
+        "description": "Blazefall guards the only pass through the Molten Ranges. You've held this posting for four years. The tremors started two weeks ago. The kind that come from below, not above.",
+        "weight": 40,
+        "flags": ["context_military", "knows_bastion", "ignari_clan_member"],
+        "backstory": "You guard the pass because someone has to. You stay because you're the best at it."
+      },
+      {
+        "id": "ignari_exile_warrior",
+        "label": "Exiled Warrior",
+        "description": "You were stripped of your forge-name for a duel that went further than intended. Blazefall takes soldiers without asking for histories. It suits you both.",
+        "weight": 35,
+        "flags": ["context_exile", "context_mercenary", "ignari_dishonoured"],
+        "backstory": "You didn't regret it then. You've had four years to start reconsidering."
+      },
+      {
+        "id": "flame_pilgrim",
+        "label": "Flame Pilgrim",
+        "description": "The Ignari mark their coming-of-age by walking to the deepest fire they can find and returning. You found something at the Bastion's core that you were not meant to see.",
+        "weight": 25,
+        "flags": ["context_spiritual", "ignari_rite", "conixia_curious"],
+        "backstory": "The fire spoke to you. You're still working out what it said."
+      }
+    ],
+    "Moltrid Expanse": [
+      {
+        "id": "lava_diver",
+        "label": "Lava Diver",
+        "description": "Your clan harvests raw conixia-fused ore from beneath the Moltrid's cooling crust. The veins have shifted. The safest routes are now the most dangerous ones.",
+        "weight": 45,
+        "flags": ["context_artisan", "ignari_clan_member", "knows_moltrid"],
+        "backstory": "Most races consider your work suicidal. You consider theirs timid."
+      },
+      {
+        "id": "moltrid_cartographer",
+        "label": "Expanse Cartographer",
+        "description": "You map the Moltrid's ever-changing terrain for the Merchant Guild. Every month the map is wrong. This month it's wrong in a way that suggests someone — or something — rerouted the flows deliberately.",
+        "weight": 30,
+        "flags": ["context_scholar", "context_guild", "knows_moltrid"],
+        "backstory": "The land shouldn't change this fast. And yet here's the evidence."
+      },
+      {
+        "id": "ignari_outcast",
+        "label": "Clan Outcast",
+        "description": "You were cast out for refusing a forge-oath. The Expanse accepts those the clans discard. It doesn't forgive them. You're still deciding whether you want to be forgiven.",
+        "weight": 25,
+        "flags": ["context_outcast", "ignari_dishonoured"],
+        "backstory": "The forge-oath would have made you powerful. It would also have made you something you couldn't live with."
+      }
+    ],
+    "Ashen Plateau": [
+      {
+        "id": "relic_guardian",
+        "label": "Relic Guardian",
+        "description": "The Ashen Plateau is a graveyard of pre-Collapse Ignari war-forges. Your bloodline has guarded them for generations. Grave robbers have started coming better-equipped.",
+        "weight": 40,
+        "flags": ["context_guardian", "ignari_clan_member", "ancient_lore"],
+        "backstory": "What your ancestors built here was never meant to be found again. Someone has found the maps."
+      },
+      {
+        "id": "ashen_hermit",
+        "label": "Hermit Smith",
+        "description": "You withdrew to the Plateau to work without interruption. Three years of solitude have produced work that shouldn't be possible with known techniques. Visitors have started arriving to ask how.",
+        "weight": 35,
+        "flags": ["context_artisan", "context_exile", "master_craftsman", "conixia_curious"],
+        "backstory": "You needed quiet to hear the fire clearly. You've been hearing things no one else can explain."
+      },
+      {
+        "id": "ashen_scholar",
+        "label": "Ruins Scholar",
+        "description": "The war-forges of the Plateau contain metallurgical techniques lost to every modern tradition. You've been here six months deciphering them. Some of them should not be rediscovered.",
+        "weight": 25,
+        "flags": ["context_scholar", "ancient_lore"],
+        "backstory": "Knowledge has no moral position. The people who use it do. You're hoping the right people find these ruins first."
+      }
+    ]
+  },
+
+  "Aetherin": {
+    "Celestwatch Observatory": [
+      {
+        "id": "star_cartographer",
+        "label": "Star Cartographer",
+        "description": "You map stellar movement and Conixia flux patterns. Three nights ago, a constellation shifted. That is not supposed to be possible — and it happened again last night.",
+        "weight": 45,
+        "flags": ["context_scholar", "knows_observatory", "celestial_researcher"],
+        "backstory": "The stars are a language. You've spent a lifetime learning its grammar."
+      },
+      {
+        "id": "aim_observer",
+        "label": "AIM Seconded Observer",
+        "description": "AIM assigned you to the Observatory six months ago to monitor Conixia activity in the upper atmosphere. Your reports go somewhere. You've never met who reads them.",
+        "weight": 35,
+        "flags": ["context_aim_agent", "knows_observatory", "aim_contact"],
+        "backstory": "The assignment sounded academic. The equipment they gave you suggests otherwise."
+      },
+      {
+        "id": "lost_initiate",
+        "label": "Wandering Initiate",
+        "description": "Your order sent you here to 'complete your understanding.' They didn't specify of what. The Observatory's director has been avoiding you since you arrived.",
+        "weight": 20,
+        "flags": ["context_initiate", "conixia_curious"],
+        "backstory": "You came seeking answers. The Observatory seems to have a surplus of questions."
+      }
+    ],
+    "Timebent Library": [
+      {
+        "id": "library_archivist",
+        "label": "Temporal Archivist",
+        "description": "The Timebent Library stores texts that are written before they occur. Your job is cataloguing the ones that have come true. The backlog is growing faster than it should.",
+        "weight": 40,
+        "flags": ["context_scholar", "knows_library", "temporal_lore"],
+        "backstory": "Most archivists dread the backlog. Yours means something is accelerating."
+      },
+      {
+        "id": "dream_cartographer",
+        "label": "Dream Cartographer",
+        "description": "Aetherin with the Dream Walker perk are sometimes hired to map locations visited in prophetic sleep — places that don't yet exist. One of your recent maps showed somewhere that now does.",
+        "weight": 35,
+        "flags": ["context_scholar", "dream_walker_trained", "temporal_lore"],
+        "backstory": "You map dreams for a living. One of them turned out to be a warning."
+      },
+      {
+        "id": "stolen_knowledge",
+        "label": "Fugitive Scholar",
+        "description": "You took something from the Library's sealed section. You had excellent reasons. The Library's wardens have been following you for two weeks and you're running out of city.",
+        "weight": 25,
+        "flags": ["context_fugitive", "temporal_lore", "library_enemy"],
+        "backstory": "The sealed section exists to protect people from certain knowledge. You decided to be the one who knows."
+      }
+    ],
+    "Cradle of Whispers": [
+      {
+        "id": "whisper_listener",
+        "label": "Whisper Listener",
+        "description": "The Cradle is a place where Aetherin go to hear voices from timelines that didn't survive. You've been here three weeks. The voices are starting to respond when you answer them.",
+        "weight": 40,
+        "flags": ["context_spiritual", "temporal_lore", "void_awareness"],
+        "backstory": "They said you'd only be able to listen. They didn't say anything about the voices being able to hear you too."
+      },
+      {
+        "id": "cradle_guardian",
+        "label": "Cradle Guardian",
+        "description": "You maintain the wards that keep the Cradle's echoes from bleeding into waking memory. One of the wards failed last month. You patched it. Something came through before you did.",
+        "weight": 35,
+        "flags": ["context_guardian", "temporal_lore", "conixia_sensitive"],
+        "backstory": "The wards were built to contain possibility. You've been doing the job for twelve years. This is the first time one has failed."
+      },
+      {
+        "id": "unstuck_traveller",
+        "label": "Unstuck in Time",
+        "description": "You visited the Cradle two years ago. You arrived back yesterday. Everyone else thinks it was a week. You have extensive notes on why this matters and no one is listening.",
+        "weight": 25,
+        "flags": ["context_displaced", "temporal_lore", "conixia_sensitive"],
+        "backstory": "Two years passed for you. A week passed for everyone else. The timeline considers both true."
+      }
+    ],
+    "Echo Vale": [
+      {
+        "id": "echo_shepherd",
+        "label": "Echo Shepherd",
+        "description": "The Vale reflects sounds from the past — sometimes warnings. You've been trained since childhood to interpret them. A new echo arrived this morning that predates the Vale itself.",
+        "weight": 45,
+        "flags": ["context_spiritual", "knows_vale", "temporal_lore"],
+        "backstory": "The Vale remembers everything. It's starting to remember things that haven't happened yet."
+      },
+      {
+        "id": "astral_exile",
+        "label": "Astral Exile",
+        "description": "You were removed from your order after an Astral Flow meditation went wrong and you pulled three people into your dream against their will. The Vale is quiet enough that it doesn't happen again. Usually.",
+        "weight": 35,
+        "flags": ["context_exile", "conixia_sensitive", "dream_walker_trained"],
+        "backstory": "They weren't hurt. They also weren't invited. The Order was very clear about the difference."
+      },
+      {
+        "id": "vale_researcher",
+        "label": "Echo Researcher",
+        "description": "The echoes of the Vale have been studied for centuries. You're here to document a new phenomenon: silence. In a Vale that never stops echoing, the silences have been getting longer.",
+        "weight": 20,
+        "flags": ["context_scholar", "knows_vale", "temporal_lore"],
+        "backstory": "What the Vale doesn't say is as important as what it does. Right now it's not saying a great deal."
+      }
+    ]
+  },
+
+  "Pillarian": {
+    "Stonewake Graves": [
+      {
+        "id": "grave_tender",
+        "label": "Grave Tender",
+        "description": "You maintain the resonance anchors that keep the sleeping Pillarians stable. One of the anchors has gone quiet. The body it was attached to has not.",
+        "weight": 45,
+        "flags": ["context_tender", "knows_stonewake", "pillar_lore"],
+        "backstory": "The waking and the sleeping are not so different. You stand between them."
+      },
+      {
+        "id": "newly_awakened",
+        "label": "Newly Awakened",
+        "description": "You came online seventeen days ago. Your memories are from a century past. Everything you knew is renamed, repurposed, or gone. You're still deciding how to feel about that.",
+        "weight": 35,
+        "flags": ["context_awakened", "displaced_in_time", "pillar_lore"],
+        "backstory": "Awakening is supposed to be a blessing. Nobody mentioned the grief that comes with it."
+      },
+      {
+        "id": "pillar_scholar",
+        "label": "Earth Collective Scholar",
+        "description": "You study Pillarian awakening cycles and the gravitics that sustain dormant forms. A recent awakening produced an anomaly your models can't explain — the subject awoke with memories that weren't theirs.",
+        "weight": 20,
+        "flags": ["context_scholar", "knows_stonewake", "pillar_lore"],
+        "backstory": "Every anomaly is an invitation. You've never been able to decline one."
+      }
+    ],
+    "Echo Pillar Nexus": [
+      {
+        "id": "nexus_resonant",
+        "label": "Nexus Resonant",
+        "description": "The Pillars of the Nexus are the oldest gravitational anchors in Avalon. They hum at a frequency only Pillarians can feel. That hum has changed pitch, and no one from the Collective will tell you why.",
+        "weight": 40,
+        "flags": ["context_spiritual", "nexus_lore", "pillar_lore"],
+        "backstory": "You've felt the Pillars your whole life. They are as reliable as gravity. Until now."
+      },
+      {
+        "id": "collective_diplomat",
+        "label": "Earth Collective Emissary",
+        "description": "Three other factions have sent representatives to study the Nexus anomaly. You're here to ensure the Collective's interests are represented — and to make sure no one takes anything home with them.",
+        "weight": 35,
+        "flags": ["context_diplomat", "nexus_lore", "pillar_lore", "knows_factions"],
+        "backstory": "Diplomacy is gravity by other means. You hold things in orbit; you don't let them collide."
+      },
+      {
+        "id": "nexus_guard",
+        "label": "Pillar Guardian",
+        "description": "The Collective assigned you to guard the Nexus from outside interference. What they didn't tell you is what to do if the interference comes from inside the Pillars themselves.",
+        "weight": 25,
+        "flags": ["context_guardian", "nexus_lore", "pillar_lore"],
+        "backstory": "Your orders were clear. Your orders did not account for this."
+      }
+    ],
+    "Dustborn Shrine": [
+      {
+        "id": "shrine_keeper",
+        "label": "Shrine Keeper",
+        "description": "The Dustborn Shrine honours Pillarians who chose to release their gravitational bond and scatter. You tend it. Recently, the dust has been reassembling itself into shapes.",
+        "weight": 40,
+        "flags": ["context_spiritual", "pillar_lore", "dust_lore"],
+        "backstory": "The Released are supposed to be at rest. Someone forgot to tell the dust."
+      },
+      {
+        "id": "dust_scholar",
+        "label": "Dispersal Scholar",
+        "description": "You study voluntary dispersal — the rare Pillarian practice of choosing to exist as distributed gravitational mass rather than bound form. Your latest subject reassembled six weeks after dispersal. Voluntarily.",
+        "weight": 35,
+        "flags": ["context_scholar", "pillar_lore", "dust_lore"],
+        "backstory": "Dispersal is considered final. Your data suggests otherwise."
+      },
+      {
+        "id": "pilgrim_pillarian",
+        "label": "Grief Pilgrim",
+        "description": "You came to the Shrine to scatter a fragment of someone who dispersed before you were ready to let them go. The Shrine accepted the fragment. It's been giving it back in pieces ever since.",
+        "weight": 25,
+        "flags": ["context_pilgrim", "pillar_lore", "dust_lore"],
+        "backstory": "You came here to say goodbye. The Shrine appears to disagree with your timeline."
+      }
+    ],
+    "Fragmented Quarry": [
+      {
+        "id": "quarry_worker",
+        "label": "Gravitic Quarry Worker",
+        "description": "The Quarry extracts gravitically-charged stone that only Pillarians can safely handle. The new vein opened last month contains ore that moves on its own when no one is watching.",
+        "weight": 45,
+        "flags": ["context_artisan", "knows_quarry", "pillar_lore"],
+        "backstory": "You've worked stone your whole life. This stone has started working back."
+      },
+      {
+        "id": "quarry_overseer",
+        "label": "Site Overseer",
+        "description": "You manage extraction schedules and worker safety. Three workers have reported the same dream in the past week — of a Pillar deep below the Quarry that has never been mapped.",
+        "weight": 35,
+        "flags": ["context_inspector", "knows_quarry", "pillar_lore"],
+        "backstory": "Dreams are not a safety incident. You're documenting them anyway."
+      },
+      {
+        "id": "quarry_exile",
+        "label": "Labour Exile",
+        "description": "The Collective sent you here as a consequence for an unspecified infraction. The work is hard, the hours are worse, and you've found something in the deep cut that the Collective has very intentionally never mentioned.",
+        "weight": 20,
+        "flags": ["context_exile", "knows_quarry", "pillar_lore", "collective_distrust"],
+        "backstory": "They sent you to the worst posting they had. They forgot you'd still be looking."
+      }
+    ]
+  },
+
+  "Elarin": {
+    "Silvergrove Canopy": [
+      {
+        "id": "grove_keeper",
+        "label": "Grove Keeper",
+        "description": "The Silvergrove is your charge — its wards, its old agreements, its many grudges. A human expedition has requested access. The ward-trees are undecided.",
+        "weight": 45,
+        "flags": ["context_keeper", "knows_grove", "nature_bond"],
+        "backstory": "The grove doesn't speak in words. Twenty years taught you to listen another way."
+      },
+      {
+        "id": "elarin_diplomat",
+        "label": "Arcane Diplomat",
+        "description": "You negotiate between the Canopy's council and the outside world. Three factions want something from the grove this season. Each has told you a different story about why.",
+        "weight": 35,
+        "flags": ["context_diplomat", "knows_factions", "political_insight"],
+        "backstory": "Every negotiation is really about something other than what's being negotiated."
+      },
+      {
+        "id": "arcane_weaver",
+        "label": "Weave Tender",
+        "description": "You maintain and extend the grove's magical infrastructure — the invisible lattice that keeps it alive. A weave-line you've kept stable for eight years has begun to fray from the inside.",
+        "weight": 20,
+        "flags": ["context_mage", "knows_grove", "arcane_researcher"],
+        "backstory": "Magic is a living thing. Yours has been trying to tell you something."
+      }
+    ],
+    "Elarith Glade": [
+      {
+        "id": "glade_chronicler",
+        "label": "Glade Chronicler",
+        "description": "The Elarin record their history in living wood — each tree a chapter. You're the Glade's current scribe. Last month's entry began writing itself.",
+        "weight": 40,
+        "flags": ["context_scholar", "knows_glade", "elarin_lore"],
+        "backstory": "The trees have always been reliable narrators. This is the first time one has had an agenda."
+      },
+      {
+        "id": "arcane_instructor",
+        "label": "Weaving Instructor",
+        "description": "The Glade is an Elarin training ground for Arcane Weaving. Your youngest student performed a technique last week that takes most Elarin a decade to learn. She says she learned it from someone else. There is no one else.",
+        "weight": 35,
+        "flags": ["context_teacher", "knows_glade", "arcane_researcher"],
+        "backstory": "You've been teaching for thirty years. You've never seen talent like this — and never seen anything that looked quite like fear with it."
+      },
+      {
+        "id": "elarin_exile",
+        "label": "Weave-Severed",
+        "description": "Your connection to the Arcane Weave was severed as a punishment — you can't feel magic the way other Elarin can. The Glade tolerates you. The trees don't seem to know you're supposed to be cut off.",
+        "weight": 25,
+        "flags": ["context_exile", "elarin_dishonoured", "conixia_curious"],
+        "backstory": "They severed the connection. They didn't account for it growing back differently."
+      }
+    ],
+    "The Hollowed Spire": [
+      {
+        "id": "spire_warden",
+        "label": "Spire Warden",
+        "description": "The Hollowed Spire is the oldest Elarin arcane structure still standing — and still active, despite being abandoned for three centuries. You've been assigned to find out why it reactivated.",
+        "weight": 40,
+        "flags": ["context_warden", "spire_lore", "arcane_researcher"],
+        "backstory": "Dead things don't reactivate. This one apparently didn't get the message."
+      },
+      {
+        "id": "spire_squatter",
+        "label": "Squatter",
+        "description": "You've been living in the Spire's lower levels for two years — the magic keeps it warm and most people stay well away. Something in the upper levels started moving last week.",
+        "weight": 35,
+        "flags": ["context_outcast", "spire_lore"],
+        "backstory": "It was quiet and it was free. Two very compelling arguments. Still holding, mostly."
+      },
+      {
+        "id": "elarin_archaeologist",
+        "label": "Arcane Archaeologist",
+        "description": "The Spire predates the Elarin's own written records. You've been excavating the lower chambers to understand how it was built. Some of your findings suggest it wasn't built by Elarin at all.",
+        "weight": 25,
+        "flags": ["context_scholar", "spire_lore", "ancient_lore"],
+        "backstory": "Your people didn't make this. Someone made it for your people. That distinction matters enormously."
+      }
+    ],
+    "Echofen Reach": [
+      {
+        "id": "reach_wanderer",
+        "label": "Reach Wanderer",
+        "description": "The Echofen is where Elarin go when they need to think without their Weave sense interfering — the magic here is so dense it crowds out individual perception. You've been wandering it for months.",
+        "weight": 40,
+        "flags": ["context_pilgrim", "conixia_sensitive"],
+        "backstory": "Too much clarity can be blinding. The Reach is where you come to think with the static turned up."
+      },
+      {
+        "id": "reach_ranger",
+        "label": "Arcane Ranger",
+        "description": "You patrol the outer edge of the Echofen to keep non-Elarin from wandering in and losing themselves. Someone has been leaving markers inside the Reach — from the inside out.",
+        "weight": 35,
+        "flags": ["context_guardian", "knows_reach", "nature_bond"],
+        "backstory": "The Reach disorients outsiders. Whatever left those markers wasn't disoriented."
+      },
+      {
+        "id": "elarin_hermit",
+        "label": "Weave Hermit",
+        "description": "You withdrew to the Echofen a decade ago to pursue arcane research in solitude. Your findings have been extraordinary. A visitor arrived two days ago claiming to be from your old order — an order that dissolved eight years after you left.",
+        "weight": 25,
+        "flags": ["context_scholar", "context_exile", "arcane_researcher", "temporal_lore"],
+        "backstory": "You left to be alone with your work. Your past has apparently found better directions."
+      }
+    ]
+  },
+
+  "Ogrin": {
+    "Skarrback Hills": [
+      {
+        "id": "clan_guardian",
+        "label": "Clan Guardian",
+        "description": "You protect the Skarrback settlements from the things that come down from the ridge at night. This week the things are bigger — and they're coming before dark.",
+        "weight": 40,
+        "flags": ["context_guardian", "knows_hills", "clan_member"],
+        "backstory": "The clan measures respect in scars. You've earned your standing the direct way."
+      },
+      {
+        "id": "ogrin_mediator",
+        "label": "Clan Mediator",
+        "description": "Your Emotion Sense makes you the clan's first choice for disputes — you know when someone's lying before they finish the sentence. Two clans are three days from open war. You're the only one both sides will talk to.",
+        "weight": 35,
+        "flags": ["context_diplomat", "clan_member", "emotion_sense_trained"],
+        "backstory": "The strongest thing in the room is usually the one who keeps it from breaking."
+      },
+      {
+        "id": "skarrback_outcast",
+        "label": "Outcast",
+        "description": "You were too quiet, too careful, too unlike what the clan expected. You've made a life on the edges of the Hills. Smaller in some ways. Freer in others.",
+        "weight": 25,
+        "flags": ["context_outcast", "knows_hills"],
+        "backstory": "The clan called it weakness. You call it a different kind of strength."
+      }
+    ],
+    "Cragjaw Basin": [
+      {
+        "id": "basin_trader",
+        "label": "Basin Trader",
+        "description": "Cragjaw is a crossroads — Ogrin, Human, and Ignari all pass through. You trade in goods and emotions in equal measure. Someone is deliberately seeding anger through the market.",
+        "weight": 40,
+        "flags": ["context_merchant", "knows_basin", "emotion_sense_trained"],
+        "backstory": "You can feel what a crowd wants before they know it themselves. Right now this crowd wants to hurt someone."
+      },
+      {
+        "id": "ogrin_healer",
+        "label": "Empathic Healer",
+        "description": "Ogrin Emotion Sense extends, with training, into physical pain. You heal by feeling what hurts. A patient arrived three days ago whose pain you can't locate — it doesn't seem to come from their body.",
+        "weight": 35,
+        "flags": ["context_healer", "emotion_sense_trained"],
+        "backstory": "Pain always has a source. This patient's source is somewhere you haven't looked before."
+      },
+      {
+        "id": "dominion_conscript",
+        "label": "Dominion Conscript",
+        "description": "The Ironclad Dominion 'recruited' you. You've been stationed at the Cragjaw outpost for eight months. You haven't decided if you're a soldier or a hostage — and neither have your commanding officers.",
+        "weight": 25,
+        "flags": ["context_military", "dominion_service", "clan_member", "emotion_sense_trained"],
+        "backstory": "The Dominion wanted Ogrin muscle. They got you, which is considerably more complicated than they expected."
+      }
+    ],
+    "Rubblehaven": [
+      {
+        "id": "rubble_builder",
+        "label": "Builder",
+        "description": "Rubblehaven is a city built from the wreckage of four others. You build — with stone, with agreements, with the careful management of people who've lost too much. Something is destabilising the foundations from below.",
+        "weight": 40,
+        "flags": ["context_artisan", "knows_rubblehaven", "emotion_sense_trained"],
+        "backstory": "You build because things fall down. Someone or something is trying to prove your point."
+      },
+      {
+        "id": "ogrin_peacekeeper",
+        "label": "Peacekeeper",
+        "description": "Rubblehaven's mix of displaced peoples makes it volatile. You keep the peace through presence, empathy, and the occasional demonstration that you can lift a cart. One faction has recently started feeling afraid — all of them, all at once.",
+        "weight": 35,
+        "flags": ["context_guardian", "knows_rubblehaven", "emotion_sense_trained"],
+        "backstory": "Fear is contagious. You need to find the source before it spreads."
+      },
+      {
+        "id": "ogrin_refugee",
+        "label": "Displaced",
+        "description": "Your clan settlement was destroyed — not by enemies, but by something stranger. You brought your people here. Rubblehaven took you in. You're still trying to understand what you ran from.",
+        "weight": 25,
+        "flags": ["context_refugee", "clan_member", "void_awareness"],
+        "backstory": "You know what battle damage looks like. What happened to your clan's settlement was not that."
+      }
+    ],
+    "The Broken Teeth": [
+      {
+        "id": "teeth_hermit",
+        "label": "Ridge Hermit",
+        "description": "The Broken Teeth is a series of shattered peaks that Ogrin rarely visit — too dangerous, too remote. You went there to get away from feeling everyone else's emotions. The rocks don't have any. It was peaceful until they started.",
+        "weight": 40,
+        "flags": ["context_hermit", "emotion_sense_trained", "conixia_curious"],
+        "backstory": "You needed silence. The Broken Teeth are as close to silence as your gift allows. Something here has started to feel."
+      },
+      {
+        "id": "ancient_guardian",
+        "label": "Ancient Site Guardian",
+        "description": "Your bloodline has guarded an unnamed structure in the Broken Teeth for generations. The instructions passed down with the duty are clear. They don't cover what to do when the structure opens from the inside.",
+        "weight": 35,
+        "flags": ["context_guardian", "ancient_lore", "clan_member"],
+        "backstory": "Four generations of your family have guarded something they were told never to enter. You're reconsidering the terms."
+      },
+      {
+        "id": "teeth_exile",
+        "label": "Exile of All Clans",
+        "description": "You were banished — not by one clan but by a council of three simultaneously. The charge was 'emotional manipulation,' which is an ironic thing to accuse someone whose power only works passively. You've been here long enough to stop being angry about it.",
+        "weight": 25,
+        "flags": ["context_exile", "emotion_sense_trained", "multi_clan_outcast"],
+        "backstory": "Three clans acting together is unprecedented. You've had a lot of time to wonder what you did that scared them that much."
+      }
+    ]
+  },
+
+  "Trollan": {
+    "Fennmire Swamps": [
+      {
+        "id": "swamp_guide",
+        "label": "Swamp Guide",
+        "description": "You know every safe path through the Fennmire. A recent client disappeared on a route you know to be safe. The route has changed — not the terrain, the ecosystem. Something rerouted the living parts.",
+        "weight": 45,
+        "flags": ["context_guide", "knows_fennmire"],
+        "backstory": "The swamp shifts. You shift with it. Something has shifted that shouldn't have."
+      },
+      {
+        "id": "void_cult_watcher",
+        "label": "Unsanctioned Observer",
+        "description": "Someone has been using the Fennmire's deepest channels for meetings. You've been watching for two weeks. You don't know who hired you — the coin was left without a note and the amount suggested you shouldn't ask.",
+        "weight": 35,
+        "flags": ["context_spy", "knows_fennmire", "void_awareness"],
+        "backstory": "Information without a client is just curiosity. You've always been curious by nature."
+      },
+      {
+        "id": "trollan_healer",
+        "label": "Biotic Healer",
+        "description": "Your regenerative Conixia extends to others with training. People come to the Fennmire specifically for you. A patient arrived last week with wounds that aren't healing — and your regeneration actively reverses near them.",
+        "weight": 20,
+        "flags": ["context_healer", "knows_fennmire", "biotic_sensitive"],
+        "backstory": "You mend what the world breaks. You've never met something that actively resisted mending."
+      }
+    ],
+    "Trollspire Ruins": [
+      {
+        "id": "ancestral_guardian",
+        "label": "Ancestral Guardian",
+        "description": "The Trollspire Ruins are what remains of the Trollan's last great city, destroyed in the Collapse. Your clan has protected them from looters for generations. A new kind of intruder has arrived: archaeologists with credentials that look official but aren't.",
+        "weight": 40,
+        "flags": ["context_guardian", "knows_ruins", "trollan_lore"],
+        "backstory": "Looters want treasure. These visitors want something else. You intend to find out what."
+      },
+      {
+        "id": "ruin_excavator",
+        "label": "Ruin Excavator",
+        "description": "You excavate the Trollspire Ruins to understand pre-Collapse Trollan civilization — specifically the Biotic Resonance techniques that were lost. One of the chambers you've opened has been occupied. Recently.",
+        "weight": 35,
+        "flags": ["context_scholar", "knows_ruins", "trollan_lore", "biotic_sensitive"],
+        "backstory": "History is supposed to stay in the past. Someone in these ruins appears to be present tense."
+      },
+      {
+        "id": "spire_exile",
+        "label": "Exiled to the Ruins",
+        "description": "Exile among Trollan isn't imprisonment — it's assignment to the places no one else will go. The Trollspire Ruins are the worst posting available. You've been here three months and found enough to justify everything you did to get sent here.",
+        "weight": 25,
+        "flags": ["context_exile", "knows_ruins", "trollan_lore"],
+        "backstory": "They sent you here as a punishment. The ruins are starting to feel like a reward."
+      }
+    ],
+    "Mossgrit Depths": [
+      {
+        "id": "depth_harvester",
+        "label": "Depth Harvester",
+        "description": "The Mossgrit Depths produce bioactive compounds used in Trollan regeneration treatments. The last three harvests have come back wrong — the compounds accelerate regrowth past the point of recognition.",
+        "weight": 40,
+        "flags": ["context_artisan", "knows_depths", "biotic_sensitive"],
+        "backstory": "You've worked these depths your whole life. The Depths have been working back lately."
+      },
+      {
+        "id": "depths_hermit",
+        "label": "Depths Hermit",
+        "description": "You withdrew to the Mossgrit when your regeneration stopped being able to tell the difference between healing and changing. The Depths are the only place it's quiet enough to maintain control.",
+        "weight": 35,
+        "flags": ["context_hermit", "biotic_sensitive", "conixia_curious"],
+        "backstory": "Regeneration is supposed to restore what was. Yours has started to have opinions about what should be."
+      },
+      {
+        "id": "biotic_researcher",
+        "label": "Biotic Researcher",
+        "description": "You study the Mossgrit's unique ecosystem to understand the root mechanism of Trollan Biotic Resonance. Your most recent discovery suggests the Depths are not a natural formation — they were cultivated, deliberately, long before the Trollan arrived.",
+        "weight": 25,
+        "flags": ["context_scholar", "knows_depths", "biotic_sensitive", "ancient_lore"],
+        "backstory": "The Depths were made for someone. Evidence suggests they were made for you, specifically. Or your kind."
+      }
+    ],
+    "Bogshadow Border": [
+      {
+        "id": "border_warden",
+        "label": "Bogshadow Warden",
+        "description": "The Border is where the Fennmire's living ecosystem ends and the Void corruption begins. You walk the line daily. The line has been moving inward for the past month — six inches a day, exactly.",
+        "weight": 40,
+        "flags": ["context_warden", "knows_border", "void_awareness"],
+        "backstory": "The corruption doesn't rush. It's patient in a way that feels intentional."
+      },
+      {
+        "id": "border_trader",
+        "label": "Border Trader",
+        "description": "The Bogshadow Border is a place where people who don't want to be tracked make exchanges. You facilitate this. Your latest regular client stopped coming three weeks ago. Their last trade was information about a Void incursion. You sold it to the wrong person.",
+        "weight": 35,
+        "flags": ["context_broker", "knows_border", "void_awareness"],
+        "backstory": "In this business you learn not to ask what things are for. This is the first time that policy has felt like a mistake."
+      },
+      {
+        "id": "tainted_exile",
+        "label": "Void-Touched Exile",
+        "description": "You got too close to a Void incursion and something changed in how your regeneration works. Your clan sent you to the Border — close enough to study, far enough to be safe. The irony is not lost on you.",
+        "weight": 25,
+        "flags": ["context_exile", "void_awareness", "biotic_sensitive", "void_touched"],
+        "backstory": "You regenerate differently now. Faster, stranger, wrong in ways that are hard to articulate. The Border is where the answer to that might live."
+      }
+    ]
+  }
+}

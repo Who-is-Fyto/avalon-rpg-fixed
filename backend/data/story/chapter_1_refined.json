@@ -1,0 +1,849 @@
+{
+  "arc": "chapter_1_refined",
+  "title": "The Weight of the First Step - Refined",
+  "_note": "Picks up directly after the prologue. The player has just left the AIM interrogation and is back in their starting location. Branches based on context flags and world state.",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "text": "{starting_location} receives you like it always has — without ceremony. The interrogation room is behind you. The city doesn't know, and wouldn't care. You have: whatever you brought with you, whatever you didn't say in there, and a name in a thin file that now exists somewhere inside AIM's infrastructure. The question isn't what they know. It's what you do next.",
+      "choices": [
+        {
+          "text": "Go to where you sleep. Think before you move.",
+          "stat_check": null,
+          "leads_to": "return_to_base"
+        },
+        {
+          "text": "Find out if anyone else was called in today.",
+          "stat_check": { "stat": "CHA", "dc": 10 },
+          "leads_to": "ask_around_result",
+          "conditions": [
+            { "type": "flag", "flag": "knows_locals", "value": true }
+          ]
+        },
+        {
+          "text": "Find somewhere high and watch the street for a tail.",
+          "stat_check": { "stat": "WIS", "dc": 9 },
+          "leads_to": "watch_street_result"
+        },
+        {
+          "text": "Go straight to your contacts. Someone knew AIM was coming.",
+          "stat_check": null,
+          "leads_to": "contact_network",
+          "conditions": [
+            { "type": "flag", "flag": "has_trade_contacts", "value": true }
+          ]
+        },
+        {
+          "text": "You have an invitation to a meeting at the old waystation. Go there now.",
+          "stat_check": null,
+          "leads_to": "waystation_meeting",
+          "conditions": [
+            { "type": "flag", "flag": "waystation_invitation", "value": true }
+          ]
+        },
+        {
+          "text": "A frantic merchant needs help finding a missing shipment. Investigate.",
+          "stat_check": null,
+          "leads_to": "side_quest_missing_merchant",
+          "conditions": [
+            { "type": "flag", "flag": "chapter_1_start", "value": true },
+            { "type": "flag", "flag": "side_quest_missing_merchant_active", "value": false }
+          ]
+        }
+      ]
+    },
+
+    "return_to_base": {
+      "id": "return_to_base",
+      "text": "Your place is small and it's yours. You sit with the file's existence for a while. The Conixia event — whatever it was, wherever it happened — has made you visible to a regulatory body that monitors things most people pretend don't exist. That means it happened. That means it can happen again. The question of whether you want it to is still open.",
+      "choices": [
+        {
+          "text": "Study what you know about Conixia. Try to understand what's inside you.",
+          "stat_check": { "stat": "INT", "dc": 11 },
+          "leads_to": "study_conixia_result"
+        },
+        {
+          "text": "Sleep on it. You'll think more clearly with rest.",
+          "stat_check": null,
+          "leads_to": "interrupted_sleep"
+        }
+      ]
+    },
+
+    "study_conixia_result": {
+      "id": "study_conixia_result",
+      "text": "ROLL: INT vs DC 11",
+      "roll_outcomes": {
+        "critical_success": {
+          "text": "You piece it together from what you've felt and what you've read. The Conixia event wasn't random — it was a response. Something in your circumstance triggered a survival reflex in the energy that runs through this world. You don't control it yet. But you understand the condition that called it. That's more than most people ever get.",
+          "leads_to": "the_second_sign",
+          "flag": "conixia_self_aware",
+          "world_effects": [
+            { "type": "set_flag", "flag": "void_first_sign", "value": true }
+          ]
+        },
+        "success": {
+          "text": "You find the edge of it — a pattern in the sensation, a rhythm that matches something you've felt before in moments of extremity. You don't have a name for it yet. You have a shape. That's enough to start.",
+          "leads_to": "the_second_sign",
+          "flag": "conixia_self_aware"
+        },
+        "partial": {
+          "text": "You circle the edges of understanding without landing anywhere definitive. There's something there — you're not imagining it — but the more you reach for it, the more it retreats. Understanding will require more than thinking. It will require circumstance.",
+          "leads_to": "the_second_sign"
+        },
+        "failure": {
+          "text": "You get nothing but a headache and the growing suspicion that you are not the right instrument for your own investigation. Someone else must know more about this. You'll need to find them.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "interrupted_sleep": {
+      "id": "interrupted_sleep",
+      "text": "You don't get through the night. Around the third hour, something wakes you — not a sound, not a presence. A sensation in your chest like a wire pulled taut. The Conixia. It found something, or something found it. By the time you're upright and at the window, the street outside {starting_location} is empty except for one figure standing very still in the middle of it, looking directly at your window.",
+      "choices": [
+        {
+          "text": "Stay still. Let them think you didn't notice.",
+          "stat_check": { "stat": "WIS", "dc": 10 },
+          "leads_to": "watch_watcher_result"
+        },
+        {
+          "text": "Go to the door. If they're here for you, make them say it.",
+          "stat_check": null,
+          "leads_to": "confront_watcher"
+        },
+        {
+          "text": "Exit through the back. You don't need to answer questions you didn't ask for.",
+          "stat_check": { "stat": "DEX", "dc": 9 },
+          "leads_to": "slip_away_result"
+        }
+      ]
+    },
+
+    "watch_watcher_result": {
+      "id": "watch_watcher_result",
+      "text": "ROLL: WIS vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "You hold still long enough to see them leave. They weren't watching your window — they were watching the building across the street. You were the observer, not the observed. But you saw something on their coat as they turned: the three-line mark of AIM's field division. Someone is already working.",
+          "leads_to": "the_second_sign",
+          "flag": "spotted_aim_fieldwork"
+        },
+        "failure": {
+          "text": "You move. They see it. By the time you've processed the mistake, they're gone. You've confirmed your presence to whoever that was, and gotten nothing in return.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "confront_watcher": {
+      "id": "confront_watcher",
+      "text": "By the time you reach the street, there's no one there. Just an impression in the dust where someone stood — and a folded piece of paper left exactly where they were. It says: 'You're not the only one. Second bell, the old waystation south of the market. Come if you're ready to understand what happened to you.'",
+      "choices": [
+        {
+          "text": "Keep it and go to the waystation at second bell.",
+          "stat_check": null,
+          "leads_to": "the_second_sign",
+          "flag": "waystation_invitation"
+        },
+        {
+          "text": "Burn it. You don't follow anonymous instructions.",
+          "stat_check": null,
+          "leads_to": "the_second_sign"
+        }
+      ]
+    },
+
+    "slip_away_result": {
+      "id": "slip_away_result",
+      "text": "ROLL: DEX vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "You're out and three streets away before the figure could have moved. You loop back after twenty minutes. They're gone. No note, no trace. Either they weren't there for you, or they're better at this than you are. Both are useful to know.",
+          "leads_to": "the_second_sign"
+        },
+        "failure": {
+          "text": "You knock something over on the way out — a jar, a shelf, your own gracelessness. By the time you're in the alley, the figure has moved. When you peek back at the street they're gone, but so is your night's sleep.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "ask_around_result": {
+      "id": "ask_around_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "Three people you trust confirm it: seven others were called in today. All within a two-mile radius of {starting_location}. All in the last forty-eight hours. AIM is running a grid sweep — they're looking for a specific type of Conixia signature, not just any anomaly. Yours was close enough to what they wanted to earn you a room and a file.",
+          "leads_to": "the_second_sign",
+          "flag": "knows_aim_sweep"
+        },
+        "failure": {
+          "text": "You ask the wrong people in the wrong way. Nobody answers directly, but two of them went quiet in a manner that tells you they know something and won't say it. You've confirmed there's something to know. That's half the work.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "watch_street_result": {
+      "id": "watch_street_result",
+      "text": "ROLL: WIS vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "You find a vantage and hold it for an hour. No tail. But you notice something else — a pattern in the people moving through the street below. Three separate individuals, no apparent connection, each pausing at the same point near the old grain store and then continuing without looking at it. They're marking something. Or guarding it.",
+          "leads_to": "the_second_sign",
+          "flag": "spotted_grain_store_pattern"
+        },
+        "failure": {
+          "text": "You find a vantage. You hold it. Nothing obvious reveals itself. Either you're not being followed, or whoever is following you is better than a rooftop vigil can catch. You come down cold and no more certain than when you went up.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "contact_network": {
+      "id": "contact_network",
+      "text": "Your contacts are cagey in the way people get when something happened they weren't paid to predict. The best of them — a woman who moves information the way rivers move water, inevitably and in all directions — tells you that AIM's Conixia sweep isn't new. It's been running for six weeks. {starting_location} was the last grid sector. Whatever they're looking for, they think they've found it.",
+      "choices": [
+        {
+          "text": "Ask who else in the network got swept up.",
+          "stat_check": { "stat": "CHA", "dc": 12 },
+          "leads_to": "network_deep_result"
+        },
+        {
+          "text": "Pay for more and ask what they found.",
+          "stat_check": null,
+          "leads_to": "pay_for_information",
+          "conditions": [
+            { "type": "world_value", "path": "factions.merchant_guild.influence", "op": "gte", "value": 40 }
+          ]
+        },
+        {
+          "text": "Thank her and leave. You have enough to work with.",
+          "stat_check": null,
+          "leads_to": "the_second_sign"
+        }
+      ]
+    },
+
+    "network_deep_result": {
+      "id": "network_deep_result",
+      "text": "ROLL: CHA vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "Eleven names. Three of them you know. One of them is dead — found in the canal two days before their scheduled AIM appointment. The timing is wrong enough to be intentional. Someone is staying ahead of the sweep, and they're not interested in leaving witnesses.",
+          "leads_to": "the_second_sign",
+          "flag": "knows_canal_death",
+          "world_effects": [
+            { "type": "log_event", "description": "A Conixia-sweep witness was found dead in the canal before their AIM appointment." },
+            { "type": "advance_storyline", "storyline": "shifting_sands_of_power" }
+          ]
+        },
+        "failure": {
+          "text": "She gives you nothing but a shrug. 'People disappear all the time. Best not to ask too many questions.' You've hit a wall. She's not going to give you more without more incentive.",
+          "leads_to": "the_second_sign"
+        }
+      }
+    },
+
+    "pay_for_information": {
+      "id": "pay_for_information",
+      "text": "You offer a substantial sum. Her eyes narrow, assessing. 'Fine. There's a rumor of a new kind of Conixia signature, one that doesn't just resonate, but *absorbs*. They're calling them 'Voids.' And one was seen near the old clock tower in the market district, just before a merchant's entire shipment vanished.'",
+      "choices": [
+        {
+          "text": "Investigate the clock tower.",
+          "stat_check": null,
+          "leads_to": "old_market_side_quest",
+          "flag": "side_quest_old_market_active"
+        }
+      ],
+      "world_effects": [
+        { "type": "remove_gold", "value": 50 },
+        { "type": "faction_influence", "faction": "merchant_guild", "delta": -5 }
+      ]
+    },
+
+    "the_second_sign": {
+      "id": "the_second_sign",
+      "text": "The world feels different now. The Conixia is no longer an abstract concept, but a tangible force, woven into the fabric of your reality. You have questions, and perhaps, the means to find answers. The path ahead is uncertain, but you are ready to take the next step.",
+      "choices": [
+        {
+          "text": "Continue your journey.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end"
+        }
+      ]
+    },
+
+    "chapter_1_end": {
+      "id": "chapter_1_end",
+      "text": "You have taken your first steps into a larger world, a world shaped by the mysterious Conixia. The path ahead is uncertain, but you are no longer alone. The weight of the first step has been taken.",
+      "arc_complete": true,
+      "next_arc": "chapter_2_refined"
+    },
+
+    "waystation_meeting": {
+      "id": "waystation_meeting",
+      "text": "The old waystation is exactly as described: derelict, forgotten, and strangely inviting. Inside, a figure sits at a rickety table, a single lantern casting long shadows. They look up as you enter, their face obscured by a wide-brimmed hat. 'You came,' a voice rasps. 'Good. You're not the only one touched by the Conixia.'",
+      "choices": [
+        {
+          "text": "Who are you? And how do you know about the Conixia?",
+          "stat_check": null,
+          "leads_to": "waystation_reveal"
+        },
+        {
+          "text": "What do you want from me?",
+          "stat_check": null,
+          "leads_to": "waystation_demand"
+        }
+      ]
+    },
+
+    "waystation_reveal": {
+      "id": "waystation_reveal",
+      "text": "The figure chuckles, a dry, rustling sound. 'Names are for those who hide. I am merely a fellow traveler on this fractured path. As for the Conixia... it speaks to those who listen. And you, my friend, are practically humming with it.' They gesture to a map spread on the table, marked with strange symbols. 'There are others like us. Others who felt the spark. And others who seek to exploit it.'",
+      "choices": [
+        {
+          "text": "What do you mean, 'exploit it'?",
+          "stat_check": null,
+          "leads_to": "waystation_exploit"
+        },
+        {
+          "text": "Show me these 'others'.",
+          "stat_check": null,
+          "leads_to": "waystation_others"
+        }
+      ]
+    },
+
+    "waystation_demand": {
+      "id": "waystation_demand",
+      "text": "'What I want,' the figure says, their voice hardening, 'is for us to survive. AIM is a blunt instrument, and the Conixia is a force they barely comprehend. We need to understand it, control it, before it consumes us all. I need your help to find others like us, to build a network of those who can truly wield this power.'",
+      "choices": [
+        {
+          "text": "What's in it for me?",
+          "stat_check": { "stat": "CHA", "dc": 10 },
+          "leads_to": "waystation_negotiate"
+        },
+        {
+          "text": "I'm listening. What's the first step?",
+          "stat_check": null,
+          "leads_to": "waystation_first_step"
+        }
+      ]
+    },
+
+    "waystation_exploit": {
+      "id": "waystation_exploit",
+      "text": "'Some see the Conixia as a weapon, a tool for power. They seek to bind it, to force it to their will, without understanding the consequences. AIM is one such group, in their own misguided way. But there are darker forces, cults and individuals who would unleash it upon the world for their own twisted ends.'",
+      "choices": [
+        {
+          "text": "How do we stop them?",
+          "stat_check": null,
+          "leads_to": "waystation_first_step"
+        }
+      ]
+    },
+
+    "waystation_others": {
+      "id": "waystation_others",
+      "text": "The figure points to several locations on the map. 'Each of these marks a recent Conixia signature, similar to yours. We need to investigate them, discreetly. Find out who else was touched, and if they are friend or foe.'",
+      "choices": [
+        {
+          "text": "Where should I start?",
+          "stat_check": null,
+          "leads_to": "waystation_first_step"
+        }
+      ]
+    },
+
+    "waystation_negotiate": {
+      "id": "waystation_negotiate",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "The figure considers your words. 'Fair enough. Information, resources, and protection from those who would hunt you. We offer a path to understanding, and a shield against those who would exploit you. And perhaps, in time, a way to master the Conixia itself.'",
+          "leads_to": "waystation_first_step",
+          "flag": "joined_conixia_network"
+        },
+        "failure": {
+          "text": "The figure shrugs. 'Then you are not ready. The Conixia cares not for your personal gain. It demands understanding, or it will consume you.' They push the map towards you. 'The offer stands. When you are ready to truly understand, come back.'",
+          "leads_to": "return_to_base"
+        }
+      }
+    },
+
+    "waystation_first_step": {
+      "id": "waystation_first_step",
+      "text": "'Our first priority is to investigate the recent Conixia flare-up in the Old Market District. A merchant reported strange occurrences, whispers in the shadows, and goods vanishing without a trace. It could be another resonant, or something far more sinister. Be discreet. Report back what you find.'",
+      "choices": [
+        {
+          "text": "Head to the Old Market District.",
+          "stat_check": null,
+          "leads_to": "old_market_side_quest",
+          "flag": "side_quest_old_market_active"
+        }
+      ]
+    },
+
+    "old_market_side_quest": {
+      "id": "old_market_side_quest",
+      "text": "The Old Market District is a labyrinth of narrow alleys and bustling stalls. The air is thick with the scent of spices and the murmur of a thousand conversations. You begin your investigation, looking for anything out of the ordinary.",
+      "choices": [
+        {
+          "text": "Ask around discreetly about strange occurrences.",
+          "stat_check": { "stat": "CHA", "dc": 8 },
+          "leads_to": "market_ask_around_result"
+        },
+        {
+          "text": "Observe the shadows, looking for unusual activity.",
+          "stat_check": { "stat": "WIS", "dc": 9 },
+          "leads_to": "market_observe_result"
+        }
+      ]
+    },
+
+    "market_ask_around_result": {
+      "id": "market_ask_around_result",
+      "text": "ROLL: CHA vs DC 8",
+      "roll_outcomes": {
+        "success": {
+          "text": "You manage to get a few hushed whispers. Merchants speak of 'phantom hands' stealing their wares, and a strange, cold presence that sometimes lingers in the alleys after dark. One old woman mentions seeing a 'shimmering distortion' near the abandoned clock tower.",
+          "leads_to": "market_clock_tower_lead",
+          "flag": "market_clock_tower_hint"
+        },
+        "failure": {
+          "text": "People are wary and tight-lipped. You get nothing but suspicious glances and vague denials. It seems the market folk are used to keeping their own secrets.",
+          "leads_to": "old_market_side_quest"
+        }
+      }
+    },
+
+    "market_observe_result": {
+      "id": "market_observe_result",
+      "text": "ROLL: WIS vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "You spend some time watching, blending into the background. You notice a subtle distortion in the air near the abandoned clock tower, almost imperceptible, like heat haze on a cold day. It pulses faintly with a familiar energy – Conixia.",
+          "leads_to": "market_clock_tower_lead",
+          "flag": "market_clock_tower_hint"
+        },
+        "failure": {
+          "text": "The market is a chaotic place, and your observations yield nothing concrete. The shadows are deep, and the crowds are thick. You feel like you're missing something obvious.",
+          "leads_to": "old_market_side_quest"
+        }
+      }
+    },
+
+    "market_clock_tower_lead": {
+      "id": "market_clock_tower_lead",
+      "text": "The abandoned clock tower stands silent and imposing at the edge of the market. Its broken face stares blankly at the sky. A faint hum of Conixia energy emanates from within.",
+      "choices": [
+        {
+          "text": "Enter the clock tower.",
+          "stat_check": null,
+          "leads_to": "clock_tower_entrance"
+        },
+        {
+          "text": "Report back to the figure at the waystation.",
+          "stat_check": null,
+          "leads_to": "waystation_report_market"
+        }
+      ]
+    },
+
+    "clock_tower_entrance": {
+      "id": "clock_tower_entrance",
+      "text": "Inside the clock tower, dust motes dance in the shafts of light filtering through broken windows. The hum of Conixia is stronger here, leading you deeper into the decaying structure. You find a makeshift camp, recently abandoned, and a journal lying open on a crate.",
+      "choices": [
+        {
+          "text": "Read the journal.",
+          "stat_check": null,
+          "leads_to": "clock_tower_journal"
+        },
+        {
+          "text": "Search the camp for clues.",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "clock_tower_search_camp"
+        }
+      ]
+    },
+
+    "clock_tower_journal": {
+      "id": "clock_tower_journal",
+      "text": "The journal belongs to a desperate scholar, obsessed with the Conixia. Entries detail experiments to 'stabilize' the energy, and a growing frustration with 'the whispers' that promise power but demand sacrifice. The last entry speaks of a 'ritual of convergence' to be performed at the heart of the clock tower, tonight.",
+      "choices": [
+        {
+          "text": "Prepare for a confrontation at the heart of the tower.",
+          "stat_check": null,
+          "leads_to": "clock_tower_climax",
+          "flag": "knows_ritual_location"
+        }
+      ]
+    },
+
+    "clock_tower_search_camp": {
+      "id": "clock_tower_search_camp",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "You find a hidden compartment containing a crude map of the clock tower, with a specific chamber marked at its apex. There are also notes detailing a 'ritual of convergence' to be performed there tonight, and a warning about 'the whispers' that promise power but demand sacrifice.",
+          "leads_to": "clock_tower_climax",
+          "flag": "knows_ritual_location"
+        },
+        "failure": {
+          "text": "You find nothing of immediate use, only discarded tools and empty vials. The camp is clean, almost too clean. You feel a sense of urgency, as if you're running out of time.",
+          "leads_to": "clock_tower_entrance"
+        }
+      }
+    },
+
+    "clock_tower_climax": {
+      "id": "clock_tower_climax",
+      "text": "You ascend to the apex of the clock tower. In the center of the chamber, the scholar you read about is surrounded by glowing runes, chanting in a language that grates on your ears. A swirling vortex of Conixia energy gathers above them, threatening to tear the tower apart. They look up, eyes burning with mad power. 'You're too late! The convergence is at hand!'",
+      "choices": [
+        {
+          "text": "Attack the scholar directly.",
+          "stat_check": { "stat": "STR", "dc": 12 },
+          "leads_to": "clock_tower_fight"
+        },
+        {
+          "text": "Attempt to disrupt the ritual.",
+          "stat_check": { "stat": "INT", "dc": 11 },
+          "leads_to": "clock_tower_disrupt"
+        },
+        {
+          "text": "Try to reason with the scholar.",
+          "stat_check": { "stat": "CHA", "dc": 10 },
+          "leads_to": "clock_tower_reason"
+        }
+      ]
+    },
+
+    "clock_tower_fight": {
+      "id": "clock_tower_fight",
+      "text": "ROLL: STR vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You charge, striking the scholar before they can react. The ritual falters, the Conixia vortex shrinks, and the scholar collapses, the mad light fading from their eyes. The tower shudders, but holds. You've stopped the convergence.",
+          "leads_to": "clock_tower_resolution",
+          "flag": "old_market_side_quest_complete"
+        },
+        "failure": {
+          "text": "The scholar anticipates your move, deflecting your attack with a burst of Conixia energy. You're thrown back, stunned. The vortex above them intensifies, growing larger, more unstable.",
+          "leads_to": "clock_tower_climax"
+        }
+      }
+    },
+
+    "clock_tower_disrupt": {
+      "id": "clock_tower_disrupt",
+      "text": "ROLL: INT vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "You quickly identify a key rune in the ritual circle and disrupt its flow. The Conixia vortex sputters and collapses, and the scholar cries out as the energy backlashes, leaving them unconscious. The tower is safe.",
+          "leads_to": "clock_tower_resolution",
+          "flag": "old_market_side_quest_complete"
+        },
+        "failure": {
+          "text": "You attempt to disrupt the ritual, but your understanding of the runes is incomplete. The energy flares dangerously, and you narrowly avoid a painful backlash. The scholar laughs, their power growing.",
+          "leads_to": "clock_tower_climax"
+        }
+      }
+    },
+
+    "clock_tower_reason": {
+      "id": "clock_tower_reason",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "You appeal to the scholar's lost humanity, reminding them of the dangers of their path. For a moment, their eyes clear, and the chanting falters. The Conixia vortex wavers, and with a final, desperate cry, the scholar breaks the ritual themselves, collapsing from the effort. The tower is safe.",
+          "leads_to": "clock_tower_resolution",
+          "flag": "old_market_side_quest_complete"
+        },
+        "failure": {
+          "text": "Your words are lost in the scholar's mad fervor. They only laugh, their voice echoing with the power of the Conixia. 'Reason is for the weak! Power is all that matters!' The ritual intensifies.",
+          "leads_to": "clock_tower_climax"
+        }
+      }
+    },
+
+    "clock_tower_resolution": {
+      "id": "clock_tower_resolution",
+      "text": "With the ritual stopped and the scholar incapacitated, the Conixia energy in the clock tower dissipates. You've prevented a major catastrophe. You should report back to the figure at the waystation.",
+      "choices": [
+        {
+          "text": "Return to the waystation.",
+          "stat_check": null,
+          "leads_to": "waystation_report_market"
+        }
+      ]
+    },
+
+    "waystation_report_market": {
+      "id": "waystation_report_market",
+      "text": "The figure at the waystation listens intently to your report. 'Excellent work. You've proven your worth. This is just the beginning. There are other anomalies, other individuals touched by the Conixia. Will you continue to help us?'",
+      "choices": [
+        {
+          "text": "Yes, I will help.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end",
+          "flag": "joined_conixia_network_fully"
+        },
+        {
+          "text": "I need more time to think.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end"
+        }
+      ]
+    },
+
+    "chapter_1_end": {
+      "id": "chapter_1_end",
+      "text": "You have taken your first steps into a larger world, a world shaped by the mysterious Conixia. The path ahead is uncertain, but you are no longer alone. The weight of the first step has been taken.",
+      "arc_complete": true,
+      "next_arc": "chapter_2_refined"
+    },
+
+    "side_quest_missing_merchant": {
+      "id": "side_quest_missing_merchant",
+      "text": "A frantic merchant approaches you in the market, eyes wide with panic. 'My shipment! It's gone! Vanished from the docks overnight! No one saw anything, but I heard... whispers of strange lights, and a chilling hum.' He wrings his hands. 'Please, you must help me find it! I'll pay anything!'",
+      "choices": [
+        {
+          "text": "Agree to help the merchant.",
+          "stat_check": null,
+          "leads_to": "missing_merchant_investigate_docks"
+        },
+        {
+          "text": "Decline. You have more important matters.",
+          "stat_check": null,
+          "leads_to": "side_quest_declined"
+        }
+      ]
+    },
+
+    "missing_merchant_investigate_docks": {
+      "id": "missing_merchant_investigate_docks",
+      "text": "The docks are quiet, save for the creaking of ships and the distant cries of gulls. The air is heavy with the smell of salt and fish. You begin your search, looking for any sign of the missing shipment or the 'strange lights' the merchant mentioned.",
+      "choices": [
+        {
+          "text": "Examine the ground for tracks or disturbances.",
+          "stat_check": { "stat": "WIS", "dc": 9 },
+          "leads_to": "docks_tracks_result"
+        },
+        {
+          "text": "Question the dockworkers, discreetly.",
+          "stat_check": { "stat": "CHA", "dc": 10 },
+          "leads_to": "docks_question_workers_result"
+        }
+      ]
+    },
+
+    "docks_tracks_result": {
+      "id": "docks_tracks_result",
+      "text": "ROLL: WIS vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "You find faint scorch marks on the cobblestones, almost invisible, as if something intensely hot briefly rested there. They lead towards the abandoned warehouse at the far end of the docks.",
+          "leads_to": "docks_warehouse_lead",
+          "flag": "docks_scorched_earth"
+        },
+        "failure": {
+          "text": "The docks are a mess of footprints and cargo. You find nothing conclusive, only the usual grime and discarded ropes.",
+          "leads_to": "missing_merchant_investigate_docks"
+        }
+      }
+    },
+
+    "docks_question_workers_result": {
+      "id": "docks_question_workers_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "After some careful questioning, an old dockworker, after a generous coin, whispers of a 'ghost ship' that sometimes appears at night, glowing with an eerie blue light, and silently takes cargo. He points vaguely towards the abandoned warehouse.",
+          "leads_to": "docks_warehouse_lead",
+          "flag": "docks_ghost_ship_rumor"
+        },
+        "failure": {
+          "text": "The dockworkers are a tight-lipped bunch, or perhaps they genuinely saw nothing. You get no useful information, only suspicious glares.",
+          "leads_to": "missing_merchant_investigate_docks"
+        }
+      }
+    },
+
+    "docks_warehouse_lead": {
+      "id": "docks_warehouse_lead",
+      "text": "The abandoned warehouse looms, its windows dark and broken. A faint, rhythmic hum emanates from within, growing stronger as you approach. This must be where the missing shipment, and perhaps the source of the strange lights, is located.",
+      "choices": [
+        {
+          "text": "Enter the warehouse.",
+          "stat_check": null,
+          "leads_to": "warehouse_interior"
+        },
+        {
+          "text": "Report back to the merchant.",
+          "stat_check": null,
+          "leads_to": "missing_merchant_report_no_resolution"
+        }
+      ]
+    },
+
+    "warehouse_interior": {
+      "id": "warehouse_interior",
+      "text": "Inside, the warehouse is filled with a strange, pulsating blue light. The missing shipment is here, but it's not alone. Several shadowy figures, their forms indistinct in the flickering light, are meticulously siphoning energy from the crates into strange, glowing devices. They turn as you enter, their eyes burning with an unnatural light.",
+      "choices": [
+        {
+          "text": "Confront the figures.",
+          "stat_check": null,
+          "leads_to": "warehouse_confrontation"
+        },
+        {
+          "text": "Attempt to sneak past them and retrieve the shipment.",
+          "stat_check": { "stat": "DEX", "dc": 12 },
+          "leads_to": "warehouse_sneak_result"
+        }
+      ]
+    },
+
+    "warehouse_confrontation": {
+      "id": "warehouse_confrontation",
+      "text": "The shadowy figures hiss, their forms solidifying into gaunt, pale humanoids with glowing eyes. They are cultists, channeling Conixia energy for their own nefarious purposes. A fight ensues!",
+      "choices": [
+        {
+          "text": "Fight them!",
+          "stat_check": { "stat": "STR", "dc": 13 },
+          "leads_to": "warehouse_fight_result"
+        },
+        {
+          "text": "Attempt to reason with them.",
+          "stat_check": { "stat": "CHA", "dc": 11 },
+          "leads_to": "warehouse_reason_result"
+        }
+      ]
+    },
+
+    "warehouse_sneak_result": {
+      "id": "warehouse_sneak_result",
+      "text": "ROLL: DEX vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You move like a ghost, slipping past the cultists unnoticed. You manage to retrieve a portion of the shipment before making your escape. The cultists are none the wiser.",
+          "leads_to": "missing_merchant_partial_success",
+          "flag": "missing_merchant_recovered_partial"
+        },
+        "failure": {
+          "text": "A misplaced foot, a creaking floorboard – you're spotted! The shadowy figures turn, their glowing eyes fixed on you. They hiss, and their forms solidify. A fight is inevitable!",
+          "leads_to": "warehouse_confrontation"
+        }
+      }
+    },
+
+    "warehouse_fight_result": {
+      "id": "warehouse_fight_result",
+      "text": "ROLL: STR vs DC 13",
+      "roll_outcomes": {
+        "success": {
+          "text": "You fight with ferocity, your skills honed by countless encounters. The cultists are no match for you, their shadowy forms dissipating as you strike them down. The warehouse is cleared, and the entire shipment is safe.",
+          "leads_to": "missing_merchant_full_success",
+          "flag": "missing_merchant_recovered_full"
+        },
+        "failure": {
+          "text": "The cultists overwhelm you with their strange Conixia powers. You manage to escape, but not without taking some damage, and the shipment remains in their hands.",
+          "leads_to": "missing_merchant_failed"
+        }
+      }
+    },
+
+    "warehouse_reason_result": {
+      "id": "warehouse_reason_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "You appeal to their humanity, or what's left of it. You explain the dangers of uncontrolled Conixia, and the cultists, surprisingly, listen. Some of them hesitate, their glowing eyes dimming. You manage to convince a few to abandon their ritual, and the remaining cultists flee, leaving the shipment behind.",
+          "leads_to": "missing_merchant_full_success",
+          "flag": "missing_merchant_recovered_full"
+        },
+        "failure": {
+          "text": "Your words are met with hisses and snarls. They are too far gone, too consumed by the Conixia. They attack, and you are forced to defend yourself.",
+          "leads_to": "warehouse_fight_result"
+        }
+      }
+    },
+
+    "missing_merchant_full_success": {
+      "id": "missing_merchant_full_success",
+      "text": "You return to the frantic merchant, who nearly faints with relief when he sees his recovered shipment. He showers you with gratitude and a generous reward. 'You're a lifesaver! Anything you need, just ask!'",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end",
+          "world_effects": [
+            { "type": "add_gold", "value": 100 },
+            { "type": "faction_influence", "faction": "merchant_guild", "delta": 10 }
+          ]
+        }
+      ]
+    },
+
+    "missing_merchant_partial_success": {
+      "id": "missing_merchant_partial_success",
+      "text": "You return to the merchant with a portion of his shipment. He's relieved, but still distraught about the missing goods. He thanks you for what you could salvage and offers a smaller reward.",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end",
+          "world_effects": [
+            { "type": "add_gold", "value": 50 },
+            { "type": "faction_influence", "faction": "merchant_guild", "delta": 5 }
+          ]
+        }
+      ]
+    },
+
+    "missing_merchant_failed": {
+      "id": "missing_merchant_failed",
+      "text": "You return to the merchant with nothing. He's devastated, his business ruined. He looks at you with a mixture of despair and accusation. 'I trusted you...'",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "merchant_guild", "delta": -5 }
+          ]
+        }
+      ]
+    },
+
+    "missing_merchant_report_no_resolution": {
+      "id": "missing_merchant_report_no_resolution",
+      "text": "You report your findings to the merchant, explaining that you've located the missing shipment but haven't retrieved it yet. He urges you to continue your investigation.",
+      "choices": [
+        {
+          "text": "Return to the warehouse.",
+          "stat_check": null,
+          "leads_to": "warehouse_interior"
+        },
+        {
+          "text": "Abandon the quest.",
+          "stat_check": null,
+          "leads_to": "side_quest_declined"
+        }
+      ]
+    },
+
+    "side_quest_declined": {
+      "id": "side_quest_declined",
+      "text": "You decide not to get involved in the merchant's troubles. The world is full of problems, and you have your own path to forge.",
+      "choices": [
+        {
+          "text": "Return to your main objective.",
+          "stat_check": null,
+          "leads_to": "chapter_1_end"
+        }
+      ]
+    }
+  }
+}

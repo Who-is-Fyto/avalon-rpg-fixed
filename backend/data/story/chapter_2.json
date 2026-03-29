@@ -1,0 +1,236 @@
+{
+  "arc": "chapter_2",
+  "title": "The Waystation",
+  "_note": "The player reaches BASE's front door. Branches heavily based on context flags, known info, and choices made in chapter 1. The faction fork begins here.",
+  "nodes": {
+
+    "start": {
+      "id": "start",
+      "text": "The waystation south of {starting_location}'s market is the kind of building that has made a career out of looking abandoned. The boards on the windows are new, the rot is decorative, and there are too many pigeons on the roof in a pattern that suggests they were placed there deliberately. Someone is inside and they knew you were coming before you decided to come.",
+      "choices": [
+        {
+          "text": "Knock on the front door. Direct is better than clever.",
+          "stat_check": null,
+          "leads_to": "front_door"
+        },
+        {
+          "text": "Examine the building before entering. Know the exits.",
+          "stat_check": { "stat": "WIS", "dc": 10 },
+          "leads_to": "examine_building_result"
+        },
+        {
+          "text": "Announce yourself loudly. They already know you're here, so make it mutual.",
+          "stat_check": null,
+          "leads_to": "announce_yourself",
+          "conditions": [
+            { "type": "flag", "flag": "meridian_invitation", "value": true }
+          ]
+        }
+      ]
+    },
+
+    "examine_building_result": {
+      "id": "examine_building_result",
+      "text": "ROLL: WIS vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "Three exits visible: front door, roof access via a pipe on the east wall, and a basement hatch half-covered by a rain barrel. Two observers on the building opposite, not trying particularly hard. A Conixia ward on the front threshold — passive, detection only. They're not looking to trap you. They're looking to count you. You enter knowing more than you were meant to.",
+          "leads_to": "front_door",
+          "flag": "scouted_waystation"
+        },
+        "failure": {
+          "text": "You circle the building once and learn nothing a tourist couldn't have guessed. The only thing you confirm is that someone inside is watching your circuit with something that is probably amusement.",
+          "leads_to": "front_door"
+        }
+      }
+    },
+
+    "announce_yourself": {
+      "id": "announce_yourself",
+      "text": "You say the word Meridian at conversational volume. A pause. Then a slot in the door you didn't notice opens at eye height, and a pair of eyes regards you with the professional neutrality of someone who has heard all kinds of people say that name. 'How did the alley hold?' they ask. You give the answer you were given. The door opens.",
+      "choices": [
+        { "text": "Enter.", "stat_check": null, "leads_to": "inside_waystation" }
+      ]
+    },
+
+    "front_door": {
+      "id": "front_door",
+      "text": "The door opens before you knock. A {race} of indeterminate age with ink-stained hands and the measured stillness of someone who was a field operative before they became a coordinator regards you from the threshold. 'You're {character_name},' they say. Not a question. 'I'm Meridian. Come in. We've been expecting you, in the sense that we've been expecting someone like you — we didn't know it would be you specifically until about an hour ago.'",
+      "choices": [
+        {
+          "text": "'How did you know it would be me an hour ago?'",
+          "stat_check": { "stat": "INT", "dc": 9 },
+          "leads_to": "how_did_you_know_result"
+        },
+        {
+          "text": "Enter without question. You'll understand more inside.",
+          "stat_check": null,
+          "leads_to": "inside_waystation"
+        }
+      ]
+    },
+
+    "how_did_you_know_result": {
+      "id": "how_did_you_know_result",
+      "text": "ROLL: INT vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "Meridian looks at you like you've asked the right thing. 'We have a Seer on staff. She gave us a name at the third hour. You're either exactly who she saw or you're here by a coincidence that would be more remarkable than her gift. Either way: come in.' You file away the implication that BASE's intelligence infrastructure includes precognition.",
+          "leads_to": "inside_waystation",
+          "flag": "knows_base_seer"
+        },
+        "failure": {
+          "text": "Meridian smiles — just slightly — and says 'That's what comes inside. Shall we?' It is, you realise, a non-answer dressed as an invitation, and you have walked right into the rhythm of it.",
+          "leads_to": "inside_waystation"
+        }
+      }
+    },
+
+    "inside_waystation": {
+      "id": "inside_waystation",
+      "text": "The interior is larger than the exterior suggests — the walls between this building and the two flanking it have been quietly removed at some point in the last decade. Twelve people work at various distances from various things. The equipment is eclectic: instruments you recognise from AIM briefings, instruments you don't recognise at all, and in the far corner, a Pillarian whose gravitational presence makes the nearest table's objects drift slightly upward when they exhale. Meridian says: 'BASE — Bureau of Anomalous Studies and Escape Art. We study what AIM regulates. We help people AIM would prefer to classify.'",
+      "choices": [
+        {
+          "text": "'Escape Art?'",
+          "stat_check": null,
+          "leads_to": "escape_art_explained"
+        },
+        {
+          "text": "'Why not work with AIM instead of around them?'",
+          "stat_check": null,
+          "leads_to": "aim_vs_base"
+        },
+        {
+          "text": "'What do you want from me?'",
+          "stat_check": null,
+          "leads_to": "what_base_wants"
+        }
+      ]
+    },
+
+    "escape_art_explained": {
+      "id": "escape_art_explained",
+      "text": "Meridian's expression does something complicated. 'The full name is a legacy. When the organisation was founded — shortly after the Collapse — the primary work was getting people out of situations that regulatory bodies had decided to permanently resolve. AIM didn't exist yet. The Ironclad Dominion did. The escape art is the practical application of the anomalous study: if you understand the system, you can find where it has doors.'",
+      "choices": [
+        {
+          "text": "Ask about the Collapse and BASE's founding.",
+          "stat_check": { "stat": "INT", "dc": 11 },
+          "leads_to": "base_history_result"
+        },
+        {
+          "text": "Move on to what they want from you.",
+          "stat_check": null,
+          "leads_to": "what_base_wants"
+        }
+      ]
+    },
+
+    "base_history_result": {
+      "id": "base_history_result",
+      "text": "ROLL: INT vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "You connect what Meridian is saying with what the figure in the alley told you, and with what you pieced together yourself. BASE was founded by Collapse survivors who understood what happened — not the disaster narrative, the mechanical one. They've been operating in the margins for four hundred years, passing knowledge through an unbroken chain because the kind of knowledge they carry doesn't survive in institutions. Only in people.",
+          "leads_to": "what_base_wants",
+          "flag": "base_lore_deep"
+        },
+        "failure": {
+          "text": "You absorb the history without fully connecting it to the present. Four hundred years is a long time. You file it and move on. There will be time to understand it better.",
+          "leads_to": "what_base_wants"
+        }
+      }
+    },
+
+    "aim_vs_base": {
+      "id": "aim_vs_base",
+      "text": "Meridian takes a breath. It's the breath of someone who has answered this question before and decided to keep answering it honestly. 'AIM regulates. Regulation requires categories. Categories require edges. People who don't fit the categories are an administrative problem. BASE studies. Study requires not knowing in advance. We don't work around AIM because we distrust them. We work separately because we ask different questions.' A pause. 'Also, three of our founding members were killed by AIM's predecessor organisation. There is some historical texture.'",
+      "choices": [
+        { "text": "Acknowledge the history and continue.", "stat_check": null, "leads_to": "what_base_wants" }
+      ]
+    },
+
+    "what_base_wants": {
+      "id": "what_base_wants",
+      "text": "Meridian brings you to a table with a map and points to {starting_location}. 'The Conixia shift is accelerating. People like you — new resonants, anomalous types — are appearing faster than in any prior recorded cycle. That's either very good or very bad and we don't have enough data to know which. We want your help gathering it.' They slide a small device across the table — flat, stone-inlaid, the size of a palm. 'It reads Conixia signatures. We want you to find others like yourself before AIM's sweep does. Offer them a choice. That's all.'",
+      "choices": [
+        {
+          "text": "Accept. You want to understand what's happening as much as they do.",
+          "stat_check": null,
+          "leads_to": "accept_base_mission",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "base", "delta": 15 },
+            { "type": "log_event", "description": "{character_name} accepted BASE's field assignment." }
+          ]
+        },
+        {
+          "text": "Ask what AIM would offer in comparison. You want both sides.",
+          "stat_check": { "stat": "CHA", "dc": 12 },
+          "leads_to": "play_both_sides_result"
+        },
+        {
+          "text": "Decline the device. You'll help, but on your own terms.",
+          "stat_check": null,
+          "leads_to": "independent_path"
+        }
+      ]
+    },
+
+    "play_both_sides_result": {
+      "id": "play_both_sides_result",
+      "text": "ROLL: CHA vs DC 12",
+      "roll_outcomes": {
+        "critical_success": {
+          "text": "Meridian regards you for a long moment. Then, unexpectedly, they smile. 'We've worked with AIM-adjacents before. The information ecology is richer with both streams. If you're going to do this, do it with your eyes open: AIM will ask you to deliver people. We will ask you to give them options. The difference is everything.' They give you the device and a second item — a contact sigil for the AIM field division. The choice of which to use first is yours.",
+          "leads_to": "accept_base_mission",
+          "flag": "dual_alignment",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "base", "delta": 5 },
+            { "type": "faction_influence", "faction": "aim", "delta": 5 }
+          ]
+        },
+        "success": {
+          "text": "Meridian is careful. 'AIM would offer you registration, protection, and a leash. We offer you the opposite of the leash.' They leave the question of what AIM's protection is worth to your imagination. You take the device.",
+          "leads_to": "accept_base_mission",
+          "world_effects": [
+            { "type": "faction_influence", "faction": "base", "delta": 10 }
+          ]
+        },
+        "failure": {
+          "text": "Meridian's expression closes slightly. 'If you need to compare offers, that's fine. We're not in the business of pressure. The device will be here if you decide. Find your way back.' You leave without it. The question is still open.",
+          "leads_to": "chapter_close"
+        }
+      }
+    },
+
+    "independent_path": {
+      "id": "independent_path",
+      "text": "Meridian nods slowly. 'Your terms. What are they?' You articulate what you want — access, information, autonomy. They listen without interrupting. At the end they say: 'Acceptable. We're not an institution. We're an arrangement. Arrangements can be structured around the people in them.' No device. A different kind of agreement.",
+      "choices": [
+        { "text": "Formalise the arrangement.", "stat_check": null, "leads_to": "accept_base_mission", "flag": "independent_contract" }
+      ],
+      "world_effects": [
+        { "type": "faction_influence", "faction": "base", "delta": 8 }
+      ]
+    },
+
+    "accept_base_mission": {
+      "id": "accept_base_mission",
+      "text": "The device hums faintly in your hand — already responding to the Conixia in your system. Meridian says: 'The first resonant we've identified in your grid is somewhere between {starting_location} and the old ruins to the east. They're not in distress. They're hiding. There's a difference.' They hand you a small card with a single glyph on it — the circle-with-line mark from the alley wall. 'Leave this somewhere they'll find it if you can't speak directly. It means we're not AIM.'",
+      "choices": [
+        { "text": "Take the card and start moving.", "stat_check": null, "leads_to": "chapter_close" }
+      ],
+      "world_effects": [
+        { "type": "set_flag", "flag": "base_agent", "value": true },
+        { "type": "log_event", "description": "{character_name} was equipped by BASE for resonant field work." }
+      ]
+    },
+
+    "chapter_close": {
+      "id": "chapter_close",
+      "text": "You leave the waystation into the late afternoon of {starting_location}. You have, depending on your choices: a device, an assignment, a sigil, a contact, or simply the knowledge of where the door is and that it will open for you again. The Conixia event that marked you is no longer a mystery and not yet a power. The world is rearranging itself around something. You are, apparently, one of the load-bearing pieces. The ruins to the east are an hour's walk. The hiding resonant doesn't know you're coming. That's probably fine.",
+      "choices": [],
+      "arc_complete": true,
+      "next_arc": "chapter_3"
+    }
+  }
+}

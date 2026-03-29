@@ -1,0 +1,363 @@
+{
+  "arc": "prologue",
+  "title": "Echoes Before the Spark",
+  "_note": "Opening arc. Branches by race group, class archetype, and context flags. The AIM interrogation is the shared spine, but the framing, the investigator's angle, and available choices differ based on who you are and where you came from.",
+
+  "nodes": {
+
+    "start": {
+      "id": "start",
+      "text": "The night you arrived in {starting_location} is a blur of smoke and instinct. You remember a crowd, a locked door, and the sound of something cracking open inside your chest — like a dam giving way. Whatever Conixia is, it found you first. Now someone wants to know how.",
+      "choices": [
+        {
+          "text": "Tell them everything.",
+          "stat_check": null,
+          "leads_to": "confess"
+        },
+        {
+          "text": "Lie. You don't know what happened.",
+          "stat_check": { "stat": "CHA", "dc": 10 },
+          "leads_to": "bluff_result"
+        },
+        {
+          "text": "Say nothing. Watch their reaction instead.",
+          "stat_check": { "stat": "WIS", "dc": 8 },
+          "leads_to": "observe_result"
+        },
+        {
+          "text": "Ask to see your file before you say anything.",
+          "stat_check": { "stat": "INT", "dc": 9 },
+          "leads_to": "demand_file_result",
+          "conditions": [
+            { "type": "flag", "flag": "context_scholar", "value": true }
+          ]
+        },
+        {
+          "text": "Give them the soldier's answer — facts only, nothing interpreted.",
+          "stat_check": null,
+          "leads_to": "soldier_report",
+          "conditions": [
+            { "type": "flag", "flag": "context_military", "value": true }
+          ]
+        },
+        {
+          "text": "Name your price for the information.",
+          "stat_check": { "stat": "CHA", "dc": 11 },
+          "leads_to": "broker_gambit_result",
+          "conditions": [
+            { "type": "flag", "flag": "context_broker", "value": true }
+          ]
+        },
+        {
+          "text": "Tell them nothing happened. You've been nowhere near {starting_location} recently.",
+          "stat_check": { "stat": "CHA", "dc": 13 },
+          "leads_to": "exile_denial_result",
+          "conditions": [
+            { "type": "flag", "flag": "context_exile", "value": true }
+          ]
+        }
+      ]
+    },
+
+    "confess": {
+      "id": "confess",
+      "text": "You lay it out plainly. The investigator across the table makes no notes — she just watches. 'That's either the most honest thing anyone has said in this room,' she says, 'or the most calculated.' She slides a folder across the table. Your file. It's thin. That worries you more than a thick one would.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "Push it back. 'You tell me.'",
+          "stat_check": { "stat": "CHA", "dc": 12 },
+          "leads_to": "push_back_result"
+        }
+      ]
+    },
+
+    "soldier_report": {
+      "id": "soldier_report",
+      "text": "You give it like a debrief. Time, location, observable phenomena, immediate response, secondary effects. No speculation, no emotion. The investigator's pen stops moving partway through. She studies you differently — the way an assessor looks at a tool they didn't expect to find in a parts bin. 'You've been trained,' she says. Not a question. 'Your unit's classification protocols don't cover Conixia events. Whose did you use?' The folder she slides across is slightly thicker than the one she started with.",
+      "choices": [
+        {
+          "text": "Open the folder.",
+          "stat_check": null,
+          "leads_to": "read_file"
+        },
+        {
+          "text": "'That's not in my file because it didn't happen. I improvised.'",
+          "stat_check": { "stat": "INT", "dc": 10 },
+          "leads_to": "improvised_result"
+        }
+      ]
+    },
+
+    "improvised_result": {
+      "id": "improvised_result",
+      "text": "ROLL: INT vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She accepts it — and more, she's interested in how. 'That kind of structural thinking in a live event is unusual. AIM trains for it. You arrived at it independently.' Something shifts in how she's categorising you. The folder gets a handwritten addendum. You've distinguished yourself — for better or worse.",
+          "leads_to": "read_file",
+          "flag": "aim_flagged_capable"
+        },
+        "failure": {
+          "text": "She writes something. You can't read it upside down. Whatever it is, it doesn't look like a commendation. 'Improvised,' she repeats, as if testing the word for structural integrity and finding it wanting.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "demand_file_result": {
+      "id": "demand_file_result",
+      "text": "ROLL: INT vs DC 9",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator pauses. Most people don't ask. Most people don't know they can. 'You're entitled to review the basis for your summons,' she says, and there's something in her voice that might be approval. She slides the file across. It contains three things: your name, your registered location, and a Conixia signature reading from the night of the event. The signature is annotated with a code you don't recognise — but you recognise the format. It's a classification marker. They've seen this type before.",
+          "leads_to": "read_file",
+          "flag": "spotted_classification_marker"
+        },
+        "failure": {
+          "text": "She considers it. Then: 'After you answer my question.' The file stays where it is. You've shown your hand and gotten nothing for it — but she noted the instinct. She'll note everything.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "broker_gambit_result": {
+      "id": "broker_gambit_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "The investigator doesn't blink. 'AIM doesn't pay for testimony,' she says. Then, after a beat: 'But we do offer consideration in exchange for cooperation that proves useful.' Different word. Same mechanism. You've established the frame without triggering the rejection. She leans back slightly — you're being evaluated differently now. 'What kind of consideration did you have in mind?'",
+          "leads_to": "negotiate_aim",
+          "flag": "negotiating_with_aim"
+        },
+        "failure": {
+          "text": "She looks at you with the specific exhaustion of someone who has heard this approach before and was not impressed then either. 'This isn't that kind of room,' she says. 'Try again.' The folder appears on the table. The conversation has reset on her terms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "negotiate_aim": {
+      "id": "negotiate_aim",
+      "text": "'Information about the event, freely given, in exchange for access to my own file and a record that I cooperated.' You keep it simple. She considers it the way professionals consider fair offers — with suspicion about what's being hidden. 'Done,' she says eventually. 'Tell me what happened.'",
+      "choices": [
+        { "text": "Deliver on the deal.", "stat_check": null, "leads_to": "confess_post_deal" }
+      ]
+    },
+
+    "confess_post_deal": {
+      "id": "confess_post_deal",
+      "text": "You tell her. All of it. She listens without interrupting and slides the file across when you finish. It contains more than the standard entry — there's a secondary notation, a coded addendum, and at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. But there's something else: a second file beneath yours. Another name. Another location. Another event, six days ago, same classification marker.",
+      "choices": [
+        {
+          "text": "Memorise the second name before she notices you've seen it.",
+          "stat_check": { "stat": "WIS", "dc": 12 },
+          "leads_to": "second_file_result"
+        },
+        {
+          "text": "Ask about the second file directly.",
+          "stat_check": null,
+          "leads_to": "ask_second_file"
+        }
+      ]
+    },
+
+    "second_file_result": {
+      "id": "second_file_result",
+      "text": "ROLL: WIS vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "You have the name. She doesn't know you have it. That asymmetry is worth more than anything else in this room.",
+          "leads_to": "end_prologue",
+          "flag": "knows_second_resonant"
+        },
+        "failure": {
+          "text": "She catches your eye line and pulls the second file smoothly. 'That one isn't yours,' she says without inflection. You've shown curiosity she'll remember.",
+          "leads_to": "end_prologue"
+        }
+      }
+    },
+
+    "ask_second_file": {
+      "id": "ask_second_file",
+      "text": "She pulls it back, efficient and unsurprised. 'Another case. Not yours.' A pause. 'The fact that you noticed it tells me something.' She makes a note. You've given her information without meaning to — and possibly created a thread that connects you to someone you've never met.",
+      "choices": [
+        { "text": "Move on.", "stat_check": null, "leads_to": "end_prologue", "flag": "aim_noted_curiosity" }
+      ]
+    },
+
+    "exile_denial_result": {
+      "id": "exile_denial_result",
+      "text": "ROLL: CHA vs DC 13",
+      "roll_outcomes": {
+        "success": {
+          "text": "She lets you finish. Then: 'We know you were there. We're not asking if you were there. We're asking what happened.' The denial bought you nothing — but the way she handled it tells you something. They have confirmation of your presence but not its nature. The event itself is still a question mark in their file. That's the gap.",
+          "leads_to": "confess",
+          "flag": "knows_aim_evidence_limit"
+        },
+        "failure": {
+          "text": "She slides a second document across — a timestamped location record from AIM's passive Conixia sensor grid. Your signature, your location, the exact moment. 'Try the truth,' she says, not unkindly. 'We already have most of it.'",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "bluff_result": {
+      "id": "bluff_result",
+      "text": "ROLL: CHA vs DC 10",
+      "roll_outcomes": {
+        "success": {
+          "text": "She buys it — or pretends to. Either way, she moves on. You've bought yourself time, but the lie sits in the room like a third person.",
+          "leads_to": "read_file"
+        },
+        "failure": {
+          "text": "She doesn't call you a liar. She just smiles, slowly, and writes something down. Whatever she knows, it's more than you expected. 'We'll revisit that,' she says.",
+          "leads_to": "caught_lying"
+        }
+      }
+    },
+
+    "observe_result": {
+      "id": "observe_result",
+      "text": "ROLL: WIS vs DC 8",
+      "roll_outcomes": {
+        "success": {
+          "text": "You catch it — a faint flicker of Conixia energy around her left hand. She's a user too. This isn't an interrogation. It's an audition.",
+          "leads_to": "read_file",
+          "flag": "spotted_investigator_aura"
+        },
+        "failure": {
+          "text": "She waits you out. Silence is a weapon she's better at than you, at least today. 'Whenever you're ready,' she says, crossing her arms.",
+          "leads_to": "confess"
+        }
+      }
+    },
+
+    "read_file": {
+      "id": "read_file",
+      "text": "Your name. Your race. Your registered location. And a single line at the bottom, stamped in red: UNCLASSIFIED CONIXIA EVENT — PENDING REVIEW. They don't know what you are yet. Neither do you. That, at least, is equal ground.",
+      "choices": [
+        {
+          "text": "Ask what happens during the review.",
+          "stat_check": null,
+          "leads_to": "ask_about_review"
+        },
+        {
+          "text": "Ask who else has a file like this.",
+          "stat_check": { "stat": "INT", "dc": 11 },
+          "leads_to": "ask_others_result"
+        },
+        {
+          "text": "Close the folder. 'What do you actually want from me?'",
+          "stat_check": null,
+          "leads_to": "cut_to_point"
+        }
+      ]
+    },
+
+    "ask_about_review": {
+      "id": "ask_about_review",
+      "text": "'Classification, monitoring, and if warranted, integration into AIM's Conixia management framework.' She says it like a schedule. 'Most pending reviews close without incident. The Conixia event either doesn't repeat, or it repeats in a classifiable pattern that we can work with.' A beat. 'Yours is flagged differently. I can't tell you why yet. I'm waiting on a secondary assessment.'",
+      "choices": [
+        { "text": "Leave it there.", "stat_check": null, "leads_to": "end_prologue" },
+        {
+          "text": "'Flagged how?'",
+          "stat_check": { "stat": "CHA", "dc": 11 },
+          "leads_to": "press_flag_result"
+        }
+      ]
+    },
+
+    "press_flag_result": {
+      "id": "press_flag_result",
+      "text": "ROLL: CHA vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "'The signature type,' she says, carefully. 'It doesn't match our existing taxonomy.' She closes her own file after she says it. That's all she'll give. But it's enough: you're not a variant of something known. You're something the taxonomy doesn't have a word for yet.",
+          "leads_to": "end_prologue",
+          "flag": "knows_signature_unclassified"
+        },
+        "failure": {
+          "text": "'That's part of the secondary assessment,' she says, and the tone closes the topic as efficiently as a door. You've reached the edge of what she'll offer.",
+          "leads_to": "end_prologue"
+        }
+      }
+    },
+
+    "ask_others_result": {
+      "id": "ask_others_result",
+      "text": "ROLL: INT vs DC 11",
+      "roll_outcomes": {
+        "success": {
+          "text": "You ask the question sideways — not 'who else' but 'how often does this classification appear.' She pauses just long enough. 'The frequency has been increasing,' she says finally. 'Significantly. In the last six weeks.' You do the arithmetic behind your eyes: she didn't say this is common. She said it's becoming common. That's different.",
+          "leads_to": "end_prologue",
+          "flag": "knows_event_frequency"
+        },
+        "failure": {
+          "text": "She gives you the professional smile that means the question is closed. 'Each case is assessed independently.' You've learned nothing except that she won't answer.",
+          "leads_to": "end_prologue"
+        }
+      }
+    },
+
+    "cut_to_point": {
+      "id": "cut_to_point",
+      "text": "She looks at you for a moment with something that might be appreciation. 'Monitoring,' she says. 'If the event repeats, we want to know. If it escalates, we want to know faster. If you encounter anything that feels like what you felt that night — ' she taps the file ' — you contact us before you contact anyone else.' She slides a small card across. An AIM contact sigil, warm to the touch, faintly active.",
+      "choices": [
+        {
+          "text": "Take the card.",
+          "stat_check": null,
+          "leads_to": "end_prologue",
+          "flag": "has_aim_contact"
+        },
+        {
+          "text": "Leave it on the table.",
+          "stat_check": null,
+          "leads_to": "end_prologue"
+        }
+      ]
+    },
+
+    "caught_lying": {
+      "id": "caught_lying",
+      "text": "The folder disappears back into her coat. 'We'll speak again when you decide to stop performing,' she says. You're dismissed. The file stays with her. You've started with a debt.",
+      "choices": [
+        { "text": "Leave without another word.", "stat_check": null, "leads_to": "end_prologue" }
+      ]
+    },
+
+    "push_back_result": {
+      "id": "push_back_result",
+      "text": "ROLL: CHA vs DC 12",
+      "roll_outcomes": {
+        "success": {
+          "text": "She exhales — something between admiration and irritation. She takes it back and reads aloud, watching your face for every reaction. You've made her work for it.",
+          "leads_to": "read_file",
+          "flag": "earned_respect_investigator"
+        },
+        "failure": {
+          "text": "She doesn't take it back. 'That's not how this works.' The folder stays. You blink first.",
+          "leads_to": "read_file"
+        }
+      }
+    },
+
+    "end_prologue": {
+      "id": "end_prologue",
+      "text": "You step out into {starting_location}. The city doesn't care what just happened in that room. It never does. But something has shifted — a door opened somewhere inside you, and the draught coming through it smells like opportunity, danger, and something older than both. The Conixia doesn't wait for you to be ready. It never did.",
+      "choices": [],
+      "arc_complete": true,
+      "next_arc": "chapter_1",
+      "world_effects": [
+        { "type": "set_flag", "flag": "prologue_complete", "value": true },
+        { "type": "set_flag", "flag": "aim_first_contact", "value": true },
+        { "type": "faction_influence", "faction": "aim", "delta": 5 },
+        { "type": "log_event", "description": "{character_name} completed the AIM intake interview." }
+      ]
+    }
+  }
+}
