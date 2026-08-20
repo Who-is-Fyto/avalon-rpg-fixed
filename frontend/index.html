@@ -242,6 +242,14 @@ input[type="text"]::placeholder { color: var(--ash); opacity: .5; }
   <div id="screen-race" class="screen">
     <div class="section-label">I. Choose Your Race</div>
     <div id="race-grid" class="card-grid"><p class="loading">Loading races…</p></div>
+    <div id="hybrid-controls" style="display:none;margin-top:18px;padding:14px;border:1px solid rgba(124,92,191,.25);border-radius:6px;background:rgba(30,25,45,.35);">
+      <div style="font-family:'Cinzel',serif;color:var(--conixia);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;">Hybrid lineage</div>
+      <div style="display:flex;gap:12px;align-items:end;flex-wrap:wrap;">
+        <label style="font-size:.78rem;color:var(--ash);">Secondary race<select id="secondary-race" style="display:block;margin-top:4px;"></select></label>
+        <label style="font-size:.78rem;color:var(--ash);">Primary inheritance <input id="hybrid-ratio" type="range" min="25" max="75" value="50" style="display:block;margin-top:8px;"><span id="hybrid-ratio-label">50% / 50%</span></label>
+      </div>
+      <div style="font-size:.76rem;color:var(--ash);margin-top:8px;">Hybrid growth, affinity, and resistances are blended from both lineages. Leave Secondary race set to None for a pure race.</div>
+    </div>
     <div class="btn-row">
       <button class="btn btn-primary" id="btn-to-class" disabled>Choose Class →</button>
       <button class="btn btn-ghost" id="btn-back-to-charselect">← Back</button>
@@ -303,8 +311,38 @@ input[type="text"]::placeholder { color: var(--ash); opacity: .5; }
     <div id="quest-nav" style="display:none;margin-bottom:20px;background:var(--card-bg);border:1px solid rgba(201,168,76,.15);border-radius:6px;padding:16px;">
       <div style="font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;color:var(--gold);margin-bottom:12px;text-transform:uppercase;">Available Quests</div>
       <div id="quest-list" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        </div>
+    <div id="combat-panel" style="margin-bottom:20px;background:var(--card-bg);border:1px solid rgba(124,92,191,.25);border-radius:6px;padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;color:var(--conixia);text-transform:uppercase;">Combat Lab</div>
+          <div style="font-size:.82rem;color:var(--ash);margin-top:4px;">Test attacks, Conixia abilities, cooldowns, and resource costs without changing the story.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:end;flex-wrap:wrap;">
+          <label style="font-size:.72rem;color:var(--ash);">Region<select id="encounter-region" style="display:block;margin-top:4px;"></select></label>
+          <label style="font-size:.72rem;color:var(--ash);">Difficulty<select id="encounter-difficulty" style="display:block;margin-top:4px;"><option value="story">Story</option><option value="standard" selected>Standard</option><option value="veteran">Veteran</option><option value="nightmare">Nightmare</option></select></label>
+          <label style="font-size:.72rem;color:var(--ash);">Type<select id="encounter-type" style="display:block;margin-top:4px;"><option value="patrol">Patrol</option><option value="ambush">Ambush</option><option value="expedition">Expedition</option><option value="boss">Boss</option></select></label>
+          <button class="btn btn-ghost btn-sm" id="btn-unlock-region">Unlock Region</button>
+          <button class="btn btn-ghost btn-sm" id="btn-start-training">Start Encounter</button>
+        </div>
+      </div>
+      <div id="combat-status" style="margin-top:12px;"></div>
+      <div id="combat-actions" style="display:none;margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;"></div>
+      <div id="combat-log" style="margin-top:12px;color:var(--ash);font-size:.82rem;line-height:1.6;"></div>
     </div>
-    
+    <div id="forge-panel" style="margin-bottom:20px;background:var(--card-bg);border:1px solid rgba(201,168,76,.22);border-radius:6px;padding:16px;">
+      <div style="font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;">Procedural Forge</div>
+      <div style="font-size:.82rem;color:var(--ash);margin:4px 0 12px;">Generate deterministic loot and spells with rarity, affixes, power budgets, and persistent instance data.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
+        <label style="font-size:.75rem;color:var(--ash);">Item base<select id="forge-item-base" style="display:block;margin-top:4px;"></select></label>
+        <label style="font-size:.75rem;color:var(--ash);">Spell base<select id="forge-spell-base" style="display:block;margin-top:4px;"></select></label>
+        <label style="font-size:.75rem;color:var(--ash);">Rarity<select id="forge-rarity" style="display:block;margin-top:4px;"></select></label>
+        <input id="forge-seed" placeholder="Seed (optional)" style="max-width:150px;">
+        <button class="btn btn-ghost btn-sm" id="btn-generate-item">Forge Item</button>
+        <button class="btn btn-ghost btn-sm" id="btn-generate-spell">Forge Spell</button>
+      </div>
+      <div id="forge-result" style="margin-top:12px;color:var(--ash);font-size:.82rem;line-height:1.6;"></div>
+    </div>
     <div class="story-text-box" id="story-text"></div>
     <div id="roll-display"></div>
     <div class="choices-list" id="choices-list"></div>
@@ -350,6 +388,7 @@ const state = {
   activeChar: null,          // loaded character dict
   // creation flow
   selectedRace: null,
+  selectedSecondaryRace: null,
   selectedClass: null,
 
   selectedContext: null,     // context object or null
@@ -357,6 +396,7 @@ const state = {
   currentArc: 'prologue',
   currentNode: 'start',
   nextArc: null,
+  combat: null,
 };
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -504,6 +544,7 @@ async function resumeCharacter(name) {
   try {
     const char = await api(`/game/character/${state.activeSession.session_id}/${name}`);
     state.activeChar = char;
+    state.combat = char.combat_state || null;
     startStory();
   } catch(e) { alert('Failed to load character: ' + e.message); }
 }
@@ -520,6 +561,13 @@ async function loadRaces() {
 }
 
 function renderRaceGrid(races) {
+  const secondary = $('secondary-race');
+  if (secondary) {
+    secondary.innerHTML = '<option value="">None — pure race</option>' + races.map(r => `<option value="${r.name}">${r.name}</option>`).join('');
+    secondary.onchange = () => { state.selectedSecondaryRace = races.find(r => r.name === secondary.value) || null; loadClassesForRace(); };
+  }
+  const ratio = $('hybrid-ratio');
+  if (ratio) ratio.oninput = () => $('hybrid-ratio-label').textContent = `${ratio.value}% / ${100 - Number(ratio.value)}%`;
   $('race-grid').innerHTML = races.map(r => `
     <div class="card" data-race='${JSON.stringify(r).replace(/'/g,"&#39;")}'>
       <div class="card-name">${r.name}</div>
@@ -534,6 +582,9 @@ function renderRaceGrid(races) {
       $('race-grid').querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
       card.classList.add('selected');
       state.selectedRace = JSON.parse(card.dataset.race.replace(/&#39;/g,"'"));
+      state.selectedSecondaryRace = null;
+      if ($('secondary-race')) $('secondary-race').value = '';
+      $('hybrid-controls').style.display = 'block';
       state.selectedClass = null; state.selectedContext = null;
       $('btn-to-class').disabled = false;
       $('btn-to-context').disabled = true;
@@ -554,7 +605,7 @@ async function loadClassesForRace() {
       let available = true, reason = '';
       if (unlock.startsWith('race:')) {
         const req = unlock.split('race:')[1].trim();
-        available = req.toLowerCase() === state.selectedRace.name.toLowerCase();
+        available = [state.selectedRace?.name, state.selectedSecondaryRace?.name].filter(Boolean).some(race => req.toLowerCase() === race.toLowerCase());
         reason = available ? '' : `Requires ${req}`;
       }
       return {...c, available, locked_reason: reason};
@@ -722,6 +773,8 @@ async function createCharacter() {
       body: {
         name,
         race: state.selectedRace.name,
+        secondary_race: state.selectedSecondaryRace?.name || null,
+        hybrid_ratio: state.selectedSecondaryRace ? Number($('hybrid-ratio').value) / 100 : 1,
         character_class: state.selectedClass.name,
         starting_location: state.previewLocation?.name || null,  // send preview so display matches
         context_id: state.selectedContext?.id || null,
@@ -729,6 +782,7 @@ async function createCharacter() {
       }
     });
     state.activeChar = result.character;
+    state.combat = null;
     // Show the actual location the server assigned (may differ from preview)
     if (result.assigned_location && result.assigned_location !== state.previewLocation?.name) {
       console.info(`Location assigned: ${result.assigned_location} (preview was ${state.previewLocation?.name})`);
@@ -757,9 +811,72 @@ async function startStory() {
     renderStoryNode(data.text, data.choices);
     state.currentNode = 'start';
     $('story-arc-title').textContent = state.currentArc.replace(/_/g,' ').toUpperCase();
+    await loadForgeCatalog();
+    await loadEncounterOptions();
   } catch(e) {
     $('story-text').textContent = 'Error loading story: ' + e.message;
   }
+}
+
+async function loadEncounterOptions() {
+  try {
+    const data = await api(`/game/regions/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}`);
+    $('encounter-region').innerHTML = data.regions.map(r => `<option value="${r.region}" ${r.available ? '' : 'disabled'}>${r.region.replace(/_/g,' ')}${r.unlocked ? ' · unlocked' : ` · requires L${r.min_level}`}</option>`).join('');
+    const current = data.regions.find(r => r.unlocked) || data.regions.find(r => r.available);
+    if (current) $('encounter-region').value = current.region;
+  } catch(e) { $('combat-status').textContent = 'Region data unavailable: ' + e.message; }
+}
+
+async function unlockSelectedRegion() {
+  try {
+    const region = $('encounter-region').value;
+    await api('/game/regions/unlock', {method:'POST', body:{session_id:state.activeSession.session_id, character_name:state.activeChar.name, region}});
+    await loadEncounterOptions();
+    $('combat-status').textContent = `${region.replace(/_/g,' ')} unlocked.`;
+  } catch(e) { $('combat-status').textContent = 'Region cannot be unlocked: ' + e.message; }
+}
+
+async function loadForgeCatalog() {
+  try {
+    const [items, abilities, rarityData] = await Promise.all([
+      api('/data/items'), api('/data/abilities'), api('/game/generation/rarities')
+    ]);
+    $('forge-item-base').innerHTML = items.filter(i => i.slot || i.category === 'equipment').map(i => `<option value="${i.id}">${i.name}</option>`).join('');
+    $('forge-spell-base').innerHTML = abilities.filter(a => a.type !== 'passive').map(a => `<option value="${a.name}">${a.name}</option>`).join('');
+    $('forge-rarity').innerHTML = `<option value="">Roll rarity</option>` + Object.entries(rarityData.rarities).map(([id,r]) => `<option value="${id}" style="color:${r.color}">${r.label}</option>`).join('');
+  } catch(e) {
+    $('forge-result').textContent = 'Forge catalog unavailable: ' + e.message;
+  }
+}
+
+function renderForgeResult(kind, record) {
+  const rarity = record.rarity_data || {};
+  const affixes = (record.affixes || []).map(a => `${a.name} ${a.value !== undefined ? a.value : ''}`).join(' · ') || 'No affixes';
+  $('forge-result').innerHTML = `<div style="border-left:3px solid ${rarity.color || 'var(--gold)'};padding-left:10px;"><strong style="color:${rarity.color || 'var(--gold)'}">${record.name}</strong> <span style="text-transform:capitalize;">(${record.rarity || 'common'})</span><br>${kind === 'item' ? `Instance: ${record.instance_id}<br>Value: ${record.value} gp` : `Instance: ${record.instance_id}<br>Element: ${record.element || 'arcane'} · Cost: ${record.cost} · Cooldown: ${record.cooldown}`}<br><span style="color:var(--parchment);">${affixes}</span></div>`;
+}
+
+async function forgeItem() {
+  try {
+    const result = await api('/game/generation/item', {method:'POST', body:{
+      session_id:state.activeSession.session_id, character_name:state.activeChar.name,
+      base_item_id:$('forge-item-base').value, seed:$('forge-seed').value || null,
+      rarity:$('forge-rarity').value || null, level:state.activeChar.level || 1, add_to_inventory:true
+    }});
+    renderForgeResult('item', result.item);
+    state.activeChar = await api(`/game/character/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}`);
+  } catch(e) { $('forge-result').textContent = 'Forge failed: ' + e.message; }
+}
+
+async function forgeSpell() {
+  try {
+    const result = await api('/game/generation/spell', {method:'POST', body:{
+      session_id:state.activeSession.session_id, character_name:state.activeChar.name,
+      base_ability_name:$('forge-spell-base').value, seed:$('forge-seed').value || null,
+      rarity:$('forge-rarity').value || null, level:state.activeChar.level || 1, learn:true
+    }});
+    renderForgeResult('spell', result.spell);
+    state.activeChar = await api(`/game/character/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}`);
+  } catch(e) { $('forge-result').textContent = 'Forge failed: ' + e.message; }
 }
 
 async function makeChoice(index) {
@@ -823,10 +940,97 @@ function renderStoryNode(text, choices, rollResult=null) {
   });
 }
 
+async function startTrainingCombat() {
+  try {
+    const result = await api('/game/combat/start-generated', {
+      method: 'POST',
+      body: {
+        session_id: state.activeSession.session_id,
+        character_name: state.activeChar.name,
+        region: $('encounter-region').value || state.activeChar.starting_location,
+        difficulty: $('encounter-difficulty').value || 'standard',
+        encounter_type: $('encounter-type').value || 'patrol',
+        seed: $('forge-seed')?.value || null
+      }
+    });
+    state.combat = result.combat;
+    state.activeChar = result.character;
+    state.lastLoot = null;
+    renderCombat();
+    renderHud();
+  } catch(e) { alert('Could not start combat: ' + e.message); }
+}
+
+async function performCombatAction(actionType, abilityName=null) {
+  try {
+    const result = await api('/game/combat/action', {
+      method: 'POST',
+      body: {
+        session_id: state.activeSession.session_id,
+        character_name: state.activeChar.name,
+        action_type: actionType,
+        target_index: 0,
+        ability_name: abilityName
+      }
+    });
+    state.activeChar = result.character;
+    state.combat = result.combat;
+    state.lastLoot = result.loot || state.lastLoot || null;
+    renderCombat(result);
+    renderHud();
+    if (result.progression?.levels_gained) {
+      alert(`Level up! You are now level ${result.progression.new_level}.`);
+    }
+  } catch(e) { alert('Combat action failed: ' + e.message); }
+}
+
+function renderCombat(lastResult=null) {
+  const status = $('combat-status');
+  const actions = $('combat-actions');
+  const log = $('combat-log');
+  if (!status || !actions || !log) return;
+  const combat = state.combat;
+  if (!combat) {
+    const loot = state.lastLoot;
+    status.innerHTML = loot ? `<span style="color:var(--gold);">Encounter complete. Loot: ${loot.gold} gp and ${loot.items.length} item(s).</span>` : '<span style="color:var(--ash);font-style:italic;">No active encounter.</span>';
+    actions.style.display = 'none';
+    log.innerHTML = loot ? loot.items.map(item => `<div style="color:${item.rarity_data?.color || 'var(--gold)'}">${item.name} ${item.drop_quantity ? `×${item.drop_quantity}` : ''} <span style="text-transform:capitalize;">${item.rarity ? `(${item.rarity})` : '(material)'}</span></div>`).join('') : '';
+    return;
+  }
+  const enemies = combat.enemies || [];
+  const encounter = combat.encounter || {};
+  const hazards = combat.environmental_hazards || [];
+  status.innerHTML = `<div style="color:var(--parchment);">${encounter.region || 'Encounter'} · ${(encounter.encounter_type || 'patrol').toUpperCase()} · ${encounter.difficulty || 'standard'} · Turn ${combat.turn} · ${enemies.map(e=>`${e.name} L${e.level || encounter.player_level || ''}: ${e.hp}/${e.max_hp} HP`).join(' · ') || 'Encounter complete'}</div><div style="color:var(--conixia);margin-top:4px;">Conixia ${state.activeChar.conixia_energy}/${state.activeChar.max_conixia}</div>${hazards.length ? `<div style="color:var(--ember);margin-top:4px;">Hazards: ${hazards.map(h=>h.label).join(' · ')}</div>` : ''}`;
+  actions.innerHTML = '';
+  if (!combat.is_over) {
+    const attack = document.createElement('button');
+    attack.className = 'btn btn-ghost btn-sm'; attack.textContent = 'Attack';
+    attack.onclick = () => performCombatAction('attack'); actions.appendChild(attack);
+    (state.activeChar.known_abilities || []).forEach(name => {
+      const button = document.createElement('button');
+      button.className = 'btn btn-ghost btn-sm'; button.textContent = name;
+      button.onclick = () => performCombatAction('ability', name); actions.appendChild(button);
+    });
+    const flee = document.createElement('button');
+    flee.className = 'btn btn-danger btn-sm'; flee.textContent = 'Flee';
+    flee.onclick = () => performCombatAction('flee'); actions.appendChild(flee);
+    actions.style.display = 'flex';
+  } else {
+    actions.style.display = 'none';
+  }
+  const playerMessages = lastResult?.result?.player_action?.messages || [];
+  const enemyMessages = (lastResult?.result?.enemy_turns || []).map(e => e.message);
+  const statusMessages = lastResult?.result?.status_events || [];
+  const phaseMessages = lastResult?.result?.phase_events || [];
+  const combined = [...playerMessages, ...enemyMessages, ...statusMessages, ...phaseMessages];
+  log.innerHTML = [...(combat.log || []), ...combined].slice(-8).map(line => `<div>${line}</div>`).join('');
+}
+
 function renderHud() {
   const char = state.activeChar;
   if (!char) return;
   renderQuestNav();
+  renderCombat();
   const hpPct = Math.round((char.hp/char.max_hp)*100);
   const cxPct = Math.round((char.conixia_energy/char.max_conixia)*100);
   $('story-hud').innerHTML = `
@@ -837,6 +1041,10 @@ function renderHud() {
     <div class="hud-item">
       <div class="hud-label">Race · Class</div>
       <div class="hud-value">${char.race} ${char.character_class}</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Affinity</div>
+      <div class="hud-value" style="color:var(--conixia);text-transform:capitalize;">${char.affinity || 'arcane'}</div>
     </div>
     <div class="hud-item">
       <div class="hud-label">Location</div>
@@ -878,26 +1086,52 @@ async function openSheet() {
   }
 }
 
+function growthChart(progression) {
+  const points = progression?.projection?.points || [];
+  if (!points.length) return '<div style="color:var(--ash);font-style:italic;">No growth projection recorded yet.</div>';
+  const keys = ['STR','DEX','CON','INT','WIS','CHA','AFF'];
+  const max = Math.max(1, ...points.flatMap(p => keys.map(k => Number(p.stats?.[k] || 0))));
+  const width = 640, height = 190, pad = 24;
+  const colors = ['#d9a441','#77b5fe','#c77dff','#ef8354','#72d6a1','#e9c46a','#f28482'];
+  const lines = keys.map((key, ki) => {
+    const coords = points.map((p, i) => `${pad + (i * (width - pad*2) / Math.max(1, points.length-1))},${height-pad - (Number(p.stats?.[key]||0)/max)*(height-pad*2)}`).join(' ');
+    return `<polyline points="${coords}" fill="none" stroke="${colors[ki]}" stroke-width="2" opacity=".9"/><text x="${width-pad+3}" y="${height-pad - (Number(points[points.length-1].stats?.[key]||0)/max)*(height-pad*2)+4}" fill="${colors[ki]}" font-size="10">${key}</text>`;
+  }).join('');
+  const ticks = [0, .25, .5, .75, 1].map(t => { const y=height-pad-t*(height-pad*2); return `<line x1="${pad}" y1="${y}" x2="${width-pad}" y2="${y}" stroke="rgba(201,168,76,.12)"/><text x="2" y="${y+3}" fill="var(--ash)" font-size="9">${Math.round(max*t)}</text>`; }).join('');
+  return `<svg viewBox="0 0 ${width} ${height}" style="width:100%;height:auto;background:rgba(16,13,24,.4);border:1px solid rgba(201,168,76,.15);border-radius:4px;">${ticks}${lines}<text x="${pad}" y="${height-5}" fill="var(--ash)" font-size="9">Lv 1</text><text x="${width-pad-22}" y="${height-5}" fill="var(--ash)" font-size="9">Lv ${points[points.length-1].level}</text></svg>`;
+}
+
 function renderSheet(s) {
   $('sheet-char-name').textContent = s.identity.name;
-  $('sheet-char-sub').textContent = `${s.identity.race} ${s.identity.class} · Level ${s.identity.level} · ${s.identity.starting_location}`;
-
+    $('sheet-char-sub').textContent = `${s.identity.race} ${s.identity.class} · Level ${s.identity.level} · ${s.identity.starting_location}`;
   // Stats tab
+
   const stats = s.stats;
   $('tab-stats').innerHTML = `
     <div class="sheet-section">
       <div class="sheet-section-title">Current Stats</div>
+      <div style="margin-bottom:12px;color:var(--gold);font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.12em;">Unspent stat points: ${s.identity.unspent_stat_points || 0}</div>
       <div class="stats-full">${Object.entries(stats).map(([k,v])=>`
-        <div class="stat-box"><div class="stat-name">${k}</div><div class="stat-val">${v}</div></div>`).join('')}
+        <div class="stat-box"><div class="stat-name">${k}</div><div class="stat-val">${v}</div>${(s.identity.unspent_stat_points||0)>0?`<button class="btn btn-ghost btn-sm" style="margin-top:8px;padding:5px 8px;" onclick="allocateStat('${k}')">+1</button>`:''}</div>`).join('')}
       </div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Lineage Trait & Affinity</div>
+      <div style="font-size:.9rem;color:var(--ash);line-height:1.7;"><strong style="color:var(--conixia);">${s.identity.lineage_trait?.name || 'Lineage trait pending'}</strong> · <span style="text-transform:capitalize;">${s.identity.hybrid_affinity || s.identity.affinity || 'arcane'}</span><div style="margin-top:5px;">${s.identity.lineage_trait?.description || 'No special lineage trait recorded.'}</div></div>
     </div>
     <div class="sheet-section">
       <div class="sheet-section-title">Identity</div>
       <div style="font-size:.9rem;color:var(--ash);line-height:1.7;">
-        <div><strong style="color:var(--parchment);font-family:'Cinzel',serif;font-size:.78rem;">Background</strong> — ${s.identity.starting_context_label || 'Unknown'}</div>
+        <div><strong style="color:var(--parchment);font-family:'Cinzel',serif;font-size:.78rem;">Lineage</strong> — ${(s.identity.race_components||[s.identity.race]).join(' + ')}${(s.identity.race_components||[]).length>1 ? ` (${Math.round((s.identity.hybrid_ratio||.5)*100)}% primary)` : ''}</div>
+        <div style="margin-top:8px;"><strong style="color:var(--parchment);font-family:'Cinzel',serif;font-size:.78rem;">Background</strong> — ${s.identity.starting_context_label || 'Unknown'}</div>
         <div style="margin-top:8px;font-style:italic;">"${s.identity.backstory}"</div>
         ${s.identity.location_state?.stability ? `<div style="margin-top:10px;font-size:.8rem;">Location status: <span style="color:var(--gold);font-family:'Cinzel',serif;letter-spacing:.1em;">${s.identity.location_state.stability.toUpperCase()}</span></div>` : ''}
       </div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Non-linear Growth Projection</div>
+      <div style="font-size:.8rem;color:var(--ash);margin-bottom:8px;">Each line rises and dips according to the race or hybrid curve rather than following a flat level-up bonus.</div>
+      ${growthChart(s.progression)}
     </div>
     <div class="sheet-section">
       <div class="sheet-section-title">Vitals</div>
@@ -906,6 +1140,22 @@ function renderSheet(s) {
         <div><div style="font-size:.8rem;color:var(--ash);">Conixia</div><div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--conixia);">${s.vitals.conixia_energy}/${s.vitals.max_conixia}</div></div>
         <div><div style="font-size:.8rem;color:var(--ash);">Gold</div><div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold);">${s.gold} gp</div></div>
       </div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Elemental Profile</div>
+      <div style="font-size:.88rem;color:var(--ash);">Primary affinity: <strong style="color:var(--conixia);text-transform:capitalize;">${s.identity.affinity || 'arcane'}</strong></div>
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">${Object.entries(s.identity.elemental_resistances || {}).map(([element,mult])=>`<span class="stat-pill" style="text-transform:capitalize;">${element} resistance ×${mult}</span>`).join('') || '<span style="color:var(--ash);">No special resistances</span>'}</div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Environmental Hazard Resistance</div>
+      <div style="font-size:.8rem;color:var(--ash);margin-bottom:10px;">Higher percentages reduce hazard duration and intensity. Equipment and defensive abilities are shown by source.</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;">${Object.entries(s.hazard_resistance_breakdown?.totals || {}).map(([hazard,value])=>`<span class="stat-pill" style="text-transform:capitalize;color:${Number(value)>=.5?'var(--success)':'var(--parchment)'};">${hazard.replace(/_/g,' ')} · ${Math.round(Number(value)*100)}%</span>`).join('') || '<span style="color:var(--ash);">No environmental resistance recorded</span>'}</div>
+      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;">${Object.entries(s.hazard_resistance_breakdown?.sources || {}).flatMap(([source,records])=>Object.entries(records||{}).map(([name,values])=>`<div style="padding:8px;border:1px solid rgba(201,168,76,.12);border-radius:4px;"><div style="font-size:.72rem;color:var(--gold);text-transform:capitalize;">${source}: ${name.replace(/_/g,' ')}</div><div style="font-size:.78rem;color:var(--ash);margin-top:4px;">${Object.entries(values||{}).map(([hazard,value])=>`${hazard.replace(/_/g,' ')} +${Math.round(Number(value)*100)}%`).join(' · ')}</div></div>`)).join('')}</div>
+    </div>
+    <div class="sheet-section">
+      <div class="sheet-section-title">Advanced Customisation</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="btn btn-ghost btn-sm" onclick="requestRespec()">Respec (Lv 10)</button><button class="btn btn-ghost btn-sm" onclick="requestEvolution()">Lineage Evolution (Lv 20)</button><button class="btn btn-ghost btn-sm" onclick="openCreationPrompt()">Create Custom Content</button></div>
+      <div style="font-size:.76rem;color:var(--ash);margin-top:8px;">Respec refunds level-up allocations. Evolution changes the lineage curve and trait while preserving level, inventory, and story state.</div>
     </div>
     <div class="sheet-section">
       <div class="sheet-section-title">Active Flags</div>
@@ -947,6 +1197,13 @@ function renderSheet(s) {
           <div class="inv-meta">${item.subcategory} · ${item.weight}w · ${item.value}gp · ${item.rarity}</div>
         </div>
         <div class="inv-qty">×${item.quantity}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+          ${(item.category==='equipment'||item.category==='trinket')
+            ? (item.equipped
+              ? `<button class="btn btn-ghost btn-sm" onclick="unequipInventoryItem('${item.slot}')">Unequip</button>`
+              : `<button class="btn btn-ghost btn-sm" onclick="equipInventoryItem('${item.id}')">Equip</button>`)
+            : `<button class="btn btn-ghost btn-sm" onclick="useInventoryItem('${item.id}')">Use</button>`}
+        </div>
       </div>`).join('')}
     ${!s.inventory.length?'<p style="color:var(--ash);font-style:italic;">Inventory empty.</p>':''}</div>`;
 
@@ -981,6 +1238,66 @@ function renderSheet(s) {
       <div class="sheet-section-title">World Events</div>
       ${events.length?`<ul class="event-log">${events.map(e=>`<li>${e}</li>`).join('')}</ul>`:'<p style="color:var(--ash);font-style:italic;font-size:.85rem;">No events recorded yet.</p>'}
     </div>`;
+}
+
+async function allocateStat(stat) {
+  try {
+    await api(`/game/character/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}/allocate-stats`, {
+      method:'POST',
+      body:{session_id:state.activeSession.session_id, character_name:state.activeChar.name, allocations:{[stat]:1}}
+    });
+    await refreshSheet();
+  } catch(e) { alert('Could not allocate stat point: ' + e.message); }
+}
+
+async function requestRespec() {
+  const raw = prompt('Enter respec allocations as JSON, e.g. {"STR":3,"AFF":2}');
+  if (!raw) return;
+  try { await api(`/game/character/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}/respec`, {method:'POST', body:{session_id:state.activeSession.session_id, character_name:state.activeChar.name, allocations:JSON.parse(raw)}}); await refreshSheet(); } catch(e) { alert('Respec failed: ' + e.message); }
+}
+
+async function requestEvolution() {
+  const primary = prompt('Target primary lineage name:');
+  if (!primary) return;
+  const secondary = prompt('Target secondary lineage (leave blank for pure):') || null;
+  try { await api(`/game/character/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}/lineage-evolve`, {method:'POST', body:{session_id:state.activeSession.session_id, character_name:state.activeChar.name, target_race:primary, target_secondary_race:secondary}}); await refreshSheet(); } catch(e) { alert('Lineage evolution failed: ' + e.message); }
+}
+
+async function openCreationPrompt() {
+  const type = prompt('Content type: skill, spell, ability, item, or equipment');
+  if (!type) return;
+  const raw = prompt('Enter the content definition as JSON. Example: {"name":"Ashen Step","description":"Teleport through cinders.","type":"active","cost":12,"cooldown":3,"effect_type":"damage","power_bonus":10,"element":"fire"}');
+  if (!raw) return;
+  try { const result = await api(`/game/creation/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}`, {method:'POST', body:{session_id:state.activeSession.session_id, character_name:state.activeChar.name, content_type:type, payload:JSON.parse(raw)}}); alert(`Created ${result.content.name}.`); await refreshSheet(); } catch(e) { alert('Content creation failed: ' + e.message); }
+}
+
+async function refreshSheet() {
+  const sheet = await api(`/game/character/${state.activeSession.session_id}/${state.activeChar.name}/sheet`);
+  renderSheet(sheet);
+  state.activeChar = await api(`/game/character/${state.activeSession.session_id}/${state.activeChar.name}`);
+  renderHud();
+}
+
+async function useInventoryItem(itemId) {
+  try {
+    const result = await api('/game/inventory/use', {method:'POST', body:{session_id:state.activeSession.session_id, character_name:state.activeChar.name, item_id:itemId}});
+    alert(result.effect);
+    await refreshSheet();
+  } catch(e) { alert('Could not use item: ' + e.message); }
+}
+
+async function equipInventoryItem(itemId) {
+  try {
+    await api('/game/inventory/equip', {method:'POST', body:{session_id:state.activeSession.session_id, character_name:state.activeChar.name, item_id:itemId}});
+    await refreshSheet();
+  } catch(e) { alert('Could not equip item: ' + e.message); }
+}
+
+async function unequipInventoryItem(slot) {
+  try {
+    await api(`/game/inventory/unequip/${state.activeSession.session_id}/${encodeURIComponent(state.activeChar.name)}/${slot}`, {method:'DELETE'});
+    await refreshSheet();
+  } catch(e) { alert('Could not unequip item: ' + e.message); }
 }
 
 // ── TAB HANDLING ───────────────────────────────────────────────────────────────
@@ -1062,29 +1379,29 @@ function renderQuestNav() {
 async function triggerSideQuest(questId) {
   try {
     // Map quest ID to the story node
-    const nodeMap = {
-      'missing_merchant': 'side_quest_missing_merchant',
-      'old_market': 'old_market_side_quest'
+    const questMap = {
+      'missing_merchant': {arc: 'side_quests', node: 'side_quest_missing_merchant'},
+      'old_market': {arc: 'chapter_1', node: 'old_market_side_quest'}
     };
     
-    const nodeId = nodeMap[questId];
-    if (!nodeId) return;
+    const quest = questMap[questId];
+    if (!quest) return;
     
-    // Load the side quest node
+    // Load the quest from the arc that owns its story data.
     const result = await api('/game/story/node', {
       method: 'POST',
       body: {
         character_name: state.activeChar.name,
-        arc: 'side_quests',
-        node_id: nodeId,
+        arc: quest.arc,
+        node_id: quest.node,
         session_id: state.activeSession.session_id,
       }
     });
     
     // Update state to track that we're in a side quest
-    state.currentNode = nodeId;
+    state.currentNode = quest.node;
     state.previousArc = state.currentArc;
-    state.currentArc = 'side_quests';
+    state.currentArc = quest.arc;
     
     // Set the active flag
     state.activeChar.flags = [...(state.activeChar.flags || []), `side_quest_${questId}_active`];
@@ -1101,7 +1418,11 @@ async function triggerSideQuest(questId) {
 }
 
 $('btn-create-char').addEventListener('click', createCharacter);
+$('btn-start-training').addEventListener('click', startTrainingCombat);
+$('btn-unlock-region').addEventListener('click', unlockSelectedRegion);
 $('btn-open-sheet').addEventListener('click', openSheet);
+$('btn-generate-item').addEventListener('click', forgeItem);
+$('btn-generate-spell').addEventListener('click', forgeSpell);
 $('sheet-close').addEventListener('click', () => $('sheet-overlay').classList.remove('open'));
 $('btn-next-arc').addEventListener('click', () => {
   if (state.nextArc) {

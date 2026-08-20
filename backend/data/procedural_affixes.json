@@ -1,0 +1,31 @@
+{
+  "prefixes": [
+    {"id":"keen","name":"Keen","kind":"stat","stat":"DEX","min":1,"max":3,"weight":10},
+    {"id":"mighty","name":"Mighty","kind":"stat","stat":"STR","min":1,"max":3,"weight":10},
+    {"id":"scholarly","name":"Scholarly","kind":"stat","stat":"INT","min":1,"max":3,"weight":10},
+    {"id":"vital","name":"Vital","kind":"stat","stat":"CON","min":1,"max":3,"weight":10},
+    {"id":"wise","name":"Wise","kind":"stat","stat":"WIS","min":1,"max":3,"weight":8},
+    {"id":"resonant","name":"Resonant","kind":"stat","stat":"AFF","min":1,"max":3,"weight":8},
+    {"id":"ember","name":"Emberforged","kind":"element","element":"fire","min":1,"max":1,"weight":6},
+    {"id":"umbral","name":"Umbral","kind":"element","element":"shadow","min":1,"max":1,"weight":6},
+    {"id":"astral","name":"Astral","kind":"element","element":"arcane","min":1,"max":1,"weight":6},
+    {"id":"frostbound","name":"Frostbound","kind":"element","element":"frost","min":1,"max":1,"weight":5}
+  ],
+  "suffixes": [
+    {"id":"warding","name":"of Warding","kind":"resistance","element":"arcane","min":0.05,"max":0.15,"weight":8},
+    {"id":"the_flame","name":"of the Flame","kind":"resistance","element":"fire","min":0.05,"max":0.15,"weight":8},
+    {"id":"the_tide","name":"of the Tide","kind":"resistance","element":"water","min":0.05,"max":0.15,"weight":8},
+    {"id":"the_storm","name":"of the Storm","kind":"resistance","element":"storm","min":0.05,"max":0.15,"weight":6},
+    {"id":"precision","name":"of Precision","kind":"stat","stat":"DEX","min":1,"max":3,"weight":8},
+    {"id":"focus","name":"of Focus","kind":"stat","stat":"AFF","min":1,"max":3,"weight":8},
+    {"id":"fortitude","name":"of Fortitude","kind":"stat","stat":"CON","min":1,"max":3,"weight":8},
+    {"id":"the_bear","name":"of the Bear","kind":"vitals","stat":"max_hp","min":4,"max":14,"weight":7},
+    {"id":"the_wellspring","name":"of the Wellspring","kind":"vitals","stat":"max_conixia","min":4,"max":12,"weight":6}
+  ],
+  "spell_modifiers": [
+    {"id":"efficient","name":"Efficient","kind":"cost","min":1,"max":4,"weight":8},
+    {"id":"potent","name":"Potent","kind":"power","min":2,"max":6,"weight":8},
+    {"id":"quickened","name":"Quickened","kind":"cooldown","min":1,"max":1,"weight":6},
+    {"id":"volatile","name":"Volatile","kind":"power","min":4,"max":9,"weight":4}
+  ]
+}

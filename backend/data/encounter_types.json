@@ -1,0 +1,6 @@
+{
+  "boss": {"label":"Boss", "min_level":3,"count_min":1,"count_max":1,"budget_multiplier":2.4,"budget_bonus":55,"max_budget":220,"hp_multiplier":1.8,"damage_multiplier":1.35,"xp_multiplier":2.4,"loot_multiplier":2.5,"guaranteed_elite":true,"hazard_resistance":true},
+  "patrol": {"label":"Patrol", "min_level":1,"count_min":2,"count_max":4,"budget_multiplier":0.82,"budget_bonus":0,"max_budget":105,"hp_multiplier":0.9,"damage_multiplier":0.95,"xp_multiplier":0.9,"loot_multiplier":1.0,"guaranteed_elite":false,"hazard_resistance":false},
+  "ambush": {"label":"Ambush", "min_level":2,"count_min":2,"count_max":3,"budget_multiplier":1.05,"budget_bonus":12,"max_budget":115,"hp_multiplier":0.95,"damage_multiplier":1.2,"xp_multiplier":1.1,"loot_multiplier":1.15,"guaranteed_elite":false,"hazard_resistance":false},
+  "expedition": {"label":"Expedition", "min_level":1,"count_min":2,"count_max":5,"budget_multiplier":0.7,"budget_bonus":8,"max_budget":125,"hp_multiplier":0.88,"damage_multiplier":0.9,"xp_multiplier":0.85,"loot_multiplier":1.8,"guaranteed_elite":false,"hazard_resistance":false}
+}
