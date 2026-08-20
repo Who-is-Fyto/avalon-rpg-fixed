@@ -85,6 +85,16 @@ def get_all_items() -> list[Item]:
             subcategory=i["subcategory"],
             description=i["description"],
             effect=ItemEffect(**i["effect"]),
+            instance_id=i.get("instance_id"),
+            base_id=i.get("base_id"),
+            generated=i.get("generated", False),
+            seed=i.get("seed"),
+            rarity_data=i.get("rarity_data", {}),
+            affixes=i.get("affixes", []),
+            stat_bonuses=i.get("stat_bonuses", {}),
+            resistance_bonuses=i.get("resistance_bonuses", {}),
+            hazard_resistances=i.get("hazard_resistances", {}),
+            counterplay=i.get("counterplay", {}),
             weight=i.get("weight", 0.0),
             value=i.get("value", 0),
             stackable=i.get("stackable", False),
@@ -102,6 +112,14 @@ def get_item(item_id: str) -> Item | None:
         if item.id == item_id:
             return item
     return None
+
+
+def item_from_record(record: dict) -> Item:
+    return Item(**record)
+
+
+def ability_from_record(record: dict) -> Ability:
+    return Ability(**record)
 
 
 def get_story_arc(arc: str) -> dict:

@@ -1,0 +1,19 @@
+{
+  "pure": {
+    "Velari": {"affinity":"shadow","passive":{"name":"Veilrunner","description":"Shadow techniques cost less and the first blind effect each encounter is reduced.","stat_bonuses":{"DEX":1},"hazard_resistances":{"void_distortion":0.12}}},
+    "Ignari": {"affinity":"fire","passive":{"name":"Emberblood","description":"Fire damage is amplified and burning lasts one fewer turn.","stat_bonuses":{"STR":1},"elemental_resistances":{"fire":0.08},"hazard_resistances":{"cinderstorm":0.15}}},
+    "Aetherin": {"affinity":"arcane","passive":{"name":"Astral Attunement","description":"Arcane spells gain increased power and Conixia recovery is improved.","stat_bonuses":{"AFF":1},"hazard_resistances":{"void_distortion":0.15}}},
+    "Pillarian": {"affinity":"earth","passive":{"name":"Stoneheart","description":"The first stagger or root effect each encounter is shortened.","stat_bonuses":{"CON":1},"elemental_resistances":{"earth":0.08},"hazard_resistances":{"unstable_ground":0.2}}},
+    "Human": {"affinity":"arcane","passive":{"name":"Adaptive Spark","description":"The weakest core stat gains a small bonus when allocating a level-up point.","stat_bonuses":{"CHA":1}}},
+    "Elarin": {"affinity":"water","passive":{"name":"Verdant Focus","description":"Regeneration and cleansing effects are stronger.","stat_bonuses":{"WIS":1},"hazard_resistances":{"blight_spores":0.15}}},
+    "Ogrin": {"affinity":"earth","passive":{"name":"Colossus Frame","description":"Maximum HP is increased, but spell costs are slightly higher.","stat_bonuses":{"CON":2},"elemental_resistances":{"earth":0.05}}},
+    "Trollan": {"affinity":"water","passive":{"name":"Mireborn Renewal","description":"Damage-over-time healing and regeneration are improved.","stat_bonuses":{"CON":1},"hazard_resistances":{"blight_spores":0.2}}}
+  },
+  "hybrid": {
+    "fire+arcane":{"name":"Cinderstar Convergence","description":"Fire and arcane effects alternate, granting bonus spell power after an elemental hit.","affinity":"cinderstar","stat_bonuses":{"AFF":1},"elemental_resistances":{"fire":0.05,"arcane":0.05},"hazard_resistances":{"cinderstorm":0.12,"void_distortion":0.08}},
+    "earth+water":{"name":"Mirestone Continuum","description":"Earth defenses and water regeneration reinforce one another.","affinity":"mirestone","stat_bonuses":{"CON":1,"WIS":1},"hazard_resistances":{"unstable_ground":0.12,"blight_spores":0.12}},
+    "shadow+arcane":{"name":"Umbral Astralism","description":"Shadow and arcane abilities can veil the caster after a critical spell.","affinity":"umbral_arcane","stat_bonuses":{"AFF":1,"DEX":1},"hazard_resistances":{"void_distortion":0.16}},
+    "fire+earth":{"name":"Forgeheart Symbiosis","description":"Fire offense is stabilized by earth resilience.","affinity":"forgeheart","stat_bonuses":{"STR":1,"CON":1},"elemental_resistances":{"fire":0.06,"earth":0.06},"hazard_resistances":{"cinderstorm":0.15,"unstable_ground":0.1}},
+    "shadow+water":{"name":"Duskfen Veil","description":"The lineage thrives in blighted environments and converts control into regeneration.","affinity":"duskfen","stat_bonuses":{"DEX":1,"WIS":1},"hazard_resistances":{"blight_spores":0.18,"void_distortion":0.1}}
+  }
+}

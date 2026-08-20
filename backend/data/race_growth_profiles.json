@@ -1,0 +1,10 @@
+{
+  "Velari": {"growth":{"STR":0,"DEX":2,"CON":0,"INT":0,"WIS":1,"CHA":0,"AFF":0},"max_hp":7,"max_conixia":6,"max_stamina":8},
+  "Ignari": {"growth":{"STR":1,"DEX":0,"CON":1,"INT":0,"WIS":0,"CHA":0,"AFF":1},"max_hp":11,"max_conixia":5,"max_stamina":6},
+  "Aetherin": {"growth":{"STR":0,"DEX":0,"CON":0,"INT":2,"WIS":1,"CHA":0,"AFF":0},"max_hp":6,"max_conixia":10,"max_stamina":6},
+  "Pillarian": {"growth":{"STR":0,"DEX":0,"CON":2,"INT":1,"WIS":0,"CHA":0,"AFF":0},"max_hp":12,"max_conixia":6,"max_stamina":5},
+  "Human": {"growth":{"STR":1,"DEX":1,"CON":0,"INT":0,"WIS":0,"CHA":1,"AFF":0},"max_hp":8,"max_conixia":7,"max_stamina":7},
+  "Elarin": {"growth":{"STR":0,"DEX":1,"CON":0,"INT":1,"WIS":1,"CHA":0,"AFF":0},"max_hp":6,"max_conixia":9,"max_stamina":7},
+  "Ogrin": {"growth":{"STR":2,"DEX":0,"CON":1,"INT":0,"WIS":0,"CHA":0,"AFF":0},"max_hp":14,"max_conixia":4,"max_stamina":5},
+  "Trollan": {"growth":{"STR":0,"DEX":0,"CON":1,"INT":0,"WIS":1,"CHA":0,"AFF":1},"max_hp":13,"max_conixia":6,"max_stamina":6}
+}

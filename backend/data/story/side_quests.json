@@ -242,6 +242,14 @@
           "leads_to": "chapter_1_end"
         }
       ]
+    },
+
+    "chapter_1_end": {
+      "id": "chapter_1_end",
+      "text": "The merchant's troubles are behind you for now. The road ahead still leads toward the larger mystery of Conixia.",
+      "choices": [],
+      "arc_complete": true,
+      "next_arc": "chapter_2_refined"
     }
   }
 }

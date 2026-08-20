@@ -10,6 +10,7 @@ from pathlib import Path
 from models import Character, StatBlock, InventoryEntry, EquipmentSlots
 from engine.data_loader import get_race, get_class
 from engine.rng import select_weighted_location, weighted_choice
+from engine.elemental import affinity_for_character, default_resistances
 
 CONTEXTS_FILE = Path(__file__).parent.parent / "data" / "starting_contexts.json"
 
@@ -81,20 +82,38 @@ def build_character(
     class_name: str,
     location: str | None = None,
     context_id: str | None = None,
+    secondary_race_name: str | None = None,
+    hybrid_ratio: float = 1.0,
 ) -> Character:
-    race       = get_race(race_name)
+    race = get_race(race_name)
+    secondary_race = get_race(secondary_race_name) if secondary_race_name else None
     char_class = get_class(class_name)
 
     if not race:
         raise ValueError(f"Race '{race_name}' not found.")
     if not char_class:
         raise ValueError(f"Class '{class_name}' not found.")
-
-    valid, reason = validate_class_unlock(class_name, race_name)
+    if secondary_race and secondary_race.name == race.name:
+        raise ValueError("A hybrid race must combine two different races.")
+    if secondary_race:
+        if not 0.25 <= float(hybrid_ratio) <= 0.75:
+            raise ValueError("Hybrid ratio must be between 0.25 and 0.75.")
+        primary_ratio = float(hybrid_ratio)
+        secondary_ratio = 1.0 - primary_ratio
+        base_stats = StatBlock(**{
+            stat: max(0, int(round(getattr(race.stat_modifiers, stat) * primary_ratio + getattr(secondary_race.stat_modifiers, stat) * secondary_ratio)))
+            for stat in ("STR", "DEX", "CON", "INT", "WIS", "CHA", "AFF")
+        })
+        valid, reason = validate_class_unlock(class_name, race_name)
+        if not valid:
+            valid, reason = validate_class_unlock(class_name, secondary_race.name)
+    else:
+        primary_ratio = 1.0
+        base_stats = race.stat_modifiers
+        valid, reason = validate_class_unlock(class_name, race_name)
     if not valid:
         raise ValueError(reason)
 
-    base_stats = race.stat_modifiers
 
     chosen_location = location or select_weighted_location(
         [{"name": loc.name, "weight": loc.weight} for loc in race.starting_locations]
@@ -134,22 +153,39 @@ def build_character(
 
     gold = CLASS_STARTING_GOLD.get(class_name, 40)
 
-    return Character(
+    primary_affinity = affinity_for_character(race.name)
+    secondary_affinity = affinity_for_character(secondary_race.name) if secondary_race else None
+    if secondary_race:
+        primary_resistances = default_resistances(race.name)
+        secondary_resistances = default_resistances(secondary_race.name)
+        all_elements = set(primary_resistances) | set(secondary_resistances)
+        combined_resistances = {element: round(primary_resistances.get(element, 1.0) * primary_ratio + secondary_resistances.get(element, 1.0) * (1.0 - primary_ratio), 3) for element in all_elements}
+        display_race = f"{race.name}-{secondary_race.name} Hybrid"
+    else:
+        combined_resistances = default_resistances(race.name)
+        display_race = race.name
+    character = Character(
         name=name,
-        race=race.name,
+        race=display_race,
+        race_components=[race.name] + ([secondary_race.name] if secondary_race else []),
+        hybrid_ratio=primary_ratio,
+        secondary_affinity=secondary_affinity,
+        growth_profile={"primary": race.name, "secondary": secondary_race.name if secondary_race else None, "ratio": primary_ratio},
         character_class=char_class.name,
         base_stats=base_stats,
         current_stats=base_stats.model_copy(),
         starting_location=chosen_location,
         level=1,
         experience=0,
+        affinity=primary_affinity,
+        elemental_resistances=combined_resistances,
         conixia_energy=max_conixia,
         max_conixia=max_conixia,
         hp=max_hp,
         max_hp=max_hp,
         known_abilities=known_abilities,
         backstory_seed=backstory,
-        flags=list(set(context_flags + [f"race_{race.name.lower()}", f"class_{char_class.name.lower()}"])),
+        flags=list(set(context_flags + [f"race_{race.name.lower()}"] + ([f"race_{secondary_race.name.lower()}", "hybrid_race"] if secondary_race else []) + [f"class_{char_class.name.lower()}"])),
         inventory=inventory,
         equipment=equipment,
         gold=gold,
@@ -157,3 +193,9 @@ def build_character(
         starting_context=context_id_chosen,
         starting_context_label=context_label,
     )
+    from engine.customisation import apply_lineage_traits
+    data = character.model_dump()
+    data["racial_base_stats"] = dict(data.get("base_stats", {}))
+    apply_lineage_traits(data)
+    data["current_stats"] = data["base_stats"]
+    return Character(**data)

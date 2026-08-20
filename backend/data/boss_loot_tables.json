@@ -1,0 +1,20 @@
+{
+  "fire_dragon": {
+    "guaranteed": [{"item_id":"ember_scales","min":2,"max":4}],
+    "rolls": 2,
+    "drops": [{"item_id":"cinderheart_core","chance":0.9,"min":1,"max":2},{"item_id":"dragon_scale_mail","chance":0.22,"min":1,"max":1}],
+    "rarity_bias": 0.35
+  },
+  "forge_automaton": {
+    "guaranteed": [{"item_id":"cinderheart_core","min":1,"max":2}],
+    "rolls": 1,
+    "drops": [{"item_id":"dragon_scale_mail","chance":0.08,"min":1,"max":1}],
+    "rarity_bias": 0.18
+  },
+  "void_acolyte": {
+    "guaranteed": [{"item_id":"void_ichor","min":1,"max":2}],
+    "rolls": 2,
+    "drops": [{"item_id":"voidward_talisman","chance":0.2,"min":1,"max":1},{"item_id":"blight_sap","chance":0.65,"min":1,"max":2}],
+    "rarity_bias": 0.3
+  }
+}

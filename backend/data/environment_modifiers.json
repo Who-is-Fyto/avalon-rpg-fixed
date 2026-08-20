@@ -1,0 +1,9 @@
+{
+  "hazards": {
+    "blight_spores": {"label":"Blight Spores","status":"weakened","turns":3,"value":2,"budget_modifier":0.12,"damage_modifier":0.08,"loot_bias":0.08,"trigger":"blight"},
+    "void_distortion": {"label":"Void Distortion","status":"blinded","turns":2,"value":1,"budget_modifier":0.16,"damage_modifier":0.12,"loot_bias":0.12,"trigger":"void"},
+    "unstable_ground": {"label":"Unstable Ground","status":"rooted","turns":1,"value":1,"budget_modifier":0.08,"damage_modifier":0.04,"loot_bias":0.03,"trigger":"unstable"},
+    "war_front": {"label":"War Front","status":"weakened","turns":2,"value":1,"budget_modifier":0.1,"damage_modifier":0.1,"loot_bias":0.04,"trigger":"war"},
+    "conixia_surge": {"label":"Conixia Surge","status":"empowered","turns":2,"value":2,"budget_modifier":0.1,"damage_modifier":0.06,"loot_bias":0.1,"trigger":"conixia"}
+  }
+}
